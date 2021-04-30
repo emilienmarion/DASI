@@ -64,19 +64,6 @@ public class UtilisateurDao {
         TypedQuery query=em.createQuery(jpql, Employe.class);
          query.setParameter("genreMedium",genreMedium);
          List<Employe> emps = query.getResultList();
-         /*
-         if(!emps.isEmpty()){
-            if (emps.size()>1){
-                int nb=10000;
-                    for (Employe emp1 : emps) {// prendre l'employe avec le moins de nb de consultations
-                        System.out.println(emps);
-                            if (emp1.getNb_consultations()<nb){
-                                nb=emp1.getNb_consultations();
-                                result=emp1;  
-                                
-                            }
-                    }
-            }else{*/
          
          if(emps.isEmpty()){
              result=null;
@@ -91,6 +78,22 @@ public class UtilisateurDao {
         
          
 }
+    
+     public List<Employe> obtenirEmploye(){
+         
+          EntityManager em = JpaUtil.obtenirContextePersistance();
+           
+        String jpql="select e from Employe e ORDER BY e.nb_consultations DESC  ";
+       
+        TypedQuery query=em.createQuery(jpql, Employe.class);
+        
+         List<Employe> result = query.getResultList();
+          
+         
+       
+         return result;
+     }
+    
     
 
 }

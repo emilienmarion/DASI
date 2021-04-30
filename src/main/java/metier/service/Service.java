@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -96,15 +97,15 @@ public class Service {
         // MediumAstro ma = new MediumAstro("Irma", "F", "un medium astro", "INSA", "35");
 
         MediumAstro ma1 = new MediumAstro("Mr M", "H", " Avenir, avenir, que nous réserves-tu ? N'attendez plus, demandez à me consulter!",
-                "Institut des Nouveaux Savoirs Astrologiques", "2010");
+                "Institut des Nouveaux Savoirs Astrologiques", "2010","URLphoto");
 
-        MediumCarto mc = new MediumCarto("Mme Irma", "F", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.");
-        MediumCarto mc1 = new MediumCarto("Endora", "F", "Mes cartes répondront à toutes vos questions personnelles.");
+        MediumCarto mc = new MediumCarto("Mme Irma", "F", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.","URLphoto");
+        MediumCarto mc1 = new MediumCarto("Endora", "F", "Mes cartes répondront à toutes vos questions personnelles.","URLphoto");
 
         MediumSpirit ms = new MediumSpirit("Professeur Tran", "H", "Spécialiste des grandes conversations au-delà de TOUTES les frontières.",
-                "Boule de cristal");
+                "Boule de cristal","URLphoto");
         MediumSpirit ms1 = new MediumSpirit("Gwenaëlle", "F", ": Votre avenir est devant vous : regardons-le ensemble !",
-                "Marc de café, boule de cristal, oreilles de lapin");
+                "Marc de café, boule de cristal, oreilles de lapin","URLphoto");
 
         Employe emp1 = new Employe("Zola", "emile", "ezola@insa-lyon.fr ", "mdpEmp", "24/01/2000", "0781618187", "H");
         Employe emp2 = new Employe("monkey D", "Luffy", "monkeyDLuffy@insa-lyon.fr ", "mdpEmp2", "24/01/2001", "07815587", "H");
@@ -119,6 +120,8 @@ public class Service {
         e3.setNb_consultations(8);
         e4.setNb_consultations(0);
         e5.setNb_consultations(6);
+        emp1.setStatut_en_ligne(true);
+        e4.setStatut_en_ligne(true);
         //e5.setStatut_en_ligne(true);
         ma1.setNbConsultation(8);
         ms1.setNbConsultation(3);
@@ -195,6 +198,7 @@ public class Service {
             JpaUtil.creerContextePersistance();
             //Trouver un employe qui correspond
             emp = utilisateurDAO.matchMedium(medium);
+             if (emp != null) {
              JpaUtil.ouvrirTransaction();
              Date maintenant = new Date();
              Consultation consultation = new Consultation(maintenant, client, emp, medium);
@@ -208,115 +212,48 @@ public class Service {
             mediumDAO.modify(medium);
             
             JpaUtil.validerTransaction();
-           
+            Message.envoyerSmsEmp(medium, emp, client);
+             }
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demanderconsultation(Medium medium)", ex);
         } finally {
             JpaUtil.fermerContextePersistance();
-            if (emp == null) {
-                System.out.println("pas de medium de dispo");
-            } else {
-                Message.envoyerSmsEmp(medium, emp, client);
-               
-             
-
-            }
-
+           
+          
         }
 
         return emp;
     }
 
-    public void mergeUser(Utilisateur user) {
-        JpaUtil.creerContextePersistance();
-        try {
-            JpaUtil.ouvrirTransaction();
-            utilisateurDAO.modify(user);
-            JpaUtil.validerTransaction();
 
-        } catch (Exception ex) {
-            JpaUtil.annulerTransaction();
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service merge User", ex);
-
-        } finally {
-            JpaUtil.fermerContextePersistance();
-        }
-
-    }
-
-    public void mergeMedium(Medium medium) {
-        JpaUtil.creerContextePersistance();
-        MediumDAO mediumDAO = new MediumDAO();
-        try {
-            JpaUtil.ouvrirTransaction();
-            mediumDAO.modify(medium);
-            JpaUtil.validerTransaction();
-
-        } catch (Exception ex) {
-            JpaUtil.annulerTransaction();
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service merge Medium", ex);
-
-        } finally {
-            JpaUtil.fermerContextePersistance();
-        }
-
-    }
-
-    public void mergeConsultation(Consultation consultation) {
-        JpaUtil.creerContextePersistance();
-        ConsultationDAO consultationDAO = new ConsultationDAO();
-        try {
-            JpaUtil.ouvrirTransaction();
-            consultationDAO.modify(consultation);
-            JpaUtil.validerTransaction();
-
-        } catch (Exception ex) {
-            JpaUtil.annulerTransaction();
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service merge Consultation", ex);
-
-        } finally {
-            JpaUtil.fermerContextePersistance();
-        }
-
-    }
 
     //déclancher au momoment ou l'employé indique qu'il est prêt
     //mettre consultation en attribut
-    public void demarrerConsultation(Employe emp) {
-        Consultation consultation = emp.getConsultations().get(emp.getConsultations().size() - 1);
-        Message.envoyerSmsClient(consultation);
+    public void demarrerConsultation(Consultation consultation) {
+         ConsultationDAO consultationDAO = new ConsultationDAO();
         
-        Date maintenant = new Date();
+         Date maintenant = new Date();
         consultation.setDateDeb(maintenant);
-        mergeConsultation(consultation);
-        mergeUser(emp);
-    }
-
-    // redirire l'employé vers sa page de cpnsultation
-    public long creerConsultation(Consultation consultation) {
-        ConsultationDAO consultationDAO = new ConsultationDAO();
-        Long resultat = null;
         JpaUtil.creerContextePersistance();
-
         try {
-            JpaUtil.ouvrirTransaction();
-            consultationDAO.createConsultation(consultation);
-
-            JpaUtil.validerTransaction();
-            resultat = consultation.getId();
-
-        } catch (Exception ex) {
+            
+        JpaUtil.ouvrirTransaction();
+        consultationDAO.modify(consultation);
+        JpaUtil.validerTransaction();
+        
+        }catch (Exception ex) {
             JpaUtil.annulerTransaction();
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service créerConsultation", ex);
-            resultat = null;
-        } finally {
-            JpaUtil.fermerContextePersistance();
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service DémarerConsultation", ex);
+        }finally {
+             JpaUtil.fermerContextePersistance();
+            Message.envoyerSmsClient(consultation);
         }
-
-        return resultat;
-
+        
+     
+        
     }
 
+   
     public Utilisateur rechercherClientParId(Long id) {
         Utilisateur resultat = null;
         JpaUtil.creerContextePersistance();
@@ -333,8 +270,12 @@ public class Service {
 
     //ce service est déclanché aprés que l'employe ai clické sur fin consultation et a rempli le commenatire 
     //si le commentaire est vide -> PoP up d'erreur ou alors commentaire null
-    public void finConsultation(Employe emp, String commentaire) {
-        Consultation consultation = emp.getConsultations().get(emp.getConsultations().size() - 1);
+    public void finConsultation(Consultation consultation, String commentaire) {
+        JpaUtil.creerContextePersistance();
+         ConsultationDAO consultationDAO = new ConsultationDAO();
+         
+        MediumDAO mediumDAO = new MediumDAO();
+        Employe emp=consultation.getEmploye();
         emp.setNb_consultations(emp.getNb_consultations() + 1);
         Medium medium = consultation.getMedium();
         medium.setNbConsultation(medium.getNbConsultation() + 1);
@@ -342,15 +283,31 @@ public class Service {
         emp.setStatut_en_ligne(false);
         Date maintenant = new Date();
         consultation.setDateFin(maintenant);
-        mergeConsultation(consultation);
-        mergeUser(emp);
-        mergeMedium(medium);
+      
+        
+        try{
+            JpaUtil.ouvrirTransaction();
+            consultationDAO.modify(consultation);
+            utilisateurDAO.modify(emp);
+            mediumDAO.modify(medium);
+            JpaUtil.validerTransaction();
+            
+        }  catch (Exception ex) {
+             JpaUtil.annulerTransaction();
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service créerConsultation", ex);
+        
+             } finally {
+             JpaUtil.fermerContextePersistance();
+              
+        }
+        
 
     }
     //se déclanche quand l'employé est en ligne et quand il demande des prédiction pour son client
 
-    public void obtenirPrédiction(Employe emp, int niveauAmour, int niveauSante, int niveauTravail) throws IOException {
-        Client client1 = emp.getConsultations().get(emp.getConsultations().size() - 1).getClient();
+    public void obtenirPrédiction(Consultation consultation, int niveauAmour, int niveauSante, int niveauTravail) throws IOException {
+        
+        Client client1=consultation.getClient();
         AstroNetApi astroApi = new AstroNetApi();
         List<String> predictions = astroApi.getPredictions(client1.getProfilAstral().getCouleurPB(), client1.getProfilAstral().getAnimal_totem(), niveauAmour, niveauSante, niveauTravail);
 
@@ -363,22 +320,51 @@ public class Service {
 
     }
 
-    public void obtenirStat() {
-        //Nb de consultation par médium
-
-        //juste un select Medium et apres on extrait le nb consultation
-        //Nb de clients par employé
-        //juste extraire le nombre de consultation de chaque employé apres un select* emp
-        //Top 3 medium  
+    public List<Medium> top3medium() {
+        
         MediumDAO mediumDAO = new MediumDAO();
         JpaUtil.creerContextePersistance();
 
-        List<Medium> topMedium = mediumDAO.top3Medium();
-        for (Medium m : topMedium) {
-            System.out.println(m);
-        }
+        List<Medium> result = mediumDAO.obtenirMedium();
+        List<Medium> topMedium = new ArrayList<Medium>();
+       
+         for(int i=0;i<3;i++){
+             topMedium.add(result.get(i));
+         }
         JpaUtil.fermerContextePersistance();
-
+        return topMedium;
     }
 
+    
+    public List<Medium> obtenirMedium() {
+        MediumDAO mediumDAO = new MediumDAO();
+        JpaUtil.creerContextePersistance();
+
+        List<Medium> result = mediumDAO.obtenirMedium();
+        
+        JpaUtil.fermerContextePersistance();
+        return result;
+    }
+    
+    public List<Employe> obtenirEmploye() {
+        
+        JpaUtil.creerContextePersistance();
+        
+
+        List<Employe> result = utilisateurDAO.obtenirEmploye();
+        
+        JpaUtil.fermerContextePersistance();
+        return result;
+    }
+    
+    
+    public Consultation obtenirDemandeConsultation(Employe emp){
+        JpaUtil.creerContextePersistance();
+        ConsultationDAO consdao = new ConsultationDAO();
+        Consultation c = consdao.obtenirConsultationEmp(emp);
+        JpaUtil.fermerContextePersistance();
+        return c;
+    }
+    
+    
 }

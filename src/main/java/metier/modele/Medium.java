@@ -19,6 +19,26 @@ public  abstract class Medium {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
    
+    private String photo;
+
+    /**
+     * Get the value of photo
+     *
+     * @return the value of photo
+     */
+    public String getPhoto() {
+        return photo;
+    }
+
+    /**
+     * Set the value of photo
+     *
+     * @param photo new value of photo
+     */
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     private String denomination;
 
     private String genre;
@@ -51,11 +71,12 @@ public  abstract class Medium {
    private List<Consultation> consultations;
 
      
-    public Medium(String denomination, String genre, String presentation) {
+    public Medium(String denomination, String genre, String presentation,String photo) {
         this.denomination = denomination;
         this.genre = genre;
         this.presentation = presentation;
          this.nbConsultation = 0 ;
+         this.photo=photo;
     }
     
     

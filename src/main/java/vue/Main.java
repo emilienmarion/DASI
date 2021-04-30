@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import metier.modele.Client;
+import metier.modele.Consultation;
 import metier.modele.Employe;
 import metier.modele.Medium;
 import metier.modele.MediumAstro;
@@ -56,39 +57,72 @@ public class Main {
        }
        
        
-       public static void demandeConsultation(Medium ma,Client client){
+       public static Employe demandeConsultation(Medium ma,Client client){
             Service service=new Service();
            
         long id = service.creerMedium(ma);
         Employe emp=service.demanderconsultation(ma,client);
+        if (emp==null){
+             System.out.println("PAs d'employé disp");
+        }
            System.out.println("l'employé choisi est "+emp);
-                
+                return emp;
        }
        
        
-       public static void demarrerConsultation(Employe emp){
+       public static void demarrerConsultation(Consultation consultation){
            
             Service service=new Service();
-            service.demarrerConsultation(emp);
+            service.demarrerConsultation(consultation);
            
        }
        
        
-       public static void obtenirPrediction(Employe emp) throws IOException{
+       public static void obtenirPrediction(Consultation consultation) throws IOException{
            
             Service service=new Service();
-            service.obtenirPrédiction(emp, 5, 1, 2);
+            service.obtenirPrédiction(consultation, 5, 1, 2);
            
        }
        
        
-       public static void finConsultation(Employe emp,String commentaire){
+       public static void finConsultation(Consultation cons,String commentaire){
             Service service=new Service();
-            service.finConsultation(emp, commentaire);
+            service.finConsultation(cons, commentaire);
        }
        
        
+       public static void testTop3Medium(){
+           Service service=new Service();
+          List<Medium> top3 = service.top3medium();
+           for (Medium m : top3) {
+            System.out.println(m);
+        }
+           
+       }
+       public static void obtenirMedium(){
+           Service service=new Service();
+          List<Medium> mediums = service.obtenirMedium();
+           for (Medium m : mediums) {
+            System.out.println(m);
+        }
+       }
        
+       
+        public static void obtenirEmp(){
+           Service service=new Service();
+          List<Employe> emps = service.obtenirEmploye();
+           for (Employe e : emps) {
+            System.out.println(e);
+        }
+       }
+        
+       public static Consultation testObtenirConsultation(Employe emp){
+           Service ser = new Service();
+           Consultation cons = ser.obtenirDemandeConsultation(emp);
+           System.out.println(cons);
+           return cons;
+       }
        
     /**
      * @param args the command line arguments
@@ -101,7 +135,7 @@ public class Main {
        
         
         MediumAstro ma = new MediumAstro("Serena", "H", "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre\n" +
-                                          "passé", "École Normale Supérieure d’Astrologie (ENS-Astro)", "2006");
+                                          "passé", "École Normale Supérieure d’Astrologie (ENS-Astro)", "2006","URLphoto");
         
        initBD();
            
@@ -111,23 +145,27 @@ public class Main {
             testerInscrireClient(client2);
             //testerconnexion();
         
-         demandeConsultation(ma,client2);
+         Employe empTest=demandeConsultation(ma,client2);
          System.out.println();
          
-         //Service service=new Service();
-         //long id=6;
+       Consultation consultationTest=testObtenirConsultation(empTest);
          
-         //demarrerConsultation(client2.getConsultations().get(client2.getConsultations().size() - 1).getEmploye());
+         demarrerConsultation(consultationTest);
          //demandeConsultation(ma,client1);
          
          
-         //obtenirPrediction(client2.getConsultations().get(client2.getConsultations().size() - 1).getEmploye());
+         obtenirPrediction(consultationTest);
          
          
-        //finConsultation(client2.getConsultations().get(client2.getConsultations().size() - 1).getEmploye(), "ca s'est trés bien passé");
+        finConsultation(consultationTest, "ca s'est trés bien passé");
   
-         
-        //service.obtenirStat();
+         // méthodes pour tester l'affichage de statistique
+        testTop3Medium();
+        obtenirMedium();
+       obtenirEmp();
+        
+        
+       
         
        } catch (Exception ex) {
        System.out.println("erreur main");

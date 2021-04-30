@@ -18,8 +18,8 @@ public class MediumAstro extends Medium implements Serializable {
     private String formation;
     private String promotion;
 
-    public MediumAstro( String denomination, String genre, String presentation,String formation, String promotion) {
-        super(denomination, genre, presentation);
+    public MediumAstro( String denomination, String genre, String presentation,String formation, String promotion,String photo) {
+        super(denomination, genre, presentation,photo);
         this.formation = formation;
         this.promotion = promotion;
     }

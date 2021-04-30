@@ -20,8 +20,8 @@ public class MediumSpirit extends Medium implements Serializable {
     public MediumSpirit(){
     }
 
-    public MediumSpirit( String denomination, String genre, String presentation,String support) {
-        super(denomination, genre, presentation);
+    public MediumSpirit( String denomination, String genre, String presentation,String support,String photo) {
+        super(denomination, genre, presentation,photo);
         this.support = support;
     }
 

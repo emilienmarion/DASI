@@ -31,7 +31,7 @@ public class MediumDAO {
         
     }
      
-     public List<Medium> top3Medium(){
+     public List<Medium> obtenirMedium(){
          
           EntityManager em = JpaUtil.obtenirContextePersistance();
            
@@ -40,16 +40,10 @@ public class MediumDAO {
         TypedQuery query=em.createQuery(jpql, Medium.class);
         
          List<Medium> result = query.getResultList();
-          List<Medium> topMedium = new ArrayList<Medium>();
-       
           
-         for(int i=0;i<3;i++){
-             topMedium.add(result.get(i));
-           
-         }
          
-       System.out.println ("je suis la fdp3");
-         return topMedium;
+       
+         return result;
      }
     
 }

@@ -15,8 +15,8 @@ import javax.persistence.*;
 @Entity
 public class MediumCarto extends Medium implements Serializable {
 
-    public MediumCarto(String denomination, String genre, String presentation) {
-        super(denomination, genre, presentation);
+    public MediumCarto(String denomination, String genre, String presentation,String photo) {
+        super(denomination, genre, presentation,photo);
     }
     
     public MediumCarto(){

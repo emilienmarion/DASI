@@ -144,5 +144,7 @@ public class Consultation {
         this.demandeConsult = DemandeConsult;
     }
 
-    
+    public String toString(){
+        return "Consultation " + id + " datedemande "+ demandeConsult+ " datedebut: " + dateDeb + " datefin: "+ dateFin + " Emp:" +employe;
+    }
 }
