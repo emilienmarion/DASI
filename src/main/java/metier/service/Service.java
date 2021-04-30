@@ -187,15 +187,28 @@ public class Service {
 
     public Employe demanderconsultation(Medium medium, Client client) {
 //match entre le medium demandé par le client et un employé( pas en  ligne avec un autre client, genre medium=genre emp, et prend l’employe qui rempli ces critère qui a le moins de consultation)
-//envoyer un sms à l’employé choisi
+//envoyer un sms à l’employé chois
         Employe emp = null;
+         ConsultationDAO consultationDAO = new ConsultationDAO();
+         MediumDAO mediumDAO = new MediumDAO();
         try {
-
             JpaUtil.creerContextePersistance();
             //Trouver un employe qui correspond
             emp = utilisateurDAO.matchMedium(medium);
+             JpaUtil.ouvrirTransaction();
+             Date maintenant = new Date();
+             Consultation consultation = new Consultation(maintenant, client, emp, medium);
+            consultationDAO.createConsultation(consultation);
+            client.addConsultations(consultation);
+            medium.addConsultations(consultation);
+            emp.addConsultations(consultation);
+            emp.setStatut_en_ligne(true);
+            utilisateurDAO.modify(client);
+            utilisateurDAO.modify(emp);
+            mediumDAO.modify(medium);
             
-            
+            JpaUtil.validerTransaction();
+           
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demanderconsultation(Medium medium)", ex);
         } finally {
@@ -204,15 +217,8 @@ public class Service {
                 System.out.println("pas de medium de dispo");
             } else {
                 Message.envoyerSmsEmp(medium, emp, client);
-                Date maintenant = new Date();
-                Consultation consultation = new Consultation(maintenant, client, emp, medium);
-                long idConsult = creerConsultation(consultation);
-                client.addConsultations(consultation);
-                medium.addConsultations(consultation);
-                emp.addConsultations(consultation);
-                mergeUser(emp);
-                mergeUser(client);
-                mergeMedium(medium);
+               
+             
 
             }
 
@@ -279,7 +285,7 @@ public class Service {
     public void demarrerConsultation(Employe emp) {
         Consultation consultation = emp.getConsultations().get(emp.getConsultations().size() - 1);
         Message.envoyerSmsClient(consultation);
-        emp.setStatut_en_ligne(true);
+        
         Date maintenant = new Date();
         consultation.setDateDeb(maintenant);
         mergeConsultation(consultation);
