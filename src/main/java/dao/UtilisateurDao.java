@@ -56,7 +56,7 @@ public class UtilisateurDao {
 
    
    
-    public Employe matchMedium(Medium medium){
+    public List<Employe> matchMedium(Medium medium){
         Employe result=null;
         String genreMedium=medium.getGenre();
         EntityManager em = JpaUtil.obtenirContextePersistance();
@@ -65,17 +65,11 @@ public class UtilisateurDao {
          query.setParameter("genreMedium",genreMedium);
          List<Employe> emps = query.getResultList();
          
-         if(emps.isEmpty()){
-             result=null;
-         }else{
-             result = emps.get(0);
-            }
+           
          
-        // }else{
-            // result=null;
-        // }
-        return result;
-        
+     
+        return emps;
+         
          
 }
     

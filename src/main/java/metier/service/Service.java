@@ -192,27 +192,29 @@ public class Service {
 //match entre le medium demandé par le client et un employé( pas en  ligne avec un autre client, genre medium=genre emp, et prend l’employe qui rempli ces critère qui a le moins de consultation)
 //envoyer un sms à l’employé chois
         Employe emp = null;
+        List<Employe> emps;
          ConsultationDAO consultationDAO = new ConsultationDAO();
          MediumDAO mediumDAO = new MediumDAO();
         try {
             JpaUtil.creerContextePersistance();
             //Trouver un employe qui correspond
-            emp = utilisateurDAO.matchMedium(medium);
-             if (emp != null) {
+            emps = utilisateurDAO.matchMedium(medium);
+             if (!emps.isEmpty() ) {
              JpaUtil.ouvrirTransaction();
              Date maintenant = new Date();
-             Consultation consultation = new Consultation(maintenant, client, emp, medium);
+             Consultation consultation = new Consultation(maintenant, client, emps.get(0), medium);
             consultationDAO.createConsultation(consultation);
             client.addConsultations(consultation);
             medium.addConsultations(consultation);
-            emp.addConsultations(consultation);
-            emp.setStatut_en_ligne(true);
+            emps.get(0).addConsultations(consultation);
+            emps.get(0).setStatut_en_ligne(true);
             utilisateurDAO.modify(client);
-            utilisateurDAO.modify(emp);
+            utilisateurDAO.modify(emps.get(0));
             mediumDAO.modify(medium);
             
             JpaUtil.validerTransaction();
-            Message.envoyerSmsEmp(medium, emp, client);
+            Message.envoyerSmsEmp(medium, emps.get(0), client);
+            emp=emps.get(0);
              }
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demanderconsultation(Medium medium)", ex);
@@ -227,7 +229,7 @@ public class Service {
 
 
 
-    //déclancher au momoment ou l'employé indique qu'il est prêt
+    //déclencher au momoment ou l'employé indique qu'il est prêt
     //mettre consultation en attribut
     public void demarrerConsultation(Consultation consultation) {
          ConsultationDAO consultationDAO = new ConsultationDAO();

@@ -17,6 +17,27 @@ public class Employe extends Utilisateur {
     
         private int nb_consultations;
         private boolean statut_en_ligne;
+    @Version
+    private int version;
+
+    /**
+     * Get the value of version
+     *
+     * @return the value of version
+     */
+    public int getVersion() {
+        return version;
+    }
+
+    /**
+     * Set the value of version
+     *
+     * @param version new value of version
+     */
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
          @OneToMany(mappedBy="employe")
    private List<Consultation> consultations;
 
