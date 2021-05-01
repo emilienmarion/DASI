@@ -45,5 +45,15 @@ public class MediumDAO {
        
          return result;
      }
+     
+     
+     
+     public Medium chercherMediumParDenomination(String mediumDenomination){
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        TypedQuery<Medium> query = em.createQuery("SELECT m FROM Medium m WHERE m.denomination = :denomination", Medium.class);
+        query.setParameter("denomination", mediumDenomination); // correspond au paramètre ":denomination" dans la requête
+        Medium result = query.getSingleResult();
+        return result;
+     }
     
 }

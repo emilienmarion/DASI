@@ -369,4 +369,49 @@ public class Service {
     }
     
     
+    public Medium chercherMedium(String denomination){
+        MediumDAO mediumDAO = new MediumDAO();
+        Medium m;
+        JpaUtil.creerContextePersistance();
+        try {
+            JpaUtil.ouvrirTransaction();
+            m = mediumDAO.chercherMediumParDenomination(denomination);
+            JpaUtil.validerTransaction();
+
+        } catch (Exception ex) {
+            JpaUtil.annulerTransaction();
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service cherhcerMedium", ex);
+            m = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+
+        return m;
+    }
+    
+    
+    
+    
+    
+     //Obtenir un client à partir de son nom et son prénom
+    public Client chercherClient(String userNom, String userPrenom){
+        UtilisateurDao userDAO = new UtilisateurDao();
+        Client c;
+        JpaUtil.creerContextePersistance();
+        try {
+            JpaUtil.ouvrirTransaction();
+            c = userDAO.chercherUserParDenomination(userNom, userPrenom);
+            JpaUtil.validerTransaction();
+
+        } catch (Exception ex) {
+            JpaUtil.annulerTransaction();
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service cherhcerClient", ex);
+            c = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+
+        return c;
+    }
+    
 }

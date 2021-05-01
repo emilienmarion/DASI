@@ -51,6 +51,17 @@ public class UtilisateurDao {
         return result;
     }
 
+    
+    
+    public Client chercherUserParDenomination(String userNom, String userPrenom){
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        TypedQuery<Client> query = em.createQuery("SELECT c FROM Utilisateur c WHERE c.nom = :nom and c.prenom = :prenom", Client.class);
+        query.setParameter("nom", userNom);
+        query.setParameter("prenom", userPrenom); 
+        Client result = query.getSingleResult();
+        return result;
+     }
+    
     //match entre le medium demandé par le client et un employé
     //( pas en  ligne avec un autre client, genre medium=genre emp, et prend l’employe qui rempli ces critère qui a le moins de consultation)
 
