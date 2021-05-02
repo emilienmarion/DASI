@@ -39,8 +39,10 @@ public class Service {
 
     UtilisateurDao utilisateurDAO = new UtilisateurDao();
 
-    public long creerCompteClient(Client client) throws ParseException, IOException {// mettre en argument direct les strings de chaque champs et creer le client ici
-        Long resultat = null;
+    public Client creerCompteClient(String nom, String prenom, String mail, String motDePasse, String date_naissance, String num_tel, String genre,String adresse_postale) throws ParseException, IOException {// mettre en argument direct les strings de chaque champs et creer le client ici
+        Client resultat = null;
+         Client client=new Client(nom,prenom,mail,motDePasse,date_naissance,num_tel,genre,adresse_postale);
+         resultat=client;
         JpaUtil.creerContextePersistance();
         //faire le calcul du profil astral ici et modifeier le clientt et apres le persister
         ProfilAstral profilAstral = AstroNetApi.obtenirProfilAstral(client);
@@ -50,7 +52,6 @@ public class Service {
             JpaUtil.ouvrirTransaction();
             utilisateurDAO.createUser(client);
             JpaUtil.validerTransaction();
-            resultat = client.getId();
             Message.envoyer_mail_success(client);
         } catch (Exception ex) {
             JpaUtil.annulerTransaction();
@@ -94,7 +95,11 @@ public class Service {
     }
 
     public void initialiserBD() {
+        MediumDAO mediumDAO = new MediumDAO();
         // MediumAstro ma = new MediumAstro("Irma", "F", "un medium astro", "INSA", "35");
+        
+        MediumAstro ma = new MediumAstro("Serena", "H", "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre\n"
+                    + "passé", "École Normale Supérieure d’Astrologie (ENS-Astro)", "2006", "URLphoto");
 
         MediumAstro ma1 = new MediumAstro("Mr M", "H", " Avenir, avenir, que nous réserves-tu ? N'attendez plus, demandez à me consulter!",
                 "Institut des Nouveaux Savoirs Astrologiques", "2010","URLphoto");
@@ -126,17 +131,36 @@ public class Service {
         ma1.setNbConsultation(8);
         ms1.setNbConsultation(3);
 
-        // long id = creerMedium(ma);
-        long id = creerMedium(ma1);
-        id = creerMedium(mc);
-        id = creerMedium(mc1);
-        id = creerMedium(ms);
-        id = creerMedium(ms1);
-        id = creerEmp(emp1);
-        id = creerEmp(emp2);
-        id = creerEmp(e3);
-        id = creerEmp(e4);
-        id = creerEmp(e5);
+      
+        
+        
+        JpaUtil.creerContextePersistance();
+          try {
+            JpaUtil.ouvrirTransaction();
+             mediumDAO.createMedium(ma);
+            mediumDAO.createMedium(ma1);
+            mediumDAO.createMedium(mc1);
+            mediumDAO.createMedium(ms);
+            mediumDAO.createMedium(ms1);
+            utilisateurDAO.createUser(emp1);
+            utilisateurDAO.createUser(emp2);
+            utilisateurDAO.createUser(e3);
+            utilisateurDAO.createUser(e4);
+            utilisateurDAO.createUser(e5);
+            
+
+            JpaUtil.validerTransaction();
+        
+
+        } catch (Exception ex) {
+            JpaUtil.annulerTransaction();
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service initBD()", ex);
+            
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        
+        
 
     }
 
@@ -178,7 +202,7 @@ public class Service {
 
         } catch (Exception ex) {
             JpaUtil.annulerTransaction();
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service créeremployee)", ex);
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service créer employee)", ex);
             resultat = null;
         } finally {
             JpaUtil.fermerContextePersistance();
@@ -230,7 +254,7 @@ public class Service {
 
 
     //déclencher au momoment ou l'employé indique qu'il est prêt
-    //mettre consultation en attribut
+    
     public void demarrerConsultation(Consultation consultation) {
          ConsultationDAO consultationDAO = new ConsultationDAO();
         
@@ -256,22 +280,10 @@ public class Service {
     }
 
    
-    public Utilisateur rechercherClientParId(Long id) {
-        Utilisateur resultat = null;
-        JpaUtil.creerContextePersistance();
-        try {
-            resultat = utilisateurDAO.chercherParId(id);
-        } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service rechercherClientParId(id)", ex);
-            resultat = null;
-        } finally {
-            JpaUtil.fermerContextePersistance();
-        }
-        return resultat;
-    }
+    
 
     //ce service est déclanché aprés que l'employe ai clické sur fin consultation et a rempli le commenatire 
-    //si le commentaire est vide -> PoP up d'erreur ou alors commentaire null
+   
     public void finConsultation(Consultation consultation, String commentaire) {
         JpaUtil.creerContextePersistance();
          ConsultationDAO consultationDAO = new ConsultationDAO();
@@ -374,12 +386,12 @@ public class Service {
         Medium m;
         JpaUtil.creerContextePersistance();
         try {
-            JpaUtil.ouvrirTransaction();
+            
             m = mediumDAO.chercherMediumParDenomination(denomination);
-            JpaUtil.validerTransaction();
+            
 
         } catch (Exception ex) {
-            JpaUtil.annulerTransaction();
+            
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service cherhcerMedium", ex);
             m = null;
         } finally {
@@ -417,6 +429,12 @@ public class Service {
     public List<Consultation> obtenirHistoriqueClient(Client client){
         
         return client.getConsultations();
+     
+    }
+    
+      public ProfilAstral obtenirProfilAstral(Client client){
+        
+        return client.getProfilAstral();
      
     }
     
