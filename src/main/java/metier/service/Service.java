@@ -39,10 +39,10 @@ public class Service {
 
     UtilisateurDao utilisateurDAO = new UtilisateurDao();
 
-    public long creerCompteClient(Client client) throws ParseException, IOException {
+    public long creerCompteClient(Client client) throws ParseException, IOException {// mettre en argument direct les strings de chaque champs et creer le client ici
         Long resultat = null;
         JpaUtil.creerContextePersistance();
-        //faire le calcul du profil astral ici et modifeier le clinet et apres le persister
+        //faire le calcul du profil astral ici et modifeier le clientt et apres le persister
         ProfilAstral profilAstral = AstroNetApi.obtenirProfilAstral(client);
         client.setProfilAstral(profilAstral);
 
@@ -190,7 +190,7 @@ public class Service {
 
     public Employe demanderconsultation(Medium medium, Client client) {
 //match entre le medium demandé par le client et un employé( pas en  ligne avec un autre client, genre medium=genre emp, et prend l’employe qui rempli ces critère qui a le moins de consultation)
-//envoyer un sms à l’employé chois
+//envoyer un sms à l’employé choisi
         Employe emp = null;
         List<Employe> emps;
          ConsultationDAO consultationDAO = new ConsultationDAO();
@@ -412,6 +412,12 @@ public class Service {
         }
 
         return c;
+    }
+    
+    public List<Consultation> obtenirHistoriqueClient(Client client){
+        
+        return client.getConsultations();
+     
     }
     
 }
