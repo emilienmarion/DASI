@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.OptimisticLockException;
 import metier.modele.Client;
 import metier.modele.Consultation;
 import metier.modele.Employe;
@@ -211,47 +212,57 @@ public class Service {
         return resultat;
 
     }
-
+    
+    
     public Employe demanderconsultation(Medium medium, Client client) {
 //match entre le medium demandé par le client et un employé( pas en  ligne avec un autre client, genre medium=genre emp, et prend l’employe qui rempli ces critère qui a le moins de consultation)
 //envoyer un sms à l’employé choisi
         Employe emp = null;
         List<Employe> emps;
-         ConsultationDAO consultationDAO = new ConsultationDAO();
-         MediumDAO mediumDAO = new MediumDAO();
-        try {
-            JpaUtil.creerContextePersistance();
-            //Trouver un employe qui correspond
-            emps = utilisateurDAO.matchMedium(medium);
-             if (!emps.isEmpty() ) {
-             JpaUtil.ouvrirTransaction();
-             Date maintenant = new Date();
-             Consultation consultation = new Consultation(maintenant, client, emps.get(0), medium);
-            consultationDAO.createConsultation(consultation);
-            client.addConsultations(consultation);
-            medium.addConsultations(consultation);
-            emps.get(0).addConsultations(consultation);
-            emps.get(0).setStatut_en_ligne(true);
-            utilisateurDAO.modify(client);
-            utilisateurDAO.modify(emps.get(0));
-            mediumDAO.modify(medium);
-            
-            JpaUtil.validerTransaction();
-            Message.envoyerSmsEmp(medium, emps.get(0), client);
-            emp=emps.get(0);
-             }
-        } catch (Exception ex) {
-            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demanderconsultation(Medium medium)", ex);
-        } finally {
-            JpaUtil.fermerContextePersistance();
-           
-          
-        }
+        ConsultationDAO consultationDAO = new ConsultationDAO();
+        MediumDAO mediumDAO = new MediumDAO();
+        int i = 0;
+        int listlen = 1;
+        boolean sucess = false;
+        while(i<listlen && !sucess)
+            try {
+                JpaUtil.creerContextePersistance();
+                emps = utilisateurDAO.matchMedium(medium);//Trouver un employe qui correspond
+                listlen = emps.size();
+                if (!emps.isEmpty() ) {
+                    JpaUtil.ouvrirTransaction();
+                    Date maintenant = new Date();
+                    Consultation consultation = new Consultation(maintenant, client, emps.get(i), medium);
+                    consultationDAO.createConsultation(consultation);
+                    client.addConsultations(consultation);
+                    medium.addConsultations(consultation);
+                    emps.get(i).addConsultations(consultation);
+                    emps.get(i).setStatut_en_ligne(true);
+                    utilisateurDAO.modify(client);
+                    utilisateurDAO.modify(emps.get(i));
+                    mediumDAO.modify(medium);
+                    JpaUtil.validerTransaction();
+                    Message.envoyerSmsEmp(medium, emps.get(i), client);
+                    emp=emps.get(i);
+                }
+                sucess = true;
+            }catch (OptimisticLockException ex){
+                JpaUtil.annulerTransaction();
+                i++;
+                sucess = false;
+            }catch (Exception ex) {
+                Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demanderconsultation(Medium medium)", ex);
+            }finally {
+                JpaUtil.fermerContextePersistance();
+            }
 
         return emp;
     }
+    
+    
+    
 
-
+   
 
     //déclencher au momoment ou l'employé indique qu'il est prêt
     
@@ -436,6 +447,63 @@ public class Service {
         
         return client.getProfilAstral();
      
+    }
+      
+      
+      
+      public List<MediumCarto> listeMediumCarto(){
+        MediumDAO mediumDAO = new MediumDAO();
+        List<MediumCarto> listeCarto;
+        JpaUtil.creerContextePersistance();
+        try{
+            JpaUtil.ouvrirTransaction();
+            listeCarto = mediumDAO.obtenirCarto();
+            JpaUtil.validerTransaction();
+        }catch (Exception ex) {
+            JpaUtil.annulerTransaction();
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listeMediumCarto", ex);
+            listeCarto = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return listeCarto;
+    }
+      
+      
+public List<MediumAstro> listeMediumAstro(){
+        MediumDAO mediumDAO = new MediumDAO();
+        List<MediumAstro> listeAstro;
+        JpaUtil.creerContextePersistance();
+        try{
+            JpaUtil.ouvrirTransaction();
+            listeAstro = mediumDAO.obtenirAstro();
+            JpaUtil.validerTransaction();
+        }catch (Exception ex) {
+            JpaUtil.annulerTransaction();
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listeMediumAstro", ex);
+            listeAstro = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return listeAstro;
+    }
+
+public List<MediumSpirit> listeMediumSpirit(){
+        MediumDAO mediumDAO = new MediumDAO();
+        List<MediumSpirit> listeSpirit;
+        JpaUtil.creerContextePersistance();
+        try{
+            JpaUtil.ouvrirTransaction();
+            listeSpirit = mediumDAO.obtenirSpirit();
+            JpaUtil.validerTransaction();
+        }catch (Exception ex) {
+            JpaUtil.annulerTransaction();
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listeMediumSpirit", ex);
+            listeSpirit = null;
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        return listeSpirit;
     }
     
 }

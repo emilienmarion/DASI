@@ -153,6 +153,36 @@ public class Main {
               System.out.println("Client introuvable");
            }
        }
+       
+       public static void afficherMediumParType(){
+           Service service=new Service();
+           List<MediumAstro> listeAstro ;
+           listeAstro = service.listeMediumAstro();
+            System.out.println();
+           System.out.println("Liste des Astro:");
+           for (MediumAstro astro : listeAstro) {
+            System.out.println(astro.getDenomination());
+           }
+            System.out.println();
+           
+           List<MediumCarto> listeCarto ;
+           listeCarto = service.listeMediumCarto();
+            System.out.println();
+           System.out.println("Liste des Carto");
+           for (MediumCarto carto : listeCarto) {
+            System.out.println(carto.getDenomination());
+           }
+            System.out.println();
+           
+           List<MediumSpirit> listeSpirit ;
+           listeSpirit = service.listeMediumSpirit();
+            System.out.println();
+           System.out.println("Liste des Spirit");
+           for (MediumSpirit spirit : listeSpirit) {
+            System.out.println(spirit.getDenomination());
+           }
+            System.out.println();
+       }
 
     /**
      * @param args the command line arguments
@@ -168,6 +198,11 @@ public class Main {
             Client client2 = testerInscrireClient("messi", "lionel", "lemail2@.fr", "mdp2", "19/03/1998", "0782728262", "H", "26 rue des routes");
 //initialise notre base de données avec quelques employés et quelques médiums
             initBD();
+            
+             System.out.println();
+             //permet de tester les services qui permettent d'obtenir les medium inscirt dans la base par catégories
+             afficherMediumParType();
+             
 //teste le service de connexion avec un mail et un mdp choisi dans cette méthode
             testerconnexion();
             //test le service qui permet l'obtention du Profil astral d'un client ( Pour pouvoir l'afficher sur le tableau de bord du client)
