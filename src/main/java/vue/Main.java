@@ -60,7 +60,6 @@ public class Main {
     public static Employe demandeConsultation(Medium ma, Client client) {
         Service service = new Service();
 
-        
         Employe emp = service.demanderconsultation(ma, client);
         if (emp == null) {
             System.out.println("PAs d'employé disp");
@@ -130,59 +129,60 @@ public class Main {
         System.out.println("le profil astral de ce client est: " + profAS);
 
     }
-    public static Medium chercherMedium (String denomination){
-           Service service=new Service();
-           Medium m = service.chercherMedium(denomination);
-           if(m == null){
-              System.out.println("Medium introuvable");
-             
-           }else{
-              System.out.println("Medium trouvé");
-              System.out.println(m.getDenomination());
-           }
-           return m;
-       }
-       
-       public static void chercherClient (String userNom, String userPrenom){
-           Service service=new Service();
-           Client c = service.chercherClient(userNom, userPrenom);
-           if(c != null){
-              System.out.println("Client trouvé");
-              System.out.println(c.getNom());
-           }else{
-              System.out.println("Client introuvable");
-           }
-       }
-       
-       public static void afficherMediumParType(){
-           Service service=new Service();
-           List<MediumAstro> listeAstro ;
-           listeAstro = service.listeMediumAstro();
-            System.out.println();
-           System.out.println("Liste des Astro:");
-           for (MediumAstro astro : listeAstro) {
+
+    public static Medium chercherMedium(String denomination) {
+        Service service = new Service();
+        Medium m = service.chercherMedium(denomination);
+        if (m == null) {
+            System.out.println("Medium introuvable");
+
+        } else {
+            System.out.println("Medium trouvé");
+            System.out.println(m.getDenomination());
+        }
+        return m;
+    }
+
+    public static void chercherClient(String userNom, String userPrenom) {
+        Service service = new Service();
+        Client c = service.chercherClient(userNom, userPrenom);
+        if (c != null) {
+            System.out.println("Client trouvé");
+            System.out.println(c.getNom());
+        } else {
+            System.out.println("Client introuvable");
+        }
+    }
+
+    public static void afficherMediumParType() {
+        Service service = new Service();
+        List<MediumAstro> listeAstro;
+        listeAstro = service.listeMediumAstro();
+        System.out.println();
+        System.out.println("Liste des Astro:");
+        for (MediumAstro astro : listeAstro) {
             System.out.println(astro.getDenomination());
-           }
-            System.out.println();
-           
-           List<MediumCarto> listeCarto ;
-           listeCarto = service.listeMediumCarto();
-            System.out.println();
-           System.out.println("Liste des Carto");
-           for (MediumCarto carto : listeCarto) {
+        }
+        System.out.println();
+
+        List<MediumCarto> listeCarto;
+        listeCarto = service.listeMediumCarto();
+        System.out.println();
+        System.out.println("Liste des Carto");
+        for (MediumCarto carto : listeCarto) {
             System.out.println(carto.getDenomination());
-           }
-            System.out.println();
-           
-           List<MediumSpirit> listeSpirit ;
-           listeSpirit = service.listeMediumSpirit();
-            System.out.println();
-           System.out.println("Liste des Spirit");
-           for (MediumSpirit spirit : listeSpirit) {
+        }
+        System.out.println();
+
+        List<MediumSpirit> listeSpirit;
+        listeSpirit = service.listeMediumSpirit();
+        System.out.println();
+        System.out.println("Liste des Spirit");
+        for (MediumSpirit spirit : listeSpirit) {
             System.out.println(spirit.getDenomination());
-           }
-            System.out.println();
-       }
+        }
+        System.out.println();
+    }
 
     /**
      * @param args the command line arguments
@@ -191,39 +191,31 @@ public class Main {
         JpaUtil.init();
         try {
             Service ser = new Service();
-           // MediumAstro ma = new MediumAstro("Serena", "H", "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre\n"
-                 //   + "passé", "École Normale Supérieure d’Astrologie (ENS-Astro)", "2006", "URLphoto");
+            // MediumAstro ma = new MediumAstro("Serena", "H", "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre\n"
+            //   + "passé", "École Normale Supérieure d’Astrologie (ENS-Astro)", "2006", "URLphoto");
             //teste le service qui permet l'inscription de clients dans la base
             Client client1 = testerInscrireClient("marion", "léa", "lemail@.fr", "mdp1", "20/08/2000", "0782728262", "F", "26 rue des routes");
             Client client2 = testerInscrireClient("messi", "lionel", "lemail2@.fr", "mdp2", "19/03/1998", "0782728262", "H", "26 rue des routes");
 //initialise notre base de données avec quelques employés et quelques médiums
             initBD();
-            
-             System.out.println();
-             //permet de tester les services qui permettent d'obtenir les medium inscirt dans la base par catégories
-             afficherMediumParType();
-             
+
+            System.out.println();
+            //permet de tester les services qui permettent d'obtenir les medium inscirt dans la base par catégories
+            afficherMediumParType();
+
 //teste le service de connexion avec un mail et un mdp choisi dans cette méthode
             testerconnexion();
             //test le service qui permet l'obtention du Profil astral d'un client ( Pour pouvoir l'afficher sur le tableau de bord du client)
             obtenirProfilAstral(client2);
-            
-            
+
             //méthode de test du service qui cherche un médium par sa dénomination
-            Medium ma=chercherMedium("Serena");
-           
-           
-           //méthode de test du service qui cherche un client par son nom et prénom
-           System.out.println();
+            Medium ma = chercherMedium("Serena");
+
+            //méthode de test du service qui cherche un client par son nom et prénom
+            System.out.println();
             chercherClient("marion", "léa");
             System.out.println();
-           
-           
-      
-            
-            
-            
-            
+
             //Méthode de test qui simule la demande de consultation par un client qui choist un médium, cette méthode renvoie l'employé chosit pour la consultation
             Employe empTest = demandeConsultation(ma, client2);
             System.out.println();

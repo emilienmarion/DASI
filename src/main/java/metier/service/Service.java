@@ -40,10 +40,10 @@ public class Service {
 
     UtilisateurDao utilisateurDAO = new UtilisateurDao();
 
-    public Client creerCompteClient(String nom, String prenom, String mail, String motDePasse, String date_naissance, String num_tel, String genre,String adresse_postale) throws ParseException, IOException {// mettre en argument direct les strings de chaque champs et creer le client ici
+    public Client creerCompteClient(String nom, String prenom, String mail, String motDePasse, String date_naissance, String num_tel, String genre, String adresse_postale) throws ParseException, IOException {// mettre en argument direct les strings de chaque champs et creer le client ici
         Client resultat = null;
-         Client client=new Client(nom,prenom,mail,motDePasse,date_naissance,num_tel,genre,adresse_postale);
-         resultat=client;
+        Client client = new Client(nom, prenom, mail, motDePasse, date_naissance, num_tel, genre, adresse_postale);
+        resultat = client;
         JpaUtil.creerContextePersistance();
         //faire le calcul du profil astral ici et modifeier le clientt et apres le persister
         ProfilAstral profilAstral = AstroNetApi.obtenirProfilAstral(client);
@@ -98,20 +98,20 @@ public class Service {
     public void initialiserBD() {
         MediumDAO mediumDAO = new MediumDAO();
         // MediumAstro ma = new MediumAstro("Irma", "F", "un medium astro", "INSA", "35");
-        
+
         MediumAstro ma = new MediumAstro("Serena", "H", "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre\n"
-                    + "passé", "École Normale Supérieure d’Astrologie (ENS-Astro)", "2006", "URLphoto");
+                + "passé", "École Normale Supérieure d’Astrologie (ENS-Astro)", "2006", "URLphoto");
 
         MediumAstro ma1 = new MediumAstro("Mr M", "H", " Avenir, avenir, que nous réserves-tu ? N'attendez plus, demandez à me consulter!",
-                "Institut des Nouveaux Savoirs Astrologiques", "2010","URLphoto");
+                "Institut des Nouveaux Savoirs Astrologiques", "2010", "URLphoto");
 
-        MediumCarto mc = new MediumCarto("Mme Irma", "F", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.","URLphoto");
-        MediumCarto mc1 = new MediumCarto("Endora", "F", "Mes cartes répondront à toutes vos questions personnelles.","URLphoto");
+        MediumCarto mc = new MediumCarto("Mme Irma", "F", "Comprenez votre entourage grâce à mes cartes ! Résultats rapides.", "URLphoto");
+        MediumCarto mc1 = new MediumCarto("Endora", "F", "Mes cartes répondront à toutes vos questions personnelles.", "URLphoto");
 
         MediumSpirit ms = new MediumSpirit("Professeur Tran", "H", "Spécialiste des grandes conversations au-delà de TOUTES les frontières.",
-                "Boule de cristal","URLphoto");
+                "Boule de cristal", "URLphoto");
         MediumSpirit ms1 = new MediumSpirit("Gwenaëlle", "F", ": Votre avenir est devant vous : regardons-le ensemble !",
-                "Marc de café, boule de cristal, oreilles de lapin","URLphoto");
+                "Marc de café, boule de cristal, oreilles de lapin", "URLphoto");
 
         Employe emp1 = new Employe("Zola", "emile", "ezola@insa-lyon.fr ", "mdpEmp", "24/01/2000", "0781618187", "H");
         Employe emp2 = new Employe("monkey D", "Luffy", "monkeyDLuffy@insa-lyon.fr ", "mdpEmp2", "24/01/2001", "07815587", "H");
@@ -132,13 +132,10 @@ public class Service {
         ma1.setNbConsultation(8);
         ms1.setNbConsultation(3);
 
-      
-        
-        
         JpaUtil.creerContextePersistance();
-          try {
+        try {
             JpaUtil.ouvrirTransaction();
-             mediumDAO.createMedium(ma);
+            mediumDAO.createMedium(ma);
             mediumDAO.createMedium(ma1);
             mediumDAO.createMedium(mc1);
             mediumDAO.createMedium(ms);
@@ -148,20 +145,16 @@ public class Service {
             utilisateurDAO.createUser(e3);
             utilisateurDAO.createUser(e4);
             utilisateurDAO.createUser(e5);
-            
 
             JpaUtil.validerTransaction();
-        
 
         } catch (Exception ex) {
             JpaUtil.annulerTransaction();
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service initBD()", ex);
-            
+
         } finally {
             JpaUtil.fermerContextePersistance();
         }
-        
-        
 
     }
 
@@ -212,8 +205,7 @@ public class Service {
         return resultat;
 
     }
-    
-    
+
     public Employe demanderconsultation(Medium medium, Client client) {
 //match entre le medium demandé par le client et un employé( pas en  ligne avec un autre client, genre medium=genre emp, et prend l’employe qui rempli ces critère qui a le moins de consultation)
 //envoyer un sms à l’employé choisi
@@ -224,83 +216,71 @@ public class Service {
         int i = 0;
         int listlen = 1;
         boolean sucess = false;
-        while(i<listlen && !sucess)
+        while (i < listlen && !sucess)
             try {
-                JpaUtil.creerContextePersistance();
-                emps = utilisateurDAO.matchMedium(medium);//Trouver un employe qui correspond
-                listlen = emps.size();
-                if (!emps.isEmpty() ) {
-                    JpaUtil.ouvrirTransaction();
-                    Date maintenant = new Date();
-                    Consultation consultation = new Consultation(maintenant, client, emps.get(i), medium);
-                    consultationDAO.createConsultation(consultation);
-                    client.addConsultations(consultation);
-                    medium.addConsultations(consultation);
-                    emps.get(i).addConsultations(consultation);
-                    emps.get(i).setStatut_en_ligne(true);
-                    utilisateurDAO.modify(client);
-                    utilisateurDAO.modify(emps.get(i));
-                    mediumDAO.modify(medium);
-                    JpaUtil.validerTransaction();
-                    Message.envoyerSmsEmp(medium, emps.get(i), client);
-                    emp=emps.get(i);
-                }
-                sucess = true;
-            }catch (OptimisticLockException ex){
-                JpaUtil.annulerTransaction();
-                i++;
-                sucess = false;
-            }catch (Exception ex) {
-                Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demanderconsultation(Medium medium)", ex);
-            }finally {
-                JpaUtil.fermerContextePersistance();
+            JpaUtil.creerContextePersistance();
+            emps = utilisateurDAO.matchMedium(medium);//Trouver un employe qui correspond
+            listlen = emps.size();
+            if (!emps.isEmpty()) {
+                JpaUtil.ouvrirTransaction();
+                Date maintenant = new Date();
+                Consultation consultation = new Consultation(maintenant, client, emps.get(i), medium);
+                consultationDAO.createConsultation(consultation);
+                client.addConsultations(consultation);
+                medium.addConsultations(consultation);
+                emps.get(i).addConsultations(consultation);
+                emps.get(i).setStatut_en_ligne(true);
+                utilisateurDAO.modify(client);
+                utilisateurDAO.modify(emps.get(i));
+                mediumDAO.modify(medium);
+                JpaUtil.validerTransaction();
+                Message.envoyerSmsEmp(medium, emps.get(i), client);
+                emp = emps.get(i);
             }
+            sucess = true;
+        } catch (OptimisticLockException ex) {
+            JpaUtil.annulerTransaction();
+            i++;
+            sucess = false;
+        } catch (Exception ex) {
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service demanderconsultation(Medium medium)", ex);
+        } finally {
+            JpaUtil.fermerContextePersistance();
+        }
 
         return emp;
     }
-    
-    
-    
-
-   
 
     //déclencher au momoment ou l'employé indique qu'il est prêt
-    
     public void demarrerConsultation(Consultation consultation) {
-         ConsultationDAO consultationDAO = new ConsultationDAO();
-        
-         Date maintenant = new Date();
+        ConsultationDAO consultationDAO = new ConsultationDAO();
+
+        Date maintenant = new Date();
         consultation.setDateDeb(maintenant);
         JpaUtil.creerContextePersistance();
         try {
-            
-        JpaUtil.ouvrirTransaction();
-        consultationDAO.modify(consultation);
-        JpaUtil.validerTransaction();
-        
-        }catch (Exception ex) {
+
+            JpaUtil.ouvrirTransaction();
+            consultationDAO.modify(consultation);
+            JpaUtil.validerTransaction();
+
+        } catch (Exception ex) {
             JpaUtil.annulerTransaction();
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service DémarerConsultation", ex);
-        }finally {
-             JpaUtil.fermerContextePersistance();
+        } finally {
+            JpaUtil.fermerContextePersistance();
             Message.envoyerSmsClient(consultation);
         }
-        
-     
-        
+
     }
 
-   
-    
-
     //ce service est déclanché aprés que l'employe ai clické sur fin consultation et a rempli le commenatire 
-   
     public void finConsultation(Consultation consultation, String commentaire) {
         JpaUtil.creerContextePersistance();
-         ConsultationDAO consultationDAO = new ConsultationDAO();
-         
+        ConsultationDAO consultationDAO = new ConsultationDAO();
+
         MediumDAO mediumDAO = new MediumDAO();
-        Employe emp=consultation.getEmploye();
+        Employe emp = consultation.getEmploye();
         emp.setNb_consultations(emp.getNb_consultations() + 1);
         Medium medium = consultation.getMedium();
         medium.setNbConsultation(medium.getNbConsultation() + 1);
@@ -308,31 +288,29 @@ public class Service {
         emp.setStatut_en_ligne(false);
         Date maintenant = new Date();
         consultation.setDateFin(maintenant);
-      
-        
-        try{
+
+        try {
             JpaUtil.ouvrirTransaction();
             consultationDAO.modify(consultation);
             utilisateurDAO.modify(emp);
             mediumDAO.modify(medium);
             JpaUtil.validerTransaction();
-            
-        }  catch (Exception ex) {
-             JpaUtil.annulerTransaction();
+
+        } catch (Exception ex) {
+            JpaUtil.annulerTransaction();
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service créerConsultation", ex);
-        
-             } finally {
-             JpaUtil.fermerContextePersistance();
-              
+
+        } finally {
+            JpaUtil.fermerContextePersistance();
+
         }
-        
 
     }
     //se déclanche quand l'employé est en ligne et quand il demande des prédiction pour son client
 
     public void obtenirPrédiction(Consultation consultation, int niveauAmour, int niveauSante, int niveauTravail) throws IOException {
-        
-        Client client1=consultation.getClient();
+
+        Client client1 = consultation.getClient();
         AstroNetApi astroApi = new AstroNetApi();
         List<String> predictions = astroApi.getPredictions(client1.getProfilAstral().getCouleurPB(), client1.getProfilAstral().getAnimal_totem(), niveauAmour, niveauSante, niveauTravail);
 
@@ -346,63 +324,58 @@ public class Service {
     }
 
     public List<Medium> top3medium() {
-        
+
         MediumDAO mediumDAO = new MediumDAO();
         JpaUtil.creerContextePersistance();
 
         List<Medium> result = mediumDAO.obtenirMedium();
         List<Medium> topMedium = new ArrayList<Medium>();
-       
-         for(int i=0;i<3;i++){
-             topMedium.add(result.get(i));
-         }
+
+        for (int i = 0; i < 3; i++) {
+            topMedium.add(result.get(i));
+        }
         JpaUtil.fermerContextePersistance();
         return topMedium;
     }
 
-    
     public List<Medium> obtenirMedium() {
         MediumDAO mediumDAO = new MediumDAO();
         JpaUtil.creerContextePersistance();
 
         List<Medium> result = mediumDAO.obtenirMedium();
-        
+
         JpaUtil.fermerContextePersistance();
         return result;
     }
-    
+
     public List<Employe> obtenirEmploye() {
-        
+
         JpaUtil.creerContextePersistance();
-        
 
         List<Employe> result = utilisateurDAO.obtenirEmploye();
-        
+
         JpaUtil.fermerContextePersistance();
         return result;
     }
-    
-    
-    public Consultation obtenirDemandeConsultation(Employe emp){
+
+    public Consultation obtenirDemandeConsultation(Employe emp) {
         JpaUtil.creerContextePersistance();
         ConsultationDAO consdao = new ConsultationDAO();
         Consultation c = consdao.obtenirConsultationEmp(emp);
         JpaUtil.fermerContextePersistance();
         return c;
     }
-    
-    
-    public Medium chercherMedium(String denomination){
+
+    public Medium chercherMedium(String denomination) {
         MediumDAO mediumDAO = new MediumDAO();
         Medium m;
         JpaUtil.creerContextePersistance();
         try {
-            
+
             m = mediumDAO.chercherMediumParDenomination(denomination);
-            
 
         } catch (Exception ex) {
-            
+
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service cherhcerMedium", ex);
             m = null;
         } finally {
@@ -411,13 +384,9 @@ public class Service {
 
         return m;
     }
-    
-    
-    
-    
-    
-     //Obtenir un client à partir de son nom et son prénom
-    public Client chercherClient(String userNom, String userPrenom){
+
+    //Obtenir un client à partir de son nom et son prénom
+    public Client chercherClient(String userNom, String userPrenom) {
         UtilisateurDao userDAO = new UtilisateurDao();
         Client c;
         JpaUtil.creerContextePersistance();
@@ -436,30 +405,28 @@ public class Service {
 
         return c;
     }
-    
-    public List<Consultation> obtenirHistoriqueClient(Client client){
-        
+
+    public List<Consultation> obtenirHistoriqueClient(Client client) {
+
         return client.getConsultations();
-     
+
     }
-    
-      public ProfilAstral obtenirProfilAstral(Client client){
-        
+
+    public ProfilAstral obtenirProfilAstral(Client client) {
+
         return client.getProfilAstral();
-     
+
     }
-      
-      
-      
-      public List<MediumCarto> listeMediumCarto(){
+
+    public List<MediumCarto> listeMediumCarto() {
         MediumDAO mediumDAO = new MediumDAO();
         List<MediumCarto> listeCarto;
         JpaUtil.creerContextePersistance();
-        try{
+        try {
             JpaUtil.ouvrirTransaction();
             listeCarto = mediumDAO.obtenirCarto();
             JpaUtil.validerTransaction();
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             JpaUtil.annulerTransaction();
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listeMediumCarto", ex);
             listeCarto = null;
@@ -468,17 +435,16 @@ public class Service {
         }
         return listeCarto;
     }
-      
-      
-public List<MediumAstro> listeMediumAstro(){
+
+    public List<MediumAstro> listeMediumAstro() {
         MediumDAO mediumDAO = new MediumDAO();
         List<MediumAstro> listeAstro;
         JpaUtil.creerContextePersistance();
-        try{
+        try {
             JpaUtil.ouvrirTransaction();
             listeAstro = mediumDAO.obtenirAstro();
             JpaUtil.validerTransaction();
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             JpaUtil.annulerTransaction();
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listeMediumAstro", ex);
             listeAstro = null;
@@ -488,15 +454,15 @@ public List<MediumAstro> listeMediumAstro(){
         return listeAstro;
     }
 
-public List<MediumSpirit> listeMediumSpirit(){
+    public List<MediumSpirit> listeMediumSpirit() {
         MediumDAO mediumDAO = new MediumDAO();
         List<MediumSpirit> listeSpirit;
         JpaUtil.creerContextePersistance();
-        try{
+        try {
             JpaUtil.ouvrirTransaction();
             listeSpirit = mediumDAO.obtenirSpirit();
             JpaUtil.validerTransaction();
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             JpaUtil.annulerTransaction();
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service listeMediumSpirit", ex);
             listeSpirit = null;
@@ -505,5 +471,5 @@ public List<MediumSpirit> listeMediumSpirit(){
         }
         return listeSpirit;
     }
-    
+
 }
