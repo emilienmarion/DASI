@@ -472,4 +472,18 @@ public class Service {
         return listeSpirit;
     }
 
+    
+    
+    public boolean renitialiserMdp(String nom, String prenom, String mail, , String date_naissance, String num_tel, String genre, String adresse_postale){
+        
+        return true;
+        
+    }
+    
+
+    
+    
+    
+    
+    
 }
