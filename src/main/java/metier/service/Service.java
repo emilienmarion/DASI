@@ -473,10 +473,16 @@ public class Service {
     }
 
     
-    
-    public boolean renitialiserMdp(String nom, String prenom, String mail, , String date_naissance, String num_tel, String genre, String adresse_postale){
-        
-        return true;
+    //renittialise le mdp, nécessite de connaitre nom,prenom,   mail,  date_naissance,  num_tel  (Pas hyper sécurisé non plus)
+    public boolean renitialiserMdp(String nom,String prenom,  String mail,  String date_naissance, String num_tel,String newmdp, String confNewMdp){
+        Client client=chercherClient(nom, prenom);
+        boolean bool=false;
+        if(client!=null && client.getMail()==mail && client.getDate_naissance()== date_naissance && client.getNum_tel()==num_tel && newmdp==confNewMdp){
+            client.setMotDePasse(newmdp);
+            bool=true;
+        }
+      
+        return bool;
         
     }
     

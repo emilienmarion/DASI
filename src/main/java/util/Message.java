@@ -108,4 +108,8 @@ public class Message {
         envoyerMail( client.getMail(),"Echec de l’inscription chez PREDICT’IF", corps.toString());
            
         }
+  
+  
+  
+  
     } 
