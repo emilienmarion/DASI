@@ -391,16 +391,16 @@ public class Service {
         MediumDAO mediumDAO = new MediumDAO();
         JpaUtil.creerContextePersistance();
 
-        List<Medium> result = mediumDAO.obtenirTop3();
-     /*   List<Medium> topMedium = new ArrayList<Medium>();
+        List<Medium> result = mediumDAO.obtenirMedium();
+       List<Medium> topMedium = new ArrayList<Medium>();
 
         for (int i = 0; i < 3; i++) {
             topMedium.add(result.get(i));
         }
         JpaUtil.fermerContextePersistance();
         return topMedium;
-        */
-        return result;
+        
+        
         
     }
 
