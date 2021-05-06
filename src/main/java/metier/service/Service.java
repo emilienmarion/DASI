@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package metier.service;
 
 import dao.ConsultationDAO;
@@ -33,13 +28,32 @@ import util.AstroNetApi;
 import util.Message;
 
 /**
- *
- * @author emilienmarion
+ * Classe qui gere la couche service, API a travers laquelle le fornt end va recueillir toutes les donnees necessaires
+ * @author Emilien Marion, Ithan Velarde, Taha Mdarhri, Tomas Fabregues
  */
 public class Service {
 
+    /**
+     * objet qui s'occupe de la partie DAO
+     */
     UtilisateurDao utilisateurDAO = new UtilisateurDao();
 
+    /**
+     * methode qui cree un nouveau compte client. Elle s'occupe de calculer le profil astral de ce client 
+     * qui sera garde en base de donnes ainsi que de lui envoyer un mail pour confirmer la creation du compte.
+     * Le profil astral est genere par astroApi.
+     * @param nom nom du client
+     * @param prenom prenom du client
+     * @param mail adresse email du client
+     * @param motDePasse mot de passe pour le logind du client
+     * @param date_naissance date de naissance du client, au format dd/mm/yyyy
+     * @param num_tel numero de telephone du client
+     * @param genre genre du client
+     * @param adresse_postale adresse postale du client
+     * @return l'objet client apres l'avoir rajoute en base de donnees
+     * @throws ParseException
+     * @throws IOException
+     */
     public Client creerCompteClient(String nom, String prenom, String mail, String motDePasse, String date_naissance, String num_tel, String genre, String adresse_postale) throws ParseException, IOException {// mettre en argument direct les strings de chaque champs et creer le client ici
         Client resultat = null;
         Client client = new Client(nom, prenom, mail, motDePasse, date_naissance, num_tel, genre, adresse_postale);
@@ -58,7 +72,6 @@ public class Service {
             JpaUtil.annulerTransaction();
             Message.envoyer_mail_echec(client);
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service créercompteclient(client)", ex);
-
             resultat = null;
         } finally {
             JpaUtil.fermerContextePersistance();
@@ -66,6 +79,12 @@ public class Service {
         return resultat;
     }
 
+    /**
+     * methode qui authentifie un client pour qu'il puisse se conecter a son espace client
+     * @param mail adresse mail du client qui souhaite se connecter
+     * @param mdp mot de passe du client
+     * @return true si succes, false sinon
+     */
     public boolean authentifierClient(String mail, String mdp) {
 
         JpaUtil.creerContextePersistance();
@@ -74,27 +93,25 @@ public class Service {
         try {
 
             Utilisateur user = utilisateurDAO.cherchermail(mail);
-
             if (user != null) {
-
                 if (user.getMotDePasse().equals(mdp)) {
-
                     result = true;
                 }
             }
         } catch (Exception ex) {
-
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service authentifierClient(mail,mdp)", ex);
             result = false;
         } finally {
-
             JpaUtil.fermerContextePersistance();
-
         }
         return result;
 
     }
 
+    /**
+     * methode qui initialise la base de donnes en ajoutant des mediums et des employes lors du lancement de 
+     * l'application
+     */
     public void initialiserBD() {
         MediumDAO mediumDAO = new MediumDAO();
         // MediumAstro ma = new MediumAstro("Irma", "F", "un medium astro", "INSA", "35");
@@ -158,6 +175,11 @@ public class Service {
 
     }
 
+    /**
+     * service qui ajoute un medium a la base de donnees
+     * @param medium medium ajouter
+     * @return identifiant du medium apres l'ajout
+     */
     public long creerMedium(Medium medium) {
         MediumDAO mediumDAO = new MediumDAO();
         Long resultat = null;
@@ -182,6 +204,11 @@ public class Service {
 
     }
 
+    /**
+     * service qui ajoute un employe en base de donnees
+     * @param emp employe a ajouter
+     * @return id de l'employe apres l'ajout
+     */
     public long creerEmp(Employe emp) {
 
         Long resultat = null;
@@ -190,7 +217,6 @@ public class Service {
         try {
             JpaUtil.ouvrirTransaction();
             utilisateurDAO.createUser(emp);
-
             JpaUtil.validerTransaction();
             resultat = emp.getId();
 
@@ -206,9 +232,23 @@ public class Service {
 
     }
 
+    /**
+     * sercvice qui gere les consultations. Apres que le client formule sa demande de consultation avec un medium
+     * specifique, cette methode enregistre la date de demande et propose un employe en ligne et du meme genre que le medium
+     * de prendre la consultation. Le service prendra l'employe qui reponds a ces deux criteres et qui a le moins de 
+     * consultations accomplies. Ensuite, un SMS est envoye a l'employe pour lui notifier qu'il a une 
+     * nouvelle demande de consultation. La methode gere aussi les eventuels conflits de concurrence entre deux clients qui 
+     * souhaitent consulter le meme medium et donc le meme employe est choisi. Dans ce cas la, le deuxiemme employe 
+     * avec le moins de consultations sera choisi pour l'autre client. Le service rajoute aussi la consultation a 
+     * l'historique du client, de l'employe et du medium. Le service mets a jour le statut en ligne de l'employe choisi.
+     * La date de demande est enregistre dans la consultation.
+     * @param medium medium souhaite par le client pour la consultation
+     * @param client client qui passe la demande
+     * @return l'employe qui devra s'occuper de la consultation
+     */
     public Employe demanderconsultation(Medium medium, Client client) {
-//match entre le medium demandé par le client et un employé( pas en  ligne avec un autre client, genre medium=genre emp, et prend l’employe qui rempli ces critère qui a le moins de consultation)
-//envoyer un sms à l’employé choisi
+        //match entre le medium demandé par le client et un employé( pas en  ligne avec un autre client, genre medium=genre emp, et prend l’employe qui rempli ces critère qui a le moins de consultation)
+        //envoyer un sms à l’employé choisi
         Employe emp = null;
         List<Employe> emps;
         ConsultationDAO consultationDAO = new ConsultationDAO();
@@ -247,14 +287,17 @@ public class Service {
         } finally {
             JpaUtil.fermerContextePersistance();
         }
-
         return emp;
     }
 
-    //déclencher au momoment ou l'employé indique qu'il est prêt
+    /**
+     * ce service gere le demarage de la consultation. Une fois que l'employe declare qu'il est pret pour demarer 
+     * la seance, le service mets a jout la date de debut de la consultation, ensuite envoie un sms au client
+     * pour lui dire que le medium est pret et qu'il sera appelle bientot.
+     * @param consultation
+     */
     public void demarrerConsultation(Consultation consultation) {
         ConsultationDAO consultationDAO = new ConsultationDAO();
-
         Date maintenant = new Date();
         consultation.setDateDeb(maintenant);
         JpaUtil.creerContextePersistance();
@@ -274,7 +317,15 @@ public class Service {
 
     }
 
-    //ce service est déclanché aprés que l'employe ai clické sur fin consultation et a rempli le commenatire 
+    /**
+     * ce service gere la fin de la consultation. Une fois que l'employe delclare que la consultation est finie,
+     * le service mets a jour la date de fin de la consultation. Mais aussi, l'employe doit saisir un commentaire
+     * sur la seance qui sera aussi rajoute a la consultation qui viens de finir. Le service rajoute aussi la 
+     * consultation au nombre de consultations accomplies par l'employe et par le medium.
+     * L'employe est finalement declare disponible pour des consultations futures
+     * @param consultation
+     * @param commentaire
+     */
     public void finConsultation(Consultation consultation, String commentaire) {
         JpaUtil.creerContextePersistance();
         ConsultationDAO consultationDAO = new ConsultationDAO();
@@ -302,12 +353,19 @@ public class Service {
 
         } finally {
             JpaUtil.fermerContextePersistance();
-
         }
 
     }
-    //se déclanche quand l'employé est en ligne et quand il demande des prédiction pour son client
-
+    
+    /**
+     * ce service ce charge de fournir des predictions a l'employe lorsqu'il les demande pendant qu'il est dans
+     * une consultations. Les predictions sont fournies par astroApi.
+     * @param consultation la consultation a laquelle l'employe participe
+     * @param niveauAmour note sur 5 pour le niveau d'amour
+     * @param niveauSante note sur 5 pour le niveau de sante
+     * @param niveauTravail note sur 5 pour le niveau de travail
+     * @throws IOException
+     */
     public void obtenirPrédiction(Consultation consultation, int niveauAmour, int niveauSante, int niveauTravail) throws IOException {
 
         Client client1 = consultation.getClient();
@@ -323,6 +381,11 @@ public class Service {
 
     }
 
+    /**
+     * service qui gere les statistiques sur les mediums. Elle renvoie une liste des trois mediums les plus
+     * consultes
+     * @return liste des trois mediums les plus consultes
+     */
     public List<Medium> top3medium() {
 
         MediumDAO mediumDAO = new MediumDAO();
@@ -338,6 +401,11 @@ public class Service {
         return topMedium;
     }
 
+    /**
+     * Methode qui renvoie une liste de mediums triees en fonction de leur nombre de leurs
+     * consultations par ordre decroissant, utilie nottament lors des statistiques
+     * @return liste des mediums triee en fonction de leur nombre de consultations par ordre decroissant 
+     */
     public List<Medium> obtenirMedium() {
         MediumDAO mediumDAO = new MediumDAO();
         JpaUtil.creerContextePersistance();
@@ -348,6 +416,11 @@ public class Service {
         return result;
     }
 
+    /**
+     * Methode qui renvoie tous les employes en base de donnes triees en fonction de leur nombre de consultations
+     * par ordre decroissant, utilie notament lors de l'affichage des statistiques
+     * @return liste triee des employes en fonctoin de leur nombre de consultations par ordre decroissant
+     */
     public List<Employe> obtenirEmploye() {
 
         JpaUtil.creerContextePersistance();
@@ -358,6 +431,12 @@ public class Service {
         return result;
     }
 
+    /**
+     * Cette methode se charge d'obtenir une consultation en cours pour un employe donne, pour qu'il puisse la
+     * reprendre par la suite
+     * @param emp employe qui doit prendre la consultation
+     * @return la consultation qui a ete demande par le clien mais n'as pas encore ete traite
+     */
     public Consultation obtenirDemandeConsultation(Employe emp) {
         JpaUtil.creerContextePersistance();
         ConsultationDAO consdao = new ConsultationDAO();
@@ -366,26 +445,33 @@ public class Service {
         return c;
     }
 
+    /**
+     * Retrouve un medium en base de donnes grace a sa denomination
+     * @param denomination denomination du medium a retrouver
+     * @return objet medium qui a la denomination passe en parametre
+     */
     public Medium chercherMedium(String denomination) {
         MediumDAO mediumDAO = new MediumDAO();
         Medium m;
         JpaUtil.creerContextePersistance();
         try {
-
             m = mediumDAO.chercherMediumParDenomination(denomination);
-
         } catch (Exception ex) {
-
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service cherhcerMedium", ex);
             m = null;
         } finally {
             JpaUtil.fermerContextePersistance();
         }
-
         return m;
     }
 
-    //Obtenir un client à partir de son nom et son prénom
+
+    /**
+     * Methode qui retrouve un client a partir de son nom et prenom
+     * @param userNom nom de l'utilisateur a retrouver
+     * @param userPrenom prenom de l'utilisateur a retrouver
+     * @return utilisateur qui a le nom et prenom passes en parametre, null si un tel utilisateur n'existe pas
+     */
     public Client chercherClient(String userNom, String userPrenom) {
         UtilisateurDao userDAO = new UtilisateurDao();
         Client c;
@@ -394,7 +480,6 @@ public class Service {
             JpaUtil.ouvrirTransaction();
             c = userDAO.chercherUserParDenomination(userNom, userPrenom);
             JpaUtil.validerTransaction();
-
         } catch (Exception ex) {
             JpaUtil.annulerTransaction();
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service cherhcerClient", ex);
@@ -402,22 +487,31 @@ public class Service {
         } finally {
             JpaUtil.fermerContextePersistance();
         }
-
         return c;
     }
 
+    /**
+     * service qui renvoie l'historique des toutes le consultations d'un client
+     * @param client client pour lequel on souhaite connaitre l'historique des consultations
+     * @return liste qui contiens les consultaions du client passe en parametre
+     */
     public List<Consultation> obtenirHistoriqueClient(Client client) {
-
         return client.getConsultations();
-
     }
 
+    /**
+     * service qui renvoie le profil astral d'un client donnes
+     * @param client client pour lequel on souhaite connaitre son profil astral
+     * @return profil astral du client en parametre
+     */
     public ProfilAstral obtenirProfilAstral(Client client) {
-
         return client.getProfilAstral();
-
     }
 
+    /**
+     * service qui renvoie une liste avec tous les mediums cartomenciens en base de donnees
+     * @return liste qui contiens tous les mediums cartomenciens en base de donees
+     */
     public List<MediumCarto> listeMediumCarto() {
         MediumDAO mediumDAO = new MediumDAO();
         List<MediumCarto> listeCarto;
@@ -436,6 +530,10 @@ public class Service {
         return listeCarto;
     }
 
+    /**
+     * service qui renvoie une liste avec tous les mediums astrologues en base de donnees
+     * @return liste qui contiens tous les mediums astrologues en base de donees
+     */
     public List<MediumAstro> listeMediumAstro() {
         MediumDAO mediumDAO = new MediumDAO();
         List<MediumAstro> listeAstro;
@@ -454,6 +552,10 @@ public class Service {
         return listeAstro;
     }
 
+    /**
+     * service qui renvoie une liste avec tous les mediums spirits en base de donnees
+     * @return liste qui contiens tous les mediums spirits en base de donees
+     */
     public List<MediumSpirit> listeMediumSpirit() {
         MediumDAO mediumDAO = new MediumDAO();
         List<MediumSpirit> listeSpirit;
@@ -472,8 +574,17 @@ public class Service {
         return listeSpirit;
     }
 
-    
-    //renittialise le mdp, nécessite de connaitre nom,prenom,   mail,  date_naissance,  num_tel  (Pas hyper sécurisé non plus)
+    /**
+     * service qui reinitialise le mot de passe d'un client
+     * @param nom nom du client
+     * @param prenom prenom du client
+     * @param mail adresse email du client
+     * @param date_naissance date de naissance du client au format dd/mm/yyyy
+     * @param num_tel numero de telephone du client
+     * @param newmdp nouveau mot de passe
+     * @param confNewMdp confiramtion du nouveau mot de passe
+     * @return true si la reinitialisatoin a su succes, false sinon
+     */
     public boolean renitialiserMdp(String nom,String prenom,  String mail,  String date_naissance, String num_tel,String newmdp, String confNewMdp){
         Client client=chercherClient(nom, prenom);
         boolean bool=false;
@@ -483,13 +594,5 @@ public class Service {
         }
       
         return bool;
-        
-    }
-    
-
-    
-    
-    
-    
-    
+    } 
 }

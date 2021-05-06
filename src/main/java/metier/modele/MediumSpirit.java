@@ -1,25 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package metier.modele;
 
 import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- *
- * @author emilienmarion
+ * Classe qui gere l'objet metier medium spirit
+ * @author Emilien Marion, Ithan Velarde, Taha Mdarhri, Tomas Fabregues
  */
 @Entity
 public class MediumSpirit extends Medium implements Serializable {
     
-        private String support;
+    /**
+     * support grace auquel le medium fait ses predictions
+     */
+    private String support;
 
+    /**
+     * constructeur par default, necessaire pour la couche persistence
+     */
     public MediumSpirit(){
     }
 
+    /**
+     * constructeur principal
+     * @param denomination denomination du medium
+     * @param genre genre du medium
+     * @param presentation texte de presentation du medium
+     * @param support support grace auquel le medium fait ses predictions 
+     * @param photo lien de la photo du medium, utile lors de l'affichage de son profil
+     */
     public MediumSpirit( String denomination, String genre, String presentation,String support,String photo) {
         super(denomination, genre, presentation,photo);
         this.support = support;

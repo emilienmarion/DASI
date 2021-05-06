@@ -1,24 +1,60 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package metier.modele;
 
 import java.util.List;
 import javax.persistence.*;
 
 /**
- *
- * @author emilienmarion
+ * Classe qui gere l'objet metier employe
+ * @author Emilien Marion, Ithan Velarde, Taha Mdarhri, Tomas Fabregues
  */
 @Entity
 public class Employe extends Utilisateur {
     
-        private int nb_consultations;
-        private boolean statut_en_ligne;
+    /**
+     * nombre de consultations realisees par l'employe
+     */
+    private int nb_consultations;
+    
+    /**
+     * true si l'employe est en ligne, false sinon
+     */
+    private boolean statut_en_ligne;
+    
+    /**
+     * attribut utile pour la gestion de la concurrence lors de la creation de consultations
+     */
     @Version
     private int version;
+    
+    /**
+     * liste des consultations realises par l'employe
+     */
+    @OneToMany(mappedBy="employe")
+    private List<Consultation> consultations;
+    
+    /**
+     * constructeur par default, necessaire pour la couche persistence
+     */
+    public Employe(){
+    }
+    
+    /**
+     * constructeur principal de la classe employe
+     * @param nom nom de l'employe
+     * @param prenom prenom de l'employe
+     * @param mail adresse email de l'employe
+     * @param motDePasse mot de passe de l'employe
+     * @param date_naissance date de naissance de l'employe, au format dd/mm/yyyy
+     * @param num_tel numero de telephone de l'employe
+     * @param genre genre de l'employe
+     */
+    public Employe( String nom, String prenom, String mail, String motDePasse, String date_naissance, String num_tel, String genre) {
+        super(nom, prenom, mail, motDePasse, date_naissance, num_tel, genre);
+        this.nb_consultations = 0 ;
+        this.statut_en_ligne = false;
+    }
+
+
 
     /**
      * Get the value of version
@@ -36,20 +72,6 @@ public class Employe extends Utilisateur {
      */
     public void setVersion(int version) {
         this.version = version;
-    }
-
-         @OneToMany(mappedBy="employe")
-   private List<Consultation> consultations;
-
-    public Employe( String nom, String prenom, String mail, String motDePasse, String date_naissance, String num_tel, String genre) {
-        super(nom, prenom, mail, motDePasse, date_naissance, num_tel, genre);
-        this.nb_consultations = 0 ;
-        this.statut_en_ligne = false;
-        
-    }
-
-    public Employe(){
-        
     }
 
     /**
@@ -70,8 +92,6 @@ public class Employe extends Utilisateur {
         this.nb_consultations = nb_consultations;
     }
 
-        
-
     /**
      * Get the value of statut_en_ligne
      *
@@ -90,15 +110,27 @@ public class Employe extends Utilisateur {
         this.statut_en_ligne = statut_en_ligne;
     }
 
+    /**
+     * Get the value of consultations
+     * @return the value of consultations
+     */
     public List<Consultation> getConsultations() {
         return consultations;
     }
 
+    /**
+     * Set the value of consultations
+     * @param consultations the new value of consultations
+     */
     public void setConsultations(List<Consultation> consultations) {
         this.consultations = consultations;
     }
     
-     public void addConsultations( Consultation consultation ) {
+    /**
+     * rajoute une nouvelle consultation a la liste de consultations de l'employe
+     * @param consultation consultations a rajouter
+     */
+    public void addConsultations( Consultation consultation ) {
         this.consultations.add(consultation);
     }
 

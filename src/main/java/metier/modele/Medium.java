@@ -1,25 +1,74 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package metier.modele;
 
 import java.util.List;
 import javax.persistence.*;
 
 /**
- *
- * @author emilienmarion
+ * Classe abstraite les attributs communs a tous les types de mediums
+ * @author Emilien Marion, Ithan Velarde, Taha Mdarhri, Tomas Fabregues
  */
 @Entity
 @Inheritance(strategy=InheritanceType.JOINED)
 public  abstract class Medium {
+    
+    /**
+     * identifiant du medium, autogenere lors de la persistance en base de donnes
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
    
+    /**
+     * lien de la photo du medium, utile lors de l'affichage de son profil
+     */
     private String photo;
+    
+    /**
+     * denomination du medium
+     */
+    private String denomination;
+    
+    /**
+     * genre du medium
+     */
+    private String genre;
+    
+    /**
+     * texte de presentation du medium
+     */
+    private String presentation;
+    
+    /**
+     * nombre de consultations realisees par ce medium
+     */
+    private int nbConsultation;
+    
+    /**
+     * liste de toutes les consultations realisees par ce medium
+     */
+    @OneToMany(mappedBy="medium")
+    private List<Consultation> consultations;
+    
+    /**
+     * constructeur par defaut de la classe medium, necessaire pour la couche persistence
+     */
+    public Medium(){
+     
+    }
+    /**
+     * constructeur principal de la classe medium
+     * @param denomination denomination du medium
+     * @param genre genre du medium
+     * @param presentation texte de presentation du medium
+     * @param photo lien de la photo du medium, utile lors de l'affichage de son profil
+     */
+    public Medium(String denomination, String genre, String presentation,String photo) {
+        this.denomination = denomination;
+        this.genre = genre;
+        this.presentation = presentation;
+        this.nbConsultation = 0 ;
+        this.photo=photo;
+    }
 
     /**
      * Get the value of photo
@@ -39,14 +88,6 @@ public  abstract class Medium {
         this.photo = photo;
     }
 
-    private String denomination;
-
-    private String genre;
-
-    private String presentation;
-    
-        private int nbConsultation;
-
     /**
      * Get the value of nbConsultation
      *
@@ -65,29 +106,18 @@ public  abstract class Medium {
         this.nbConsultation = nbConsultation;
     }
 
-    
-    
-     @OneToMany(mappedBy="medium")
-   private List<Consultation> consultations;
-
-     
-    public Medium(String denomination, String genre, String presentation,String photo) {
-        this.denomination = denomination;
-        this.genre = genre;
-        this.presentation = presentation;
-         this.nbConsultation = 0 ;
-         this.photo=photo;
-    }
-    
-    
- public Medium(){
-     
- }
-
+    /**
+     * Get the value of id
+     * @return the value of id
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Set the value of id
+     * @param id the value of id
+     */
     public void setId(Long id) {
         this.id = id;
     }
@@ -146,25 +176,35 @@ public  abstract class Medium {
         this.denomination = denomination;
     }
 
+    /**
+     * Get la liste de consultations du medium
+     * @return la liste de consultations du medium
+     */
     public List<Consultation> getConsultations() {
         return consultations;
     }
 
+    /**
+     * Set la liste de consultations du medium
+     * @param consultations nouvelle liste de consultaions pour le medium
+     */
     public void setConsultations(List<Consultation> consultations) {
         this.consultations = consultations;
     }
 
-     public void addConsultations( Consultation consultation ) {
+    /**
+     * rajouter une consultation a la liste de consultations du medium
+     * @param consultation consultation a rajouter a la liste
+     */
+    public void addConsultations( Consultation consultation ) {
         this.consultations.add(consultation);
     }
 
 
 
-@Override
+    @Override
     public String toString(){
         //return "Medium: id="+id+";denomination="+denomination+";genre="+genre+";presentation="+presentation+"nbConsultation"+nbConsultation;
-         return "Medium: id="+id+"nbConsultation=  "+nbConsultation;
+        return "Medium: id="+id+"nbConsultation=  "+nbConsultation;
     }
-    
-
 }

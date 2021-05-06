@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package vue;
 
 import dao.JpaUtil;
@@ -29,8 +24,8 @@ import util.AstroNetApi;
 import util.Message;
 
 /**
- *
- * @author emilienmarion
+ * Classe main utilise pour tester nos services
+ * @author Emilien Marion, Ithan Velarde, Taha Mdarhri, Tomas Fabregues
  */
 public class Main {
 
@@ -41,9 +36,7 @@ public class Main {
         } else {
             System.out.println("connexion échoué");
         }
-
     }
-
     public static Client testerInscrireClient(String nom, String prenom, String mail, String motDePasse, String date_naissance, String num_tel, String genre, String adresse_postale) throws ParseException, IOException {
 
         Service service = new Service();

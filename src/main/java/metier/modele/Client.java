@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package metier.modele;
 
 import java.util.Date;
@@ -11,20 +6,52 @@ import javax.persistence.*;
 
 
 /**
- *
- * @author emilienmarion
+ * Classe qui gere l'objet metier client
+ * @author Emilien Marion, Ithan Velarde, Taha Mdarhri, Tomas Fabregues
  */
 @Entity
 public class Client extends Utilisateur {
      
-   @Column(nullable = false)
+    /**
+     * adresse postale du client
+     */
+    @Column(nullable = false)
     private String adresse_postale;
    
-   @OneToOne(cascade = CascadeType.ALL)
+    /**
+     * profil astral du client
+     */
+    @OneToOne(cascade = CascadeType.ALL)
     private ProfilAstral profilAstral;
    
-   @OneToMany(mappedBy="client")
-   private List<Consultation> consultations;
+    /**
+     * liste de toutes les consultations demandees par le client
+     */
+    @OneToMany(mappedBy="client")
+    private List<Consultation> consultations;
+
+    /**
+     * constructeur par defaut de la classe client, necessaire pour la couche persistence
+     */
+    public Client() {
+    }
+    
+    /**
+     * constructeur principal de la classe client
+     * @param nom nom du client
+     * @param prenom prenom du client
+     * @param mail adresse email du client
+     * @param motDePasse mot de passe du client
+     * @param date_naissance date de naissance du client, au forma dd/mm/yyyy
+     * @param num_tel numero de telephone du client
+     * @param genre genre du client
+     * @param adresse_postale adresse postale du client
+     */
+    public Client(String nom, String prenom, String mail, String motDePasse, String date_naissance, String num_tel, String genre,String adresse_postale ) {
+        super(nom, prenom, mail, motDePasse, date_naissance, num_tel, genre);
+        this.adresse_postale=adresse_postale;
+        
+    }
 
     /**
      * Get the value of profilAstral
@@ -44,30 +71,21 @@ public class Client extends Utilisateur {
         this.profilAstral = profilAstral;
     }
 
-
-    public Client(String nom, String prenom, String mail, String motDePasse, String date_naissance, String num_tel, String genre,String adresse_postale ) {
-        super(nom, prenom, mail, motDePasse, date_naissance, num_tel, genre);
-        this.adresse_postale=adresse_postale;
-        
-    }
-
-    public Client() {
-    }
-
+    /**
+     * Get la liste de consultations du client
+     * @return liste de consultations du client
+     */
     public List<Consultation> getConsultations() {
         return consultations;
     }
 
+    /**
+     * rajoute une nouvelle consultations a la liste des consultatinos demandees par le client
+     * @param consultation consutation a rajouter
+     */
     public void addConsultations( Consultation consultation ) {
         this.consultations.add(consultation);
     }
-
-   
-   
-   
-
-    
-   
 
     /**
      * Get the value of adresse_postale

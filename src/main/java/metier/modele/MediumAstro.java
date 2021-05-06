@@ -1,30 +1,45 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package metier.modele;
 
 import java.io.Serializable;
 import javax.persistence.*;
 
 /**
- *
- * @author emilienmarion
+ * Classe qui gere l'objet metier medium astrologue
+ * @author Emilien Marion, Ithan Velarde, Taha Mdarhri, Tomas Fabregues
  */
 @Entity
 public class MediumAstro extends Medium implements Serializable {
     
+    /**
+     * formation suivie par le medium astrologue
+     */
     private String formation;
+    
+    /**
+     * promotion au sein de son ecole du medium astrologue
+     */
     private String promotion;
+    
+    /**
+     * constructeur par default, necessaire pour la couche persistence
+     */
+    public MediumAstro(){
+    }
 
+    /**
+     * constructeur principal
+     * @param denomination denomination du medium
+     * @param genre genre du medium
+     * @param presentation texte presentation du medium
+     * @param formation formation suivie par le medium astrologue
+     * @param promotion promotion au sein de son ecole
+     * @param photo lien de la photo du medium, utile lors de l'affichage de son profil
+     */
     public MediumAstro( String denomination, String genre, String presentation,String formation, String promotion,String photo) {
         super(denomination, genre, presentation,photo);
         this.formation = formation;
         this.promotion = promotion;
     }
-     public MediumAstro(){
-     }
      
     
     /**
