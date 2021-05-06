@@ -391,14 +391,17 @@ public class Service {
         MediumDAO mediumDAO = new MediumDAO();
         JpaUtil.creerContextePersistance();
 
-        List<Medium> result = mediumDAO.obtenirMedium();
-        List<Medium> topMedium = new ArrayList<Medium>();
+        List<Medium> result = mediumDAO.obtenirTop3();
+     /*   List<Medium> topMedium = new ArrayList<Medium>();
 
         for (int i = 0; i < 3; i++) {
             topMedium.add(result.get(i));
         }
         JpaUtil.fermerContextePersistance();
         return topMedium;
+        */
+        return result;
+        
     }
 
     /**
@@ -409,10 +412,21 @@ public class Service {
     public List<Medium> obtenirMedium() {
         MediumDAO mediumDAO = new MediumDAO();
         JpaUtil.creerContextePersistance();
+           List<Medium> result=null;
+        
+         try {
+             result = mediumDAO.obtenirMedium();
 
-        List<Medium> result = mediumDAO.obtenirMedium();
+        } catch (Exception ex) {
+          
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service obtenirMedium", ex);
 
-        JpaUtil.fermerContextePersistance();
+        } finally {
+            JpaUtil.fermerContextePersistance();
+         }
+       
+
+        
         return result;
     }
 
@@ -425,9 +439,18 @@ public class Service {
 
         JpaUtil.creerContextePersistance();
 
-        List<Employe> result = utilisateurDAO.obtenirEmploye();
+        List<Employe> result = null;
+         try {
+             result = utilisateurDAO.obtenirEmploye();
 
-        JpaUtil.fermerContextePersistance();
+        } catch (Exception ex) {
+          
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service obtenirEmploye", ex);
+
+        } finally {
+            JpaUtil.fermerContextePersistance();
+         }
+       
         return result;
     }
 
@@ -440,8 +463,18 @@ public class Service {
     public Consultation obtenirDemandeConsultation(Employe emp) {
         JpaUtil.creerContextePersistance();
         ConsultationDAO consdao = new ConsultationDAO();
-        Consultation c = consdao.obtenirConsultationEmp(emp);
-        JpaUtil.fermerContextePersistance();
+         Consultation c =null;
+         try {
+             
+         c = consdao.obtenirConsultationEmp(emp);
+
+        } catch (Exception ex) {
+          
+            Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service obtenirEmploye", ex);
+
+        } finally {
+            JpaUtil.fermerContextePersistance();
+         } 
         return c;
     }
 

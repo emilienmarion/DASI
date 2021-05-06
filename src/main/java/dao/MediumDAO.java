@@ -53,6 +53,24 @@ public class MediumDAO {
         return result;
     }
     
+    
+    
+       public List<Medium> obtenirTop3(){
+         
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+           
+        String jpql="select m from Medium m ORDER BY m.nbConsultation DESC FETCH FIRST 3 ROWS ONLY  ";
+       
+        TypedQuery query=em.createQuery(jpql, Medium.class);
+        
+        List<Medium> result = query.getResultList();
+        
+        return result;
+    }
+    
+    
+    
+    
     /**
      * Retrouve un medium en base de donnes grace a sa denomination
      * @param mediumDenomination denomination du medium a retrouver

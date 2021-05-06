@@ -83,6 +83,7 @@ public class Main {
     public static void testTop3Medium() {
         Service service = new Service();
         List<Medium> top3 = service.top3medium();
+        System.out.println(" top 3:  " );
         for (Medium m : top3) {
             System.out.println(m);
         }

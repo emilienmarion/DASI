@@ -12,10 +12,10 @@
     <class>metier.modele.MediumSpirit</class>
     <class>metier.modele.Consultation</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/Predictif"/>
-      <property name="javax.persistence.jdbc.user" value="ivelardere"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/BD_PredicT_IF"/>
+      <property name="javax.persistence.jdbc.user" value="emarion"/>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
-      <property name="javax.persistence.jdbc.password" value="Tokyo2020"/>
+      <property name="javax.persistence.jdbc.password" value="Icicinsaichich69"/>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
