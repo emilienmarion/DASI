@@ -83,28 +83,28 @@ public class Service {
      * methode qui authentifie un client pour qu'il puisse se conecter a son espace client
      * @param mail adresse mail du client qui souhaite se connecter
      * @param mdp mot de passe du client
-     * @return true si succes, false sinon
+     * @return Utilisateur qui a reussi à se connecter ,null si echec
      */
-    public boolean authentifierClient(String mail, String mdp) {
+    public Utilisateur authentifierClient(String mail, String mdp) {
 
         JpaUtil.creerContextePersistance();
-        boolean result = false;
+        Utilisateur  user=null;
 
         try {
 
-            Utilisateur user = utilisateurDAO.cherchermail(mail);
+           user = utilisateurDAO.cherchermail(mail);
             if (user != null) {
-                if (user.getMotDePasse().equals(mdp)) {
-                    result = true;
+                if (!user.getMotDePasse().equals(mdp)) {
+                    user=null;
                 }
             }
         } catch (Exception ex) {
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service authentifierClient(mail,mdp)", ex);
-            result = false;
+            user=null;
         } finally {
             JpaUtil.fermerContextePersistance();
         }
-        return result;
+        return user;
 
     }
 
