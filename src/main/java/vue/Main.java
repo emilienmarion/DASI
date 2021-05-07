@@ -31,7 +31,7 @@ public class Main {
 
     public static void testerconnexion() {
         Service service = new Service();
-        if (service.authentifierClient("lemail@.fr", "mdp1")) {
+        if (service.authentifierClient("lemail@.fr", "mdp1")!=null) {
             System.out.println("connexion reussi");
         } else {
             System.out.println("connexion échoué");
