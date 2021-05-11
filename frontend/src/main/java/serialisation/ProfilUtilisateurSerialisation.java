@@ -27,27 +27,28 @@ public class ProfilUtilisateurSerialisation extends Serialisation {
          boolean conex= (boolean) request.getAttribute("connexion");
         Client c = null;
         Employe e=null;
-        String user;
+        String user=null;
         
          
          
           if (u instanceof Client) {
             c = (Client) u;
+           user="client";
+            
            
         }else if(u instanceof Employe){
             e= (Employe) e;
+            user="employe";
             
         }
          
         container.addProperty("connexion", conex);
         if(conex){
-        JsonObject client = new JsonObject();
-        client.addProperty("id", c.getId());
-        client.addProperty("nom", c.getNom());
-        client.addProperty("Prenom", c.getPrenom());
-        client.addProperty("mail", c.getMail());
+        JsonObject userO = new JsonObject();
+        userO.addProperty("type", user);
+       
 
-        container.add("client", client);
+        container.add("UserO", userO);
         }
         
         PrintWriter out = this.getWriter(response);
