@@ -9,6 +9,7 @@ import metier.modele.Client;
 import metier.modele.Consultation;
 import metier.modele.Employe;
 import metier.modele.Medium;
+import metier.modele.Utilisateur;
 
 /**
  *
@@ -54,7 +55,7 @@ public class Message {
         Date maintenant = new Date();
         Message.debut();
         OUT.println("~~~ Notification envoyée le " + HORODATE_FORMAT.format(maintenant) + " ~~~");
-        OUT.println("Pour  : " + emp.getPrenom()+" "+emp.getNom());
+        OUT.println("Pour  : " + trouverCivilite(emp)+ emp.getPrenom()+" "+emp.getNom());
         OUT.println("TEL  : " + emp.getNum_tel());
         OUT.println();
         OUT.println( "Bonjour "+emp.getPrenom()+",consultation requise pour "+client.getPrenom()+" "+client.getNom());
@@ -67,7 +68,7 @@ public class Message {
         Date maintenant = new Date();
         Message.debut();
         OUT.println("~~~ Notification envoyée le " + HORODATE_FORMAT.format(maintenant) + " ~~~");
-        OUT.println("Pour  : " + consultation.getClient().getPrenom()+" "+consultation.getClient().getNom());
+        OUT.println("Pour  : " + trouverCivilite(consultation.getClient()) + consultation.getClient().getPrenom()+" "+consultation.getClient().getNom());
         OUT.println("TEL  : " + consultation.getClient().getNum_tel());
         OUT.println();
         OUT.println( "Bonjour "+consultation.getClient().getPrenom()+", j’ai bien reçu votre demande de consultation du "+HORODATE_FORMAT.format(consultation.getDemandeConsult())+" .");
@@ -84,7 +85,7 @@ public class Message {
          StringWriter corps = new StringWriter();
         PrintWriter mailWriter = new PrintWriter(corps);
         
-        mailWriter.println("Bonjour "+client.getPrenom()+ ", nous vous confirmons votre inscription au service PREDICT’IF. Rendezvous vite sur notre site pour consulter votre profil astrologique et profiter des dons\n" +
+        mailWriter.println("Bonjour "+ trouverCivilite(client) + client.getPrenom()+ client.getNom() + ", nous vous confirmons votre inscription au service PREDICT’IF. Rendezvous vite sur notre site pour consulter votre profil astrologique et profiter des dons\n" +
 "incroyables de nos mediums");
         mailWriter.println();
        
@@ -95,21 +96,27 @@ public class Message {
     
 
 
-  public static void envoyer_mail_echec(Client client){
+    public static void envoyer_mail_echec(Client client){
            
             StringWriter corps = new StringWriter();
         PrintWriter mailWriter = new PrintWriter(corps);
         
-        mailWriter.println("Bonjour"+client.getPrenom()+ ", votre inscription au service PREDICT’IF a malencontreusement échoué...\n" +
+        mailWriter.println("Bonjour"+trouverCivilite(client) + client.getPrenom()+ client.getNom() + ", votre inscription au service PREDICT’IF a malencontreusement échoué...\n" +
 "Merci de recommencer ultérieurement.");
         mailWriter.println();
        
         
         envoyerMail( client.getMail(),"Echec de l’inscription chez PREDICT’IF", corps.toString());
            
+    }
+    
+    private static String trouverCivilite(Utilisateur u){
+        String civ;
+        if("H".equals(u.getGenre())){
+            civ = "M. ";
+        }else{
+            civ = "Mme. ";
         }
-  
-  
-  
-  
-    } 
+        return civ;
+    }
+} 
