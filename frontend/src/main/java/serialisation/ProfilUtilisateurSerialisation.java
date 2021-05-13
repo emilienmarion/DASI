@@ -22,38 +22,68 @@ public class ProfilUtilisateurSerialisation extends Serialisation {
 
     @Override
     public void serialiser(HttpServletRequest request, HttpServletResponse response) throws IOException {
-         JsonObject container = new JsonObject();
-         Utilisateur u =   (Utilisateur) request.getAttribute("utilisateur");
-         boolean conex= (boolean) request.getAttribute("connexion");
+        System.out.println("Je suis dans utilisateur serialisation");
+        
+        JsonObject container = new JsonObject();
+        
+        Utilisateur u =   (Utilisateur) request.getAttribute("utilisateur");
+        boolean conex = (boolean) request.getAttribute("connexion");
+        
         Client c = null;
         Employe e=null;
         String user=null;
         
+        JsonObject client = new JsonObject();
+        JsonObject employe = new JsonObject();
+
          
-         
-          if (u instanceof Client) {
+        if (u instanceof Client) {
+            //il s'agit d'un client
             c = (Client) u;
-           user="client";
+            user="client";
+            client.addProperty("id", c.getId());
+            client.addProperty("nom", c.getNom());
+            client.addProperty("Prenom", c.getPrenom());
+            client.addProperty("mail", c.getMail());
+            client.addProperty("dateNaissance", c.getDate_naissance());
+            client.addProperty("genre", c.getGenre());
+            client.addProperty("adressePostale", c.getAdresse_postale());
+            client.addProperty("numTel", c.getNum_tel());
+            client.addProperty("motDePasse", c.getMotDePasse());
             
-           
         }else if(u instanceof Employe){
             e= (Employe) e;
             user="employe";
+            employe.addProperty("id", e.getId());
+            employe.addProperty("nom", e.getNom());
+            employe.addProperty("Prenom", e.getPrenom());
+            employe.addProperty("mail", e.getMail());
+            employe.addProperty("dateNaissance", e.getDate_naissance());
+            employe.addProperty("genre", e.getGenre());
+            employe.addProperty("numTel", e.getNum_tel());
+            employe.addProperty("motDePasse", e.getMotDePasse());
+            employe.addProperty("nbConsultations", e.getNb_consultations());
             
         }
          
         container.addProperty("connexion", conex);
-        if(conex){
-        JsonObject userO = new JsonObject();
-        userO.addProperty("type", user);
-       
-
-        container.add("UserO", userO);
+        if(conex && c != null){
+            //il s'agit d'un client
+            JsonObject userO = new JsonObject();
+            userO.addProperty("type", user);
+            userO.add("infos", client);
+            container.add("UserO", userO);
+        }else if (conex && e != null){
+            //il s'agit d'un employe
+            JsonObject userO = new JsonObject();
+            userO.addProperty("type", user);
+            userO.add("infos", employe);
+            container.add("UserO", userO);
         }
         
         PrintWriter out = this.getWriter(response);
-         Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
-         gson.toJson(container, out);
+        Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
+        gson.toJson(container, out);
         out.close();
     }
     
