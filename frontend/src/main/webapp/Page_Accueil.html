@@ -6,11 +6,89 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <link rel="stylesheet" href="style.css" type="text/css"/>
+
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PREDICT'IF</title>
+        <!-- Librairie Javascript: jQuery (v3.4.1) -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <!--<script> 
+            $(function(){
+              $("#inclusion").load("login.html"); 
+            });
+        </script> -->
+        
+        <!-- Bootstrap core CSS -->
+        <link href="bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <div>TODO write content</div>
+        <!--<div id='inclusion'></div>-->
+        <header> 
+            <img  src="image/logo.png" alt="logo du site" id="logo" >
+            
+        </header>
+        <div>
+            <div id='bouton-bandeau'>
+                <a href="CreerCompte.html"><button type="button" class="btn btn-primary">Créer son compte</button></a>
+                <a href="login.html"><button type="button" class="btn btn-primary">Se connecter</button></a>
+            </div>
+            <div id='imageAccueil'>
+                <h1>Rencontrez nos meilleurs voyants et cartomanciens</h1>
+                <p>Dès aujourd'hui</p>
+                <a href="login.html"><button id="bouton-promo">-50% sur le premier appel</button></a>
+            </div>
+            
+            <div id='top3mediums'>
+                <h2>Découvrez nos meilleurs collaborateurs</h2>
+                <ul id='liste-mediums'></ul>
+                <script>
+                    $(document).ready( function () {
+                        console.log("page d'accueil bien ouverte");
+                        $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'afficherTop3Medium'
+                        },
+                        dataType: 'json'
+                        })
+                        
+                        .done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                            console.log('Response',response); // LOG dans Console Javascript
+                            var mediums = response.mediums ;
+                            var listeMediumsHtml = $("#liste-mediums");
+                            var avis = 98;
+                            listeMediumsHtml.empty(); // Vider la liste HTML
+                            $.each( mediums, function(i, medium) {
+                                console.log(medium);
+                                listeMediumsHtml.append( // Ajouter a la liste HTML
+                                    "<li data-numero=’" + medium.numero + " ’>" +
+                                    medium.nom + ", " + medium.type + "</br>En ligne \n\
+                                    </br>Avis positifs :" +avis-- +"% </br>" + medium.description + 
+                                    "</br><a href='login.html'><button id='bouton-appeler'>Appeler</button></a> </li>"
+                                );
+                            }) ;
+                        })
+                        .fail( function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                            console.log('Error',error); // LOG dans Console Javascript
+                            $("#liste-mediums").html("ERREUR");
+                        })
+                        .always( function () { // Fonction toujours appelée
+
+                        });
+                        });
+                </script>
+            </div>
+            
+            <div id='Avis'>
+                <h2>Avis de nos Utilisateurs</h2>
+            </div>
+            
+            <div id='astral'>
+                <h2>Connectez-vous pour découvrir votre profil astral !</h2>
+                <a href='login.html'><img  src="image/signeChinois.png" alt="logo d'un signe chinois pour le profil astral" id="astro_chinois" ></a>
+                <p>Signe astrologique chinois</p>
+            </div>
+        </div>
     </body>
 </html>
