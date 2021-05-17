@@ -7,9 +7,11 @@ package serialisation;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import metier.modele.*;
@@ -81,10 +83,46 @@ public class ProfilUtilisateurSerialisation extends Serialisation {
             container.add("UserO", userO);
         }
         
+        List<Consultation> listeCons =   (List<Consultation>) request.getAttribute("consultation");
+        
+        JsonObject containerCons = new JsonObject();
+        
+        if(conex){
+            JsonArray jsonListeConsDemandee = new JsonArray();
+            JsonArray jsonListeConsTerminee = new JsonArray();
+            JsonArray jsonListeConsEnCours = new JsonArray();
+            for(Consultation cons : listeCons){
+                JsonObject jsonCons = new JsonObject();
+                jsonCons.addProperty("id", cons.getId() );
+                jsonCons.addProperty("employeID", cons.getEmploye().getId() );
+                jsonCons.addProperty("clientID", cons.getClient().getId() );
+                jsonCons.addProperty("MediumID", cons.getMedium().getId() );
+                if(cons.getDateDeb()==null && cons.getDateFin()==null && cons.getDemandeConsult()!=null){    
+                    jsonCons.addProperty("DateDemande", cons.getDemandeConsult().toString() );
+                    jsonListeConsDemandee.add(jsonCons);
+                } else if (cons.getDateDeb()!=null && cons.getDateFin()==null && cons.getDemandeConsult()!=null){
+                    jsonCons.addProperty("DateDemande", cons.getDemandeConsult().toString() );
+                    jsonCons.addProperty("DateDebut", cons.getDateDeb().toString());
+                    jsonListeConsEnCours.add(jsonCons);
+                }else if (cons.getDateDeb()!=null && cons.getDateFin()!=null && cons.getDemandeConsult()!=null){
+                    jsonCons.addProperty("DateDemande", cons.getDemandeConsult().toString() );
+                    jsonCons.addProperty("DateDebut", cons.getDateDeb().toString());
+                    jsonCons.addProperty("DateFin", cons.getDateFin().toString());
+                    jsonListeConsTerminee.add(jsonCons);
+                }
+            }
+            containerCons.add("consDemandee", jsonListeConsDemandee);
+            containerCons.add("consEnCours", jsonListeConsEnCours);
+            containerCons.add("consTerminee", jsonListeConsTerminee);
+        }
+        
+        container.add("consultations", containerCons);
+        
         PrintWriter out = this.getWriter(response);
         Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
         gson.toJson(container, out);
         out.close();
+        
     }
     
     
