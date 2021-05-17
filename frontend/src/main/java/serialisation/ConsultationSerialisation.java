@@ -20,6 +20,7 @@ import metier.modele.Consultation;
 /**
  *
  * @author taha
+ * @deprecated
  */
 public class ConsultationSerialisation extends Serialisation{
 
@@ -59,12 +60,11 @@ public class ConsultationSerialisation extends Serialisation{
             container.add("consDemandee", jsonListeConsDemandee);
             container.add("consEnCours", jsonListeConsEnCours);
             container.add("consTerminee", jsonListeConsTerminee);
-            
-            PrintWriter out = this.getWriter(response);
-            Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
-            gson.toJson(container, out);
-            out.close();
         }
+        PrintWriter out = this.getWriter(response);
+        Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
+        gson.toJson(container, out);
+        out.close();
     }
     
 }
