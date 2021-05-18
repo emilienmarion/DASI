@@ -13,7 +13,7 @@
     <div id="page">
         
         <header > 
-            <img  src="image/logo.png" alt="logo du site" id="logo" ">
+            <img  src="image/logo.png" alt="logo du site" id="logo" >
             <h1>Se connecter</h1> 
             </header>     
        
@@ -72,9 +72,15 @@
                     .done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
                         console.log('Response',response); // LOG dans Console Javascript
                         if (response.connexion) {
-                            $('#notification').html("Bienvenue "+response.client.nom);  // Message pour le paragraphe de notification
-                            // TODO: afficher les informations du client dans la notification
-                            // Exemple: Connexion de Ada Lovelace (ID 1)
+                            $('#notification').html("Bienvenue "+response.UserO.type); 
+                            if(response.UserO.type=="client"){
+                                window.location = './TableauDeBordClient.html';
+                            }else if (response.UserO.type=="employe"){
+                                window.location = './TableauDeBordEmploye.html';
+                            }
+                            
+                            
+                            
                         }
                         else {
                             $('#notification').html("Erreur de Connexion"); // Message pour le paragraphe de notification

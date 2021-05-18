@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import metier.modele.*;
 import metier.service.Service;
 
+import javax.servlet.http.HttpSession;
+
 /**
  *
  * @author emilienmarion
@@ -27,26 +29,20 @@ public class AuthentifierUtilisateurAction extends Action {
         Client c = null;
         Employe e=null;
         String user = null;
-       /*
-        if (u instanceof Client) {
-            c = (Client) u;
-            user="client";
-        }else if(u instanceof Employe){
-            e= (Employe) e;
-            user="employe";
-        }
-*/
+      
         if (u == null) {
             conex = false;
         } else {
             conex = true;
+             HttpSession session = request.getSession(true);
+             session.setAttribute("id", u.getId());
         }
          System.out.println("je suis dans l'action");
         System.out.println(u);
          request.setAttribute("connexion", conex);
          request.setAttribute("utilisateur",u );
          
-         
+        
          
     }
     

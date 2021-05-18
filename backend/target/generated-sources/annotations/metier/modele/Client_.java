@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import metier.modele.Consultation;
 import metier.modele.ProfilAstral;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2021-05-07T17:25:26", comments="EclipseLink-2.7.7.v20200504-rNA")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2021-05-11T10:59:16", comments="EclipseLink-2.7.7.v20200504-rNA")
 @StaticMetamodel(Client.class)
 public class Client_ extends Utilisateur_ {
 

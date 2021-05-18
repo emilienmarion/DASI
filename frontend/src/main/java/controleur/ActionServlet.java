@@ -75,7 +75,7 @@ public class ActionServlet extends HttpServlet {
             
             case "retrouverConsultations" : {
                 System.out.println("Je suis dans le case retrouverConsultations");
-                action = new ObtenirConsultations();
+                //action = new ObtenirConsultations();
                 serialisation = new ProfilUtilisateurSerialisation();
             }
         }
@@ -88,55 +88,7 @@ public class ActionServlet extends HttpServlet {
     }
 
        
-       /* Service service = new Service();
-        boolean conex;
-//        Utilisateur u = service.authentifierClient(mail, mdp);
-        Client c = null;
-        System.out.println();
-        if (u instanceof Client) {
-            c = (Client) u;
-        }
-        if (u == null) {
-            conex = false;
-        } else {
-            conex = true;
-        }
-        container.addProperty("connexion", conex);
-        if(conex){
-        JsonObject client = new JsonObject();
-        client.addProperty("id", c.getId());
-        client.addProperty("nom", c.getNom());
-        client.addProperty("Prenom", c.getPrenom());
-        client.addProperty("mail", c.getMail());
-
-        container.add("client", client);
-        }
-        System.out.println("je suis laaaa");
-System.out.println(container);
-        response.setContentType(" application / json ; charset =UTF -8");
-        PrintWriter out = response.getWriter();
-        Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
-        gson.toJson(container, out);
-        out.close();
-*/
-        //System.out.println(c);
-        /* TODO output your page here. You may use following sample code. */
- /* out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ActionServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ActionServlet at " + request.getContextPath() + "</h1>");
-             out.println("<h1> Coucou je suis une servlet de bain</h1>");
-              out.println(mail);
-              out.println(mdp);
-              out.println(u.getDate_naissance());
-              out.println(c.getProfilAstral());
-              
-            out.println("</body>");
-            out.println("</html>");*/
-    
+      
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

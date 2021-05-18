@@ -628,4 +628,14 @@ public class Service {
       
         return bool;
     } 
+    
+    
+     public Utilisateur chercherParId(Long clientId) {
+        return utilisateurDAO.chercherParId(clientId);
+        
+        
+    }
+    
+    
+    
 }

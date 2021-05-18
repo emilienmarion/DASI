@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <link rel="stylesheet" href="style.css" type="text/css"/>
+          <!-- Librairie Javascript: jQuery (v3.4.1) -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    </head>
+    <body>
+        
+        
+        <header > 
+            <img  src="image/logo.png" alt="logo du site" id="logo" >
+            <h1>  </h1> 
+            </header>     
+        
+         <p id="notification"></p>
+        
+        <div class=" consultation">
+             <!-- Faudra afficher la consultation demander ici -->
+           <button id="boutonConsultation">Je suis prêt pour démarrer</button>
+           
+         
+        </div>
+        
+         
+        
+        
+        
+         <footer>
+            <p>  </p>
+        </footer>
+        
+        
+        
+        <script>
+            function obetnirinfoemp() { 
+         // Appel AJAX
+                    $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'obtenirInfoEmploye',
+                           
+                            
+                        },
+                        dataType: 'json'
+                    }).done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                        console.log('Response',response); // LOG dans Console Javascript
+                        if (response.connexion) {
+                            $('h1').html("Bonjour "+response.UserO.infos.prenom);
+                            
+                           
+                            
+                            
+                        }
+                        else {
+                            $('#notification').html("Erreur de Connexion aux données"); // Message pour le paragraphe de notification
+                        }
+                    })
+                    .fail( function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                        console.log('Error',error); // LOG dans Console Javascript
+                        alert("Erreur lors de l'appel AJAX");
+                    })
+                    .always( function () { // Fonction toujours appelée
+                        
+                    });
+                    
+    }
+    
+    
+    
+    
+    
+    
+          $(document).ready( function () {
+              
+          
+              // Appelé à la fin du chargement de la page HTML initDonneesPage(); // Appel de la fonction pour initialiser les données de la page
+});
+
+
+        </script>
+        
+    </body>
+</html>
