@@ -75,9 +75,17 @@ public class ActionServlet extends HttpServlet {
             
             case "retrouverConsultations" : {
                 System.out.println("Je suis dans le case retrouverConsultations");
-                //action = new ObtenirConsultations();
+                action = new ObtenirConsultations();
                 serialisation = new ProfilUtilisateurSerialisation();
             }
+            
+             case "obtenirInfoEmploye" :{
+                action=new ObtenirInfoUser();
+                
+                
+            }
+            
+            
         }
         if (action != null && serialisation != null) {
             action.executer(request); // Exécuter l'Action
