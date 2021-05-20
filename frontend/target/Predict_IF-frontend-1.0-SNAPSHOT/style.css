@@ -1,0 +1,128 @@
+
+body
+{
+  /* background-color: black;  Le fond de la page sera noir 
+   // color: white; /* Le texte de la page sera blanc */
+   /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#dbd4eb+0,9180bb+100 */
+   min-height: 100%;
+   background-attachment: fixed;
+background-image: #dbd4eb; /* Old browsers */
+background-image: -moz-linear-gradient(top,  #dbd4eb 0%, #9180bb 100%); /* FF3.6-15 */
+background-image: -webkit-linear-gradient(top,  #dbd4eb 0%,#9180bb 100%); /* Chrome10-25,Safari5.1-6 */
+background-image: linear-gradient(to bottom,  #dbd4eb 0%,#9180bb 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dbd4eb', endColorstr='#9180bb',GradientType=0 ); /* IE6-9 */
+
+}
+/*
+#page{
+     display: flex;
+    flex-direction: column;
+     justify-content: space-between;
+      height:100%
+}
+
+
+
+header{
+   background-color: #3c78d8ff; 
+     margin: auto;
+      height:100px;
+      width: 100%;
+    flex:1
+}
+
+.rectangle{
+    flex:3
+}
+
+footer{
+     background-color: #3c78d8ff;  
+   
+    flex:1;
+}
+
+
+*/
+
+header{
+    
+    background-color: #3c78d8ff;
+    position: relative;
+    height: 100px; 
+    top:0;
+    left:0;
+    
+
+    
+   
+   
+    
+      
+}
+
+header  h1{
+   font-size: 2em;  
+   text-align: center;
+   vertical-align:middle;
+   line-height: 100px;
+}
+
+#bouton-bandeau{
+   font-size: 2em;  
+   text-align: center;
+   vertical-align:right;
+   line-height: 100px;
+}
+
+#logo{
+   position: absolute;
+left:50;
+top:10;
+    width: 276px;
+    height: 100px; 
+}
+
+
+/*.rectangle{
+     
+
+    width: 50%; 
+    height: 350px;
+    background-color: white;
+     
+    margin: auto;  
+   border: 3px #365dd3 groove;
+    text-align: justify;
+    padding: 12px;
+    margin-bottom: 20px;
+
+    
+}*/
+
+footer{
+    background-color: #3c78d8ff;  
+    position: absolute;
+    bottom:0;
+    width: 100%;
+    height:8%;
+}
+
+#astral img{
+    height: 100px;
+    width: 100px;
+}
+
+#main_image {
+    height: 800px;
+    width: 100%;
+    background: url('image/fondAccueil.png') center;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% auto;
+}
+
+#top3mediums h2{
+    color: blue;
+    text-align: center;
+    margin: 10px auto;
+}
