@@ -1,16 +1,120 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <link rel="stylesheet" href="style.css" type="text/css"/>
+
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Création de compte</title>
+        <!-- Librairie Javascript: jQuery (v3.4.1) -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     </head>
     <body>
-        <div>TODO write content</div>
+
+    <div id="page">
+        
+        <header > 
+            <img  src="image/logo.png" alt="logo du site" id="logo" ">
+            <h1>Création de compte</h1> 
+            </header>     
+       
+ 
+
+        <!-- Paragraphe avec id="notification" pour les messages de notification -->
+        <p id="notification"></p>
+        
+        
+        <div class="rectangle">
+            
+            <input type="text" id="champ-nom" size="40" placeholder="Nom" />
+        <br/>
+            <input type="text" id="champ-prenom" size="40" placeholder="Prénom" />
+        <br/>
+            <input type="text" id="champ-datenaissance" size="40" placeholder="Date de naissance au format dd/mm/yyyy"/>
+        <br/>
+            <input type="text" id="champ-genre" size="40" placeholder="Genre (H/F)"/>
+        <br/>
+            <input type="text" id="champ-addpostale" size="40" placeholder="Adresse postale"/>
+        <br/>
+            <input type="text" id="champ-numtel" size="40" placeholder="Numero de téléphone" />
+        <br/>
+            <input type="text" id="champ-email" size="40" placeholder="Adresse email"/>
+        <br/>
+            <input type="password" id="champ-password" size="40" placeholder="Mot de passe"/>
+        <br/>
+
+        <div class="les_boutons">
+        <button id="bouton-creation">Créer son compte</button>
+          </div>  
+        </div>
+        
+        
+        <footer>
+            <p>  </p>
+        </footer>
+        
+        
+    </div>
+        
+        <!-- Champs et Bouton de Formulaire -->
+       
+     
+
+        <script>
+            $(document).ready( function () {
+                $('#bouton-creation').on( 'click', function () { // Fonction appelée lors du clic sur le bouton
+
+                    console.log("clic sur le bouton de creation du compte"); // LOG dans Console Javascript
+                    $('#notification').html("creation du compte..."); // Message pour le paragraphe de notification
+
+                    // Récupération de la valeur des champs du formulaire
+                    var nom = $('#champ-nom').val();
+                    var prenom = $('#champ-prenom').val();
+                    var datenaissance = $('#champ-datenaissance').val();
+                    var genre = $('#champ-genre').val();
+                    var addpostale = $('#champ-addpostale').val();
+                    var numtel = $('#champ-numtel').val();
+                    var email = $('#champ-email').val();
+                    var password = $('#champ-password').val();
+
+                    // Appel AJAX
+                    $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'creerCompte',
+                            nom: nom,
+                            prenom: prenom, 
+                            datenaissance: datenaissance,
+                            genre: genre,
+                            addpostale: addpostale,
+                            numtel: numtel, 
+                            email: email, 
+                            password: password
+                        },
+                        dataType: 'json'
+                    })
+                    .done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                        console.log('Response',response); // LOG dans Console Javascript
+                        if (response.connexion) {
+                            $('#notification').html("Succès! Veuillez consulter vos emails");  // Message pour le paragraphe de notification
+                            alert("Succès! Veuillez consulter vos emails");
+                            // TODO: afficher les informations du client dans la notification
+                            // Exemple: Connexion de Ada Lovelace (ID 1)
+                        }
+                        else {
+                            $('#notification').html("Erreur lors de la création du compte"); // Message pour le paragraphe de notification
+                        }
+                    })
+                    .fail( function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                        console.log('Error',error); // LOG dans Console Javascript
+                        alert("Erreur lors de l'appel AJAX");
+                    })
+                    .always( function () { // Fonction toujours appelée
+                        
+                    });
+                });
+            });
+        </script>
     </body>
 </html>
+

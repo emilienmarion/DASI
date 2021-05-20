@@ -618,10 +618,11 @@ public class Service {
      * @param confNewMdp confiramtion du nouveau mot de passe
      * @return true si la reinitialisatoin a su succes, false sinon
      */
-    public boolean renitialiserMdp(String nom,String prenom,  String mail,  String date_naissance, String num_tel,String newmdp, String confNewMdp){
+    public boolean reinitialiserMdp(String nom,String prenom,  String mail,  String date_naissance, String num_tel,String newmdp, String confNewMdp){
         Client client=chercherClient(nom, prenom);
+        System.out.println(client);
         boolean bool=false;
-        if(client!=null && client.getMail()==mail && client.getDate_naissance()== date_naissance && client.getNum_tel()==num_tel && newmdp==confNewMdp){
+        if(client!=null && client.getMail().equals(mail) && client.getDate_naissance().equals(date_naissance) && client.getNum_tel().equals(num_tel) && newmdp.equals(confNewMdp)){
             client.setMotDePasse(newmdp);
             bool=true;
         }

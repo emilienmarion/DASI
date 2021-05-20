@@ -23,72 +23,93 @@ and open the template in the editor.
     </head>
     <body>
         <!--<div id='inclusion'></div>-->
-        <header> 
-            <img  src="image/logo.png" alt="logo du site" id="logo" >
-            
-        </header>
-        <div>
-            <div id='bouton-bandeau'>
-                <a href="CreerCompte.html"><button type="button" class="btn btn-primary">Créer son compte</button></a>
-                <a href="login.html"><button type="button" class="btn btn-primary">Se connecter</button></a>
-            </div>
-            <div id='imageAccueil'>
-                <h1>Rencontrez nos meilleurs voyants et cartomanciens</h1>
-                <p>Dès aujourd'hui</p>
-                <a href="login.html"><button id="bouton-promo">-50% sur le premier appel</button></a>
-            </div>
-            
-            <div id='top3mediums'>
-                <h2>Découvrez nos meilleurs collaborateurs</h2>
-                <ul id='liste-mediums'></ul>
-                <script>
-                    $(document).ready( function () {
-                        console.log("page d'accueil bien ouverte");
-                        $.ajax({
-                        url: './ActionServlet',
-                        method: 'POST',
-                        data: {
-                            todo: 'afficherTop3Medium'
-                        },
-                        dataType: 'json'
-                        })
-                        
-                        .done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
-                            console.log('Response',response); // LOG dans Console Javascript
-                            var mediums = response.mediums ;
-                            var listeMediumsHtml = $("#liste-mediums");
-                            var avis = 98;
-                            listeMediumsHtml.empty(); // Vider la liste HTML
-                            $.each( mediums, function(i, medium) {
-                                console.log(medium);
-                                listeMediumsHtml.append( // Ajouter a la liste HTML
-                                    "<li data-numero=’" + medium.numero + " ’>" +
-                                    medium.nom + ", " + medium.type + "</br>En ligne \n\
-                                    </br>Avis positifs :" +avis-- +"% </br>" + medium.description + 
-                                    "</br><a href='login.html'><button id='bouton-appeler'>Appeler</button></a> </li>"
-                                );
-                            }) ;
-                        })
-                        .fail( function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
-                            console.log('Error',error); // LOG dans Console Javascript
-                            $("#liste-mediums").html("ERREUR");
-                        })
-                        .always( function () { // Fonction toujours appelée
+        <div id="page">
+            <header> 
+                <img  src="image/logo.png" alt="logo du site" id="logo" >
+                <!--<a href="CreerCompte.html"><button id="bouton-bandeau" type="button" class="btn btn-primary">Créer son compte</button></a>
+                <a href="login.html"><button id="bouton-bandeau" type="button" class="btn btn-primary">Se connecter</button></a>-->
+            </header>
 
-                        });
-                        });
-                </script>
+            <div id='imageAccueil'>
+                <div style="background-image: url('image/fondAccueil.png');">
+                    <br>
+                    <br>
+                    <br>
+                    <h1>Rencontrez nos meilleurs voyants et cartomanciens</h1>
+                    <br>
+                    <p>Dès aujourd'hui</p>
+                    <a href="login.html"><button id="bouton-promo">-50% sur le premier appel</button></a>
+                    <br><br>
+                </div>
             </div>
-            
-            <div id='Avis'>
-                <h2>Avis de nos Utilisateurs</h2>
+
+             <div id='main_image'>
+                    <div >
+                        <br>
+                        <br>
+                        <br>
+                        <h1>Rencontrez nos meilleurs voyants et cartomanciens</h1>
+                        <br>
+                        <p>Dès aujourd'hui</p>
+                        <a href="login.html"><button id="bouton-promo">-50% sur le premier appel</button></a>
+                        <br><br>
+                    </div>
+                </div>
+
+                <div id='top3mediums'>
+                    <h2>Découvrez nos <strong>meilleurs</strong> collaborateurs</h2>
+                    <ul id='liste-mediums'></ul>
+                    <script>
+                        $(document).ready( function () {
+                            console.log("page d'accueil bien ouverte");
+                            $.ajax({
+                            url: './ActionServlet',
+                            method: 'POST',
+                            data: {
+                                todo: 'afficherTop3Medium'
+                            },
+                            dataType: 'json'
+                            })
+
+                            .done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                                console.log('Response',response); // LOG dans Console Javascript
+                                var mediums = response.mediums ;
+                                var listeMediumsHtml = $("#liste-mediums");
+                                var avis = 98;
+                                listeMediumsHtml.empty(); // Vider la liste HTML
+                                $.each( mediums, function(i, medium) {
+                                    console.log(medium);
+                                    listeMediumsHtml.append( // Ajouter a la liste HTML
+                                        "<li data-numero=’" + medium.numero + " ’>" +
+                                        medium.nom + ", " + medium.type + "</br>En ligne \n\
+                                        </br>Avis positifs :" +avis-- +"% </br>" + medium.description + 
+                                        "</br><a href='login.html'><button id='bouton-appeler'>Appeler</button></a> </li>"
+                                    );
+                                }) ;
+                            })
+                            .fail( function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                                console.log('Error',error); // LOG dans Console Javascript
+                                $("#liste-mediums").html("ERREUR");
+                            })
+                            .always( function () { // Fonction toujours appelée
+
+                            });
+                            });
+                    </script>
+                </div>
+
+                <div id='Avis'>
+                    <h2>Avis de nos Utilisateurs</h2>
+                </div>
+
+                <div id='astral'>
+                    <h2>Connectez-vous pour découvrir votre profil astral !</h2>
+                    <a href='login.html'><img  src="image/signeChinois.png" alt="logo d'un signe chinois pour le profil astral" id="astro_chinois" ></a>
+                    <p>Signe astrologique chinois</p>
+                </div>
+                <footer>
+                    <p>  </p>
+                </footer>
             </div>
-            
-            <div id='astral'>
-                <h2>Connectez-vous pour découvrir votre profil astral !</h2>
-                <a href='login.html'><img  src="image/signeChinois.png" alt="logo d'un signe chinois pour le profil astral" id="astro_chinois" ></a>
-                <p>Signe astrologique chinois</p>
-            </div>
-        </div>
     </body>
 </html>

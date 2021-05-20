@@ -177,6 +177,12 @@ public class Main {
         }
         System.out.println();
     }
+    
+    public static void testerRenimdp(){
+         Service service = new Service();
+         boolean bool=service.reinitialiserMdp("marion", "léa", "lemail@.fr", "20/08/2000", "0782728262", "newmdp", "newmdp");
+         System.out.println("le mdp reni"+bool);
+    }
 
     /**
      * @param args the command line arguments
@@ -184,6 +190,7 @@ public class Main {
     public static void main(String[] args) {
         JpaUtil.init();
         try {
+            /*
             Service ser = new Service();
             // MediumAstro ma = new MediumAstro("Serena", "H", "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre\n"
             //   + "passé", "École Normale Supérieure d’Astrologie (ENS-Astro)", "2006", "URLphoto");
@@ -251,7 +258,11 @@ public class Main {
             //retourne les employés trier par nombre de consultation
             obtenirEmp();
             System.out.println();
-
+*/
+            
+           testerRenimdp();
+            
+            
         } catch (Exception ex) {
             System.out.println("erreur main");
         }

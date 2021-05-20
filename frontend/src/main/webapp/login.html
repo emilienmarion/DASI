@@ -49,6 +49,12 @@
 
         <script>
             $(document).ready( function () {
+                
+                  $('#bouton-mdpoublié').on( 'click', function () {
+                   window.location = './MdpOublie.html';
+                  });
+                
+                
                 $('#bouton-connexion').on( 'click', function () { // Fonction appelée lors du clic sur le bouton
 
                     console.log("clic sur le bouton de connexion"); // LOG dans Console Javascript

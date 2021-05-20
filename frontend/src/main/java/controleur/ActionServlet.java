@@ -71,21 +71,40 @@ public class ActionServlet extends HttpServlet {
                 System.out.println("Je suis dans le case creerCompte");
                 action = new CreerUtilisateurAction();
                 serialisation = new ProfilUtilisateurSerialisation();
+                break;
             }
             
             case "retrouverConsultations" : {
                 System.out.println("Je suis dans le case retrouverConsultations");
                 action = new ObtenirConsultations();
                 serialisation = new ProfilUtilisateurSerialisation();
+                break;
             }
             
              case "obtenirInfoEmploye" :{
                  
                 action=new ObtenirInfoUser();
                 serialisation = new ProfilUtilisateurSerialisation();
+                break;
                 
                 
             }
+             
+             case "afficherTop3Medium" :{
+                System.out.println("Je vais afficher le top 3 Mediums");
+                action = new AfficherTop3MediumAction();
+                serialisation = new ObtenirListeMediumSerialisation();
+                break;
+            }
+             
+             
+             case "reinitialiser":{
+                 action=new ReinitialiserMdpAction();
+                 serialisation=new ConfirmerReinitSerialisation();
+                 break;
+             }
+             
+             
             
             
         }
