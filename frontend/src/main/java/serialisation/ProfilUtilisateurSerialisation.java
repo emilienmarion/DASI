@@ -30,6 +30,9 @@ public class ProfilUtilisateurSerialisation extends Serialisation {
         
         Utilisateur u =   (Utilisateur) request.getAttribute("utilisateur");
         boolean conex = (boolean) request.getAttribute("connexion");
+        System.out.println("conex ="+ conex);
+        System.out.println("utilisateur"+  u);
+        
         
         Client c = null;
         Employe e=null;
@@ -82,6 +85,7 @@ public class ProfilUtilisateurSerialisation extends Serialisation {
             userO.add("infos", employe);
             container.add("UserO", userO);
         }
+         System.out.println(container);
         
         List<Consultation> listeCons =   (List<Consultation>) request.getAttribute("consultation");
         
@@ -116,7 +120,11 @@ public class ProfilUtilisateurSerialisation extends Serialisation {
             containerCons.add("consTerminee", jsonListeConsTerminee);
         }
         
+        
         container.add("consultations", containerCons);
+        
+        System.out.println("fini la sérialisation");
+        System.out.println(container);
         
         PrintWriter out = this.getWriter(response);
         Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();

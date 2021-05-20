@@ -55,7 +55,7 @@ and open the template in the editor.
                     }).done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
                         console.log('Response',response); // LOG dans Console Javascript
                         if (response.connexion) {
-                            $('h1').html("Bonjour "+response.UserO.infos.prenom);
+                           // $('h1').html("Bonjour "+response.UserO.infos.prenom);
                             
                            
                             
@@ -81,6 +81,7 @@ and open the template in the editor.
     
     
           $(document).ready( function () {
+              obetnirinfoemp();
               
           
               // Appelé à la fin du chargement de la page HTML initDonneesPage(); // Appel de la fonction pour initialiser les données de la page
