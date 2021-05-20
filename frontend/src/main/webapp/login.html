@@ -71,7 +71,7 @@
                     })
                     .done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
                         console.log('Response',response); // LOG dans Console Javascript
-                        System.out.println(response);
+                        
                         if (response.connexion) {
                             $('#notification').html("Bienvenue "+response.UserO.type); 
                             if(response.UserO.type=="client"){

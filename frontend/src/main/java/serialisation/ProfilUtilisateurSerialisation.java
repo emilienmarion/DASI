@@ -57,7 +57,7 @@ public class ProfilUtilisateurSerialisation extends Serialisation {
             client.addProperty("motDePasse", c.getMotDePasse());
             
         }else if(u instanceof Employe){
-            e= (Employe) e;
+            e= (Employe) u;
             user="employe";
             employe.addProperty("id", e.getId());
             employe.addProperty("nom", e.getNom());
@@ -70,7 +70,7 @@ public class ProfilUtilisateurSerialisation extends Serialisation {
             employe.addProperty("nbConsultations", e.getNb_consultations());
             
         }
-         
+         System.out.println("je suis la 111");
         container.addProperty("connexion", conex);
         if(conex && c != null){
             //il s'agit d'un client
@@ -91,7 +91,7 @@ public class ProfilUtilisateurSerialisation extends Serialisation {
         
         JsonObject containerCons = new JsonObject();
         
-        if(conex){
+        if(conex && listeCons!=null){
             JsonArray jsonListeConsDemandee = new JsonArray();
             JsonArray jsonListeConsTerminee = new JsonArray();
             JsonArray jsonListeConsEnCours = new JsonArray();
@@ -118,10 +118,11 @@ public class ProfilUtilisateurSerialisation extends Serialisation {
             containerCons.add("consDemandee", jsonListeConsDemandee);
             containerCons.add("consEnCours", jsonListeConsEnCours);
             containerCons.add("consTerminee", jsonListeConsTerminee);
+            container.add("consultations", containerCons);
         }
         
         
-        container.add("consultations", containerCons);
+      
         
         System.out.println("fini la sérialisation");
         System.out.println(container);

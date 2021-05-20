@@ -80,7 +80,9 @@ public class ActionServlet extends HttpServlet {
             }
             
              case "obtenirInfoEmploye" :{
+                 
                 action=new ObtenirInfoUser();
+                serialisation = new ProfilUtilisateurSerialisation();
                 
                 
             }

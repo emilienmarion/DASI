@@ -631,9 +631,16 @@ public class Service {
     
     
      public Utilisateur chercherParId(Long clientId) {
-        return utilisateurDAO.chercherParId(clientId);
-        
-        
+         JpaUtil.creerContextePersistance();
+         Utilisateur u=null;
+         try {
+        u=utilisateurDAO.chercherParId(clientId);
+         } catch(Exception ex){
+              Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service chercher par ID", ex);
+         }finally {
+            JpaUtil.fermerContextePersistance();
+        }
+     return u;   
     }
     
     
