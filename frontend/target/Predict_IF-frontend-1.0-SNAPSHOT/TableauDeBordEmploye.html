@@ -19,16 +19,139 @@ and open the template in the editor.
         <header > 
             <img  src="image/logo.png" alt="logo du site" id="logo" >
             <h1>  </h1> 
+             <button id="boutonDeconnexion">Se déconnecter</button>
+            
             </header>     
         
          <p id="notification"></p>
         
-        <div class=" consultation">
+        <div id="consultationOrNot">
              <!-- Faudra afficher la consultation demander ici -->
+             <div id="consult">
+                 
+                <p id="infosConsult"></p>
+                
+                
+                 
+                    
+                         <p> Demande de consultation pour : </p>
+                    
+                   
+                        
+                        
+                         <!-- tableau qui va afficher le client -->
+                    <table style="width:100%">
+                        <tr>
+                            <th>
+                                <p class="client_Nom">  </p>
+                            </th> 
+                            
+                            <th>
+                                <p class="client_Genre">  </p>
+                            </th>
+                            <th>
+                             <p class="client_num_tel">  </p>
+                             </th>
+                         </tr>
+                        <tr>
+                            <th>
+                                <p class="client_mail">  </p> 
+                            </th> 
+                            <th>
+                                <p class="client_adresse">  </p> 
+                            </th>
+                        </tr>
+
+                    </table><!-- comment -->
+                   
+                     
+                     
+                         <p> Le client souhaite consulter le médium suivant : </p>
+                     
+                     
+                     
+                        
+                        
+                         <!-- tableau qui va afficher le medium -->
+                    <table style="width:100%">
+                         <tr>
+                            <th>
+                                <p class="Medium_Nom">  </p>
+                            </th> 
+                            
+                            <th>
+                                <p class="Medium_Genre">  </p>
+                            </th>
+                            
+                         </tr>
+                        <tr>
+                            <th>
+                                <p class="Medium_presentation">  </p> 
+                            </th> 
+                           
+                        </tr>
+
+                    </table><!-- comment -->
+                   
+                
+                
+                
+                
+                
+                 
+             </div>
+             
            <button id="boutonConsultation">Je suis prêt pour démarrer</button>
            
          
         </div>
+         
+         
+         
+             
+             
+             <div id="chercheMediumClient">
+            <table style="width:100%">
+                <tr>
+                    <th>
+                        <p> Trouvez les informations concernant un médium </p>
+
+                        <input type="text" id="champ-denomination" size="40" placeholder="Rentrez sa dénomination" />
+                        <button id="bouton-creation">Rechercher</button>
+                    </th>
+                    <th>
+                        <p> Trouvez les informations concernant un client </p>
+                        <input type="text" id="champ-denomination" size="40" placeholder="Rentrez son Prenom" />
+                        <input type="text" id="champ-denomination" size="40" placeholder="Rentrez son nom" />
+                           <button id="bouton-creation">Rechercher</button>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <p id = "mediumTr">Afficher ici le medium</p>
+                    </th>
+                    <th>
+                        <p id = "clientTr">Afficher ici le client</p>
+                    </th>
+                </tr>
+            </table>
+        <br/> 
+        </div>
+             
+             
+             
+             
+         
+         
+         
+         
+         
+         
+         
+         <div class="BandeauStat">
+             
+            </div>
+             
         
          
         
@@ -47,7 +170,7 @@ and open the template in the editor.
                         url: './ActionServlet',
                         method: 'POST',
                         data: {
-                            todo: 'obtenirInfoEmploye'
+                            todo: 'obtenirInfoUser'
                            
                             
                         },
@@ -55,7 +178,36 @@ and open the template in the editor.
                     }).done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
                         console.log('Response',response); // LOG dans Console Javascript
                         if (response.connexion) {
-                           // $('h1').html("Bonjour "+response.UserO.infos.prenom);
+                            $('h1').html("Bonjour "+response.UserO.infos.Prenom);
+                            
+                            var consult=response.consultations;
+                            var consDemande=consult.consDemandee[0];
+                            var client=consDemande.client;
+                            var medium=consDemande.medium;
+                            
+                           if (consDemande.length!=0){
+               
+                               $('#consultationOrNot').css("display","block");
+                               $(".client_Nom").html(client.Prenom+" "+client.nom );
+                               $(".client_Genre").html(" Genre : "+client.genre );
+                               $(".client_num_tel").html(" tel : "+client.numTel );
+                                $(".Medium_Nom").html(medium.denomination+" , " +medium.type );
+                                
+                                $(".Medium_Genre").html("Genre :"+medium.genre );
+                                 $(".Medium_presentation").html("Description : "+medium.presentation );
+                                
+                               
+                               
+                               
+                              
+                         }else{
+                              $('#notification').html("Pas de demande de consultations actuellement");
+                             
+                         }
+                         
+                      
+                         
+                            
                             
                            
                             
@@ -80,11 +232,22 @@ and open the template in the editor.
     
     
     
+    
+    
+    
           $(document).ready( function () {
               obetnirinfoemp();
               
           
-              // Appelé à la fin du chargement de la page HTML initDonneesPage(); // Appel de la fonction pour initialiser les données de la page
+             $('#boutonDeconnexion').on( 'click', function () {
+                   window.location = './login.html';
+                  });
+        
+        
+           $('#boutonConsultation').on( 'click', function () {
+                   window.location = './PageConsultation.html';
+                  });
+        // Appelé à la fin du chargement de la page HTML initDonneesPage(); // Appel de la fonction pour initialiser les données de la page
 });
 
 

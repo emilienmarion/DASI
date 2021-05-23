@@ -28,7 +28,7 @@ public class ProfilUtilisateurSerialisation extends Serialisation {
         
         JsonObject container = new JsonObject();
         
-        Utilisateur u =   (Utilisateur) request.getAttribute("utilisateur");
+        Utilisateur u = (Utilisateur) request.getAttribute("utilisateur");
         boolean conex = (boolean) request.getAttribute("connexion");
         System.out.println("conex ="+ conex);
         System.out.println("utilisateur"+  u);
@@ -55,7 +55,12 @@ public class ProfilUtilisateurSerialisation extends Serialisation {
             client.addProperty("adressePostale", c.getAdresse_postale());
             client.addProperty("numTel", c.getNum_tel());
             client.addProperty("motDePasse", c.getMotDePasse());
-            
+            JsonObject profilAstral = new JsonObject();
+            profilAstral.addProperty("signeChinois", c.getProfilAstral().getSigne_chinois());
+            profilAstral.addProperty("signeZodiaque", c.getProfilAstral().getSigne_zodiac());
+            profilAstral.addProperty("couleurBonheur", c.getProfilAstral().getCouleurPB());
+            profilAstral.addProperty("animalTotem", c.getProfilAstral().getAnimal_totem());
+            client.add("profilAstral", profilAstral);
         }else if(u instanceof Employe){
             e= (Employe) u;
             user="employe";
@@ -70,7 +75,7 @@ public class ProfilUtilisateurSerialisation extends Serialisation {
             employe.addProperty("nbConsultations", e.getNb_consultations());
             
         }
-         System.out.println("je suis la 111");
+        System.out.println("je suis la 111");
         container.addProperty("connexion", conex);
         if(conex && c != null){
             //il s'agit d'un client
@@ -85,7 +90,7 @@ public class ProfilUtilisateurSerialisation extends Serialisation {
             userO.add("infos", employe);
             container.add("UserO", userO);
         }
-         System.out.println(container);
+        System.out.println(container);
         
         List<Consultation> listeCons =   (List<Consultation>) request.getAttribute("consultation");
         
@@ -96,11 +101,54 @@ public class ProfilUtilisateurSerialisation extends Serialisation {
             JsonArray jsonListeConsTerminee = new JsonArray();
             JsonArray jsonListeConsEnCours = new JsonArray();
             for(Consultation cons : listeCons){
-                JsonObject jsonCons = new JsonObject();
+                
+                Client clicons = cons.getClient();
+                Employe empcons = cons.getEmploye();
+                Medium medcons = cons.getMedium();
+                
+                JsonObject jsonCons = new JsonObject(); //conteneur de la consultation
+                
+                JsonObject jsonConsCli = new JsonObject(); //conteneur avec le client de la consultation
+                JsonObject jsonConsEmp = new JsonObject(); //conteneur avec l'employe de la consultation
+                JsonObject jsonConsMed = new JsonObject(); //conteneur avec le medium de la consultation
+                
+                if(c==null){
+                    //Infos du client de la consultation
+                    jsonConsCli.addProperty("id", clicons.getId());
+                    jsonConsCli.addProperty("nom", clicons.getNom());
+                    jsonConsCli.addProperty("Prenom", clicons.getPrenom());
+                    jsonConsCli.addProperty("mail", clicons.getMail());
+                    jsonConsCli.addProperty("dateNaissance", clicons.getDate_naissance());
+                    jsonConsCli.addProperty("genre", clicons.getGenre());
+                    jsonConsCli.addProperty("adressePostale", clicons.getAdresse_postale());
+                    jsonConsCli.addProperty("numTel", clicons.getNum_tel());
+                    jsonCons.add("client", jsonConsCli );
+                }
+                
+                //Infos du medium de la consultation
+                jsonConsMed.addProperty("id", medcons.getId());
+                jsonConsMed.addProperty("denomination", medcons.getDenomination());
+                jsonConsMed.addProperty("genre", medcons.getGenre());
+                jsonConsMed.addProperty("nbConsultation", medcons.getNbConsultation());
+                jsonConsMed.addProperty("photo", medcons.getPhoto());
+                jsonConsMed.addProperty("presentation", medcons.getPresentation());
+                if(medcons instanceof MediumAstro){
+                    MediumAstro ma = (MediumAstro) medcons;
+                    jsonConsMed.addProperty("type", "Astrologue");
+                    jsonConsMed.addProperty("promotion", ma.getPromotion());
+                    jsonConsMed.addProperty("formation", ma.getFormation());
+                }else if(medcons instanceof MediumCarto){
+                    jsonConsMed.addProperty("type", "Cartomencien");
+                }else if(medcons instanceof MediumSpirit){
+                    MediumSpirit ms = (MediumSpirit) medcons;
+                    jsonConsMed.addProperty("type", "Spirit");
+                    jsonConsMed.addProperty("support", ms.getSupport());
+                }
+                
+                //On mets tout dans la consultation
                 jsonCons.addProperty("id", cons.getId() );
-                jsonCons.addProperty("employeID", cons.getEmploye().getId() );
-                jsonCons.addProperty("clientID", cons.getClient().getId() );
-                jsonCons.addProperty("MediumID", cons.getMedium().getId() );
+                jsonCons.add("medium", jsonConsMed );
+                
                 if(cons.getDateDeb()==null && cons.getDateFin()==null && cons.getDemandeConsult()!=null){    
                     jsonCons.addProperty("DateDemande", cons.getDemandeConsult().toString() );
                     jsonListeConsDemandee.add(jsonCons);
@@ -132,8 +180,5 @@ public class ProfilUtilisateurSerialisation extends Serialisation {
         gson.toJson(container, out);
         out.close();
         
-    }
-    
-    
-    
+    } 
 }

@@ -144,7 +144,7 @@ public class Service {
         e4.setNb_consultations(0);
         e5.setNb_consultations(6);
         emp1.setStatut_en_ligne(true);
-        e4.setStatut_en_ligne(true);
+        
         //e5.setStatut_en_ligne(true);
         ma1.setNbConsultation(8);
         ms1.setNbConsultation(3);
@@ -359,15 +359,16 @@ public class Service {
     
     /**
      * ce service ce charge de fournir des predictions a l'employe lorsqu'il les demande pendant qu'il est dans
-     * une consultations. Les predictions sont fournies par astroApi.
+     * une consultations.Les predictions sont fournies par astroApi.
      * @param consultation la consultation a laquelle l'employe participe
      * @param niveauAmour note sur 5 pour le niveau d'amour
      * @param niveauSante note sur 5 pour le niveau de sante
      * @param niveauTravail note sur 5 pour le niveau de travail
+     * @return 
      * @throws IOException
      */
-    public void obtenirPrédiction(Consultation consultation, int niveauAmour, int niveauSante, int niveauTravail) throws IOException {
-
+    public List<String> obtenirPrédiction(Consultation consultation, int niveauAmour, int niveauSante, int niveauTravail) throws IOException {
+//ca marche pas il faut renvoyer la liste
         Client client1 = consultation.getClient();
         AstroNetApi astroApi = new AstroNetApi();
         List<String> predictions = astroApi.getPredictions(client1.getProfilAstral().getCouleurPB(), client1.getProfilAstral().getAnimal_totem(), niveauAmour, niveauSante, niveauTravail);
@@ -378,7 +379,7 @@ public class Service {
         System.out.println("[ Santé ] " + predictions.get(1));
         System.out.println("[Travail] " + predictions.get(2));
         System.out.println("");
-
+return predictions;
     }
 
     /**
@@ -619,14 +620,31 @@ public class Service {
      * @return true si la reinitialisatoin a su succes, false sinon
      */
     public boolean reinitialiserMdp(String nom,String prenom,  String mail,  String date_naissance, String num_tel,String newmdp, String confNewMdp){
+        
+        
         Client client=chercherClient(nom, prenom);
+        JpaUtil.creerContextePersistance();
         System.out.println(client);
         boolean bool=false;
         if(client!=null && client.getMail().equals(mail) && client.getDate_naissance().equals(date_naissance) && client.getNum_tel().equals(num_tel) && newmdp.equals(confNewMdp)){
             client.setMotDePasse(newmdp);
             bool=true;
         }
-      
+        try{
+           if(bool) {
+              JpaUtil.ouvrirTransaction();
+              utilisateurDAO.modify(client);
+              JpaUtil.validerTransaction();  
+           }
+   
+        } catch(Exception ex){
+             JpaUtil.annulerTransaction();
+              Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service Reni Mdp", ex);
+         }finally {
+            JpaUtil.fermerContextePersistance();
+        }
+        
+        
         return bool;
     } 
     

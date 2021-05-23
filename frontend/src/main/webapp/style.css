@@ -126,3 +126,44 @@ footer{
     text-align: center;
     margin: 10px auto;
 }
+
+
+#boutonDeconnexion{
+    
+     position: absolute;
+left:90%;
+top:10;
+    width: 138px;
+    height: 50px; 
+    
+}
+
+
+
+
+#consultationOrNot {
+  display: none;
+}
+
+
+
+#GO{
+     background-color: red;  
+    color: -internal-light-dark(black, red);
+     width: 70px;
+    height: 30px; 
+}
+
+
+
+
+
+input:invalid+span:after {
+  content: '✖';
+  padding-left: 5px;
+}
+
+input:valid+span:after {
+  content: '✓';
+  padding-left: 5px;
+}

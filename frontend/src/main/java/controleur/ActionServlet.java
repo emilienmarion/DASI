@@ -63,9 +63,9 @@ public class ActionServlet extends HttpServlet {
                 System.out.println("je suis dans le case connecter");
                 action = new AuthentifierUtilisateurAction();
                 serialisation=new ProfilUtilisateurSerialisation();
-                
+                break;
             }
-            break;
+            
             
             case "creerCompte" :{
                 System.out.println("Je suis dans le case creerCompte");
@@ -81,12 +81,20 @@ public class ActionServlet extends HttpServlet {
                 break;
             }
             
-             case "obtenirInfoEmploye" :{
+             case "obtenirInfoUser" :{
                  
                 action=new ObtenirInfoUser();
                 serialisation = new ProfilUtilisateurSerialisation();
                 break;
                 
+                
+            }
+              case "obtenirPrediction" :{
+                   System.out.println("Je vais afficher les predictionss");
+                action= new ObtenirPredictionAction();
+               serialisation = new SerialisationPrediction();
+               
+                break;
                 
             }
              

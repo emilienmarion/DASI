@@ -14,6 +14,7 @@ import metier.service.Service;
 /**
  *
  * @author ithan
+ * @deprecated 
  */
 public class ObtenirConsultations extends Action{
 

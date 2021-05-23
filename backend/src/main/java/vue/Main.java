@@ -1,5 +1,6 @@
 package vue;
 
+import dao.ConsultationDAO;
 import dao.JpaUtil;
 import dao.UtilisateurDao;
 import java.io.IOException;
@@ -190,10 +191,11 @@ public class Main {
     public static void main(String[] args) {
         JpaUtil.init();
         try {
-            /*
+            
             Service ser = new Service();
-            // MediumAstro ma = new MediumAstro("Serena", "H", "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre\n"
-            //   + "passé", "École Normale Supérieure d’Astrologie (ENS-Astro)", "2006", "URLphoto");
+            /*
+             //MediumAstro ma = new MediumAstro("Serena", "F", "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre\n"
+              // + "passé", "École Normale Supérieure d’Astrologie (ENS-Astro)", "2006", "URLphoto");
             //teste le service qui permet l'inscription de clients dans la base
             Client client1 = testerInscrireClient("marion", "léa", "lemail@.fr", "mdp1", "20/08/2000", "0782728262", "F", "26 rue des routes");
             Client client2 = testerInscrireClient("messi", "lionel", "lemail2@.fr", "mdp2", "19/03/1998", "0782728262", "H", "26 rue des routes");
@@ -202,7 +204,7 @@ public class Main {
 
             System.out.println();
             //permet de tester les services qui permettent d'obtenir les medium inscirt dans la base par catégories
-            afficherMediumParType();
+           afficherMediumParType();
 
 //teste le service de connexion avec un mail et un mdp choisi dans cette méthode
             testerconnexion();
@@ -210,17 +212,25 @@ public class Main {
             obtenirProfilAstral(client2);
 
             //méthode de test du service qui cherche un médium par sa dénomination
-            Medium ma = chercherMedium("Serena");
+            Medium ma = chercherMedium("Endora");
 
             //méthode de test du service qui cherche un client par son nom et prénom
             System.out.println();
             chercherClient("marion", "léa");
             System.out.println();
+            long id=2;
+            
 
+           // Client client2= (Client) ser.chercherParId(id);
+            
+            
             //Méthode de test qui simule la demande de consultation par un client qui choist un médium, cette méthode renvoie l'employé chosit pour la consultation
             Employe empTest = demandeConsultation(ma, client2);
             System.out.println();
 
+            
+           
+            
 //test le service qui permet de récupérer la consultation pour lequelle est demandé un employé, renvoi null si il n'a aucune demande de consultation
             Consultation consultationTest = testObtenirDemandeConsultation(empTest);
             System.out.println();
@@ -258,11 +268,11 @@ public class Main {
             //retourne les employés trier par nombre de consultation
             obtenirEmp();
             System.out.println();
-*/
             
-           testerRenimdp();
-            
-            
+          // testerRenimdp();
+            */
+             System.out.println("mainnn");
+           
         } catch (Exception ex) {
             System.out.println("erreur main");
         }

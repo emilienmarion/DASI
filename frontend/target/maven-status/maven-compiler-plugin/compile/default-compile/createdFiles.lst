@@ -1,4 +1,5 @@
 serialisation/ProfilUtilisateurSerialisation.class
+action/ObtenirPredictionAction.class
 action/Action.class
 serialisation/ObtenirListeMediumSerialisation.class
 serialisation/Serialisation.class
@@ -10,4 +11,5 @@ action/AfficherTop3MediumAction.class
 action/CreerUtilisateurAction.class
 controleur/ActionServlet.class
 action/AuthentifierUtilisateurAction.class
+serialisation/SerialisationPrediction.class
 action/ObtenirConsultations.class
