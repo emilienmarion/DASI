@@ -14,6 +14,7 @@
 /Users/emilienmarion/DASI/Predict_IF/frontend/src/main/java/action/ReinitialiserMdpAction.java
 /Users/emilienmarion/DASI/Predict_IF/frontend/src/main/java/serialisation/SuccesEchecSerialisation.java
 /Users/emilienmarion/DASI/Predict_IF/frontend/src/main/java/action/ObtenirInfoUser.java
+/Users/emilienmarion/DASI/Predict_IF/frontend/src/main/java/action/DemarrerConsult.java
 /Users/emilienmarion/DASI/Predict_IF/frontend/src/main/java/serialisation/ConfirmerReinitSerialisation.java
 /Users/emilienmarion/DASI/Predict_IF/frontend/src/main/java/action/ObtenirPredictionAction.java
 /Users/emilienmarion/DASI/Predict_IF/frontend/src/main/java/action/AuthentifierUtilisateurAction.java

@@ -119,7 +119,12 @@ public class ActionServlet extends HttpServlet {
                  serialisation=new RefreshDemandeconsultSerialisation();
                  break;
              }
-            
+            case "DemarrerConsult":{
+                action=new DemarrerConsult();
+                serialisation=new SuccesEchecSerialisation();
+                
+                 break;
+             }
             
         }
         if (action != null && serialisation != null) {

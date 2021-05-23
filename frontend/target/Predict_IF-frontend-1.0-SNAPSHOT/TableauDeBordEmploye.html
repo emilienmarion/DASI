@@ -282,8 +282,32 @@ and open the template in the editor.
         
         
            $('#boutonConsultation').on( 'click', function () {
-                   window.location = './PageConsultation.html';
-                   
+               
+               //ici je dois appele le service demarer consultation
+               
+                 $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'DemarrerConsult'
+                        },
+                        dataType: 'json'
+                    }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                        console.log('Response', response); // LOG dans Console Javascript
+                        if (response.succes) {
+                       window.location = './PageConsultation.html';
+                        } else {
+                            $('#notification').html("Erreur de démarrage de la consultation"); // Message pour le paragraphe de notification
+                        }
+                    })
+                            .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                                console.log('Error', error); // LOG dans Console Javascript
+                                alert("Erreur lors de l'appel AJAX");
+                            })
+                            .always(function () { // Fonction toujours appelée
+
+                            });
+ 
                    
                   });
         // Appelé à la fin du chargement de la page HTML initDonneesPage(); // Appel de la fonction pour initialiser les données de la page

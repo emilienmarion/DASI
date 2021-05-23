@@ -5,6 +5,10 @@
  */
 package action;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import metier.modele.*;
@@ -18,21 +22,26 @@ public class ObtenirPredictionAction extends Action {
 
     @Override
     public void executer(HttpServletRequest request) {
-        System.out.println("Je suis dans ObtenirIprediction Action");
-        String amourS = request.getParameter("amour");
-        String santeS = request.getParameter("sante");
-        String travailS = request.getParameter("travail");
-        int amour = Integer.parseInt(amourS);
-        int sante = Integer.parseInt(santeS);
-        int travail = Integer.parseInt(travailS);
-
-        Service service = new Service();
-        
-        
-        
-       // service.obtenirPrédiction(consultation, amour, sante, travail);
-
-       //on récupère la liste de List<String> des prdiction et on l'envoi en serialisation
+        try {
+            System.out.println("Je suis dans ObtenirIprediction Action");
+            String amourS = request.getParameter("amour");
+            String santeS = request.getParameter("sante");
+            String travailS = request.getParameter("travail");
+            int amour = Integer.parseInt(amourS);
+            int sante = Integer.parseInt(santeS);
+            int travail = Integer.parseInt(travailS);
+            Service ser = new Service();
+            HttpSession session = request.getSession();
+            Long idConsult = (Long) session.getAttribute("idConsult");
+            Consultation consultation = ser.chercherConsultParID(idConsult);
+            
+            List<String> predictions = ser.obtenirPrédiction(consultation, amour, sante, travail);
+            request.setAttribute("prediction",predictions);
+            
+            //on récupère la liste de List<String> des prdiction et on l'envoi en serialisation
+        } catch (IOException ex) {
+            Logger.getLogger(ObtenirPredictionAction.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

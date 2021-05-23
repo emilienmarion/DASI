@@ -22,9 +22,9 @@ public class SerialisationPrediction extends Serialisation {
     public void serialiser(HttpServletRequest request, HttpServletResponse response) throws IOException {
          System.out.println("Je suis dans Predicion serialisation");
           List<String> predictions = (List<String>) request.getAttribute("prediction");
-          boolean sucess=(boolean) request.getAttribute("sucess");
+         
           JsonObject container = new JsonObject();
-          container.addProperty("sucess", sucess);
+         
           JsonObject Predictions = new JsonObject();
            Predictions.addProperty("amour",predictions.get(0));
            Predictions.addProperty("sante",predictions.get(1));

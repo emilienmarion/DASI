@@ -11,6 +11,7 @@ action/ReinitialiserMdpAction.class
 serialisation/ConsultationSerialisation.class
 serialisation/ConfirmerReinitSerialisation.class
 action/AfficherTop3MediumAction.class
+action/DemarrerConsult.class
 serialisation/SuccesEchecSerialisation.class
 action/CreerUtilisateurAction.class
 controleur/ActionServlet.class

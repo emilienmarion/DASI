@@ -25,15 +25,19 @@ public class RefreshDemandeconsultAction extends Action{
         
         HttpSession session = request.getSession();
         Long id= (Long) session.getAttribute("id");
+        
         System.out.println("id" + id);
         Employe emp=  (Employe) service.chercherParId(id);
-         boolean sucess=false;
+         boolean sucess=true;
          if(emp==null){
             sucess=false;
         }else{
         Consultation consult=service.obtenirDemandeConsultation(emp);
         request.setAttribute("Demandeconsultation", consult);
-        
+        if(consult!=null){
+            long idConsult=consult.getId();
+        session.setAttribute("idConsult", idConsult);
+        }
          }
          request.setAttribute("succes", sucess);
     }

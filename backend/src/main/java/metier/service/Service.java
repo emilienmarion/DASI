@@ -296,7 +296,8 @@ public class Service {
      * pour lui dire que le medium est pret et qu'il sera appelle bientot.
      * @param consultation
      */
-    public void demarrerConsultation(Consultation consultation) {
+    public boolean demarrerConsultation(Consultation consultation) {
+        boolean sucess=true;
         ConsultationDAO consultationDAO = new ConsultationDAO();
         Date maintenant = new Date();
         consultation.setDateDeb(maintenant);
@@ -308,12 +309,14 @@ public class Service {
             JpaUtil.validerTransaction();
 
         } catch (Exception ex) {
+            sucess=false;
             JpaUtil.annulerTransaction();
             Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service DémarerConsultation", ex);
         } finally {
             JpaUtil.fermerContextePersistance();
             Message.envoyerSmsClient(consultation);
         }
+        return sucess;
 
     }
 

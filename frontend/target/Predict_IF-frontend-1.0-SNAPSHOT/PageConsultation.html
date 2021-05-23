@@ -231,14 +231,7 @@ and open the template in the editor.
                         dataType: 'json'
                     }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
                         console.log('Response', response); // LOG dans Console Javascript
-                        if (response.connexion) {
-                            
-
-                          
-
-                        } else {
-                            $('#notification').html("Erreur de Connexion aux données"); // Message pour le paragraphe de notification
-                        }
+                        
                     })
                             .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
                                 console.log('Error', error); // LOG dans Console Javascript
