@@ -5,6 +5,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import metier.modele.Consultation;
 import metier.modele.Employe;
+import metier.modele.Utilisateur;
 
 /**
  * Classe de DAO pour les consultations, elle s'occupe de persister les nouvelles consultations,
@@ -50,4 +51,10 @@ public class ConsultationDAO {
 
         return result;
     }
+    
+     public Consultation chercherParId(Long consultId) {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        return em.find(Consultation.class, consultId);
+    }
+    
 }

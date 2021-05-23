@@ -662,6 +662,19 @@ return predictions;
      return u;   
     }
     
+     public Consultation chercherConsultParID(Long ConsultId) {
+         ConsultationDAO consulDAO=new ConsultationDAO();
+         JpaUtil.creerContextePersistance();
+         Consultation c=null;
+         try {
+        c=consulDAO.chercherParId(ConsultId);
+         } catch(Exception ex){
+              Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service chercher par ID consult", ex);
+         }finally {
+            JpaUtil.fermerContextePersistance();
+        }
+     return c;   
+    }
     
     
 }

@@ -113,6 +113,12 @@ public class ActionServlet extends HttpServlet {
              }
              
              
+             
+             case "RefreshDemandeconsult":{
+                 action=new RefreshDemandeconsultAction();
+                 serialisation=new RefreshDemandeconsultSerialisation();
+                 break;
+             }
             
             
         }

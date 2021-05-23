@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author jdfab
  */
+@Deprecated
 public class ConfirmerReinitSerialisation extends Serialisation {
 
     @Override

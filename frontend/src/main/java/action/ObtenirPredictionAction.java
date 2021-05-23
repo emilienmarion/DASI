@@ -18,36 +18,21 @@ public class ObtenirPredictionAction extends Action {
 
     @Override
     public void executer(HttpServletRequest request) {
-         System.out.println("Je suis dans ObtenirIprediction Action");
-        String amour = request.getParameter("amour");
-         System.out.println("amour : "+amour);
-        
-        /*String mdp = request.getParameter("password");
-         Service service = new Service();
+        System.out.println("Je suis dans ObtenirIprediction Action");
+        String amourS = request.getParameter("amour");
+        String santeS = request.getParameter("sante");
+        String travailS = request.getParameter("travail");
+        int amour = Integer.parseInt(amourS);
+        int sante = Integer.parseInt(santeS);
+        int travail = Integer.parseInt(travailS);
 
-        boolean suces;
-        Utilisateur u = service.authentifierClient(mail, mdp);
-        Client c = null;
-        Employe e=null;
-        String user = null;
-      
-        if (u == null) {
-            conex = false;
-        } else {
-            conex = true;
-             HttpSession session = request.getSession(true);
-             session.setAttribute("id", u.getId());
-        }
-         System.out.println("je suis dans l'action");
-        System.out.println(u);
-         request.setAttribute("connexion", conex);
-         request.setAttribute("utilisateur",u );
-         
+        Service service = new Service();
         
-         
-    }
-       */ 
         
+        
+       // service.obtenirPrédiction(consultation, amour, sante, travail);
+
+       //on récupère la liste de List<String> des prdiction et on l'envoi en serialisation
     }
-    
+
 }

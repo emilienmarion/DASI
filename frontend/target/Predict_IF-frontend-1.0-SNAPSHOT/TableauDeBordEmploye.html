@@ -24,6 +24,7 @@ and open the template in the editor.
             </header>     
         
          <p id="notification"></p>
+        <button id="RefreshDemande">Rafraîchir les demandes de Consultation</button>
         
         <div id="consultationOrNot">
              <!-- Faudra afficher la consultation demander ici -->
@@ -164,6 +165,8 @@ and open the template in the editor.
         
         
         <script>
+            
+            
             function obetnirinfoemp() { 
          // Appel AJAX
                     $.ajax({
@@ -178,7 +181,8 @@ and open the template in the editor.
                     }).done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
                         console.log('Response',response); // LOG dans Console Javascript
                         if (response.connexion) {
-                            $('h1').html("Bonjour "+response.UserO.infos.Prenom);
+                            $('h1').html("Bonjour "+response.user.infos.Prenom);
+                            
                             
                             var consult=response.consultations;
                             var consDemande=consult.consDemandee[0];
@@ -229,6 +233,39 @@ and open the template in the editor.
     
     
     
+     $('#RefreshDemande').on( 'click', function () {
+                   $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'RefreshDemandeconsult'
+                           
+
+
+                        },
+                        dataType: 'json'
+                    }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                        console.log('Response', response); // LOG dans Console Javascript
+                        if (response.connexion) {
+                            
+
+                          
+
+                        } else {
+                            $('#notification').html("Erreur de Connexion aux données"); // Message pour le paragraphe de notification
+                        }
+                    })
+                            .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                                console.log('Error', error); // LOG dans Console Javascript
+                                alert("Erreur lors de l'appel AJAX");
+                            })
+                            .always(function () { // Fonction toujours appelée
+
+                            });
+                  });
+    
+    
+    
     
     
     
@@ -246,6 +283,8 @@ and open the template in the editor.
         
            $('#boutonConsultation').on( 'click', function () {
                    window.location = './PageConsultation.html';
+                   
+                   
                   });
         // Appelé à la fin du chargement de la page HTML initDonneesPage(); // Appel de la fonction pour initialiser les données de la page
 });
