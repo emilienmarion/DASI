@@ -128,7 +128,7 @@ and open the template in the editor.
 
 
 
-        <input type="text" id="champ-denomination" size="80" placeholder="Pensez à laisser un commentaire sur la consultation" />
+        <input type="text" id="champs_com" size="80" placeholder="Pensez à laisser un commentaire sur la consultation" />
 
         <button id="boutonFinConsultation">J'ai fini la consultation</button>
 
@@ -146,57 +146,61 @@ and open the template in the editor.
 
 
         <script>
-            function obetnirinfoemp() {
-                // Appel AJAX
-                $.ajax({
-                    url: './ActionServlet',
-                    method: 'POST',
-                    data: {
-                        todo: 'obtenirInfoUser'
+           
+            
+            
+            
+             function obtenirconsult() {
+             $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'RefreshDemandeconsult'
+                           
 
 
-                    },
-                    dataType: 'json'
-                }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
-                    console.log('Response', response); // LOG dans Console Javascript
-                    if (response.connexion) {
+                        },
+                        dataType: 'json'
+                    }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                        console.log('Response', response); // LOG dans Console Javascript
+                        
+                  if (response.succes) {  
+                      
+                     
+                      var medium=response.medium;
+                      var client=response.client
+                      $(".client_Nom").html(client.Prenom+" "+client.nom );
+                      $(".client_Genre").html(" Genre : "+client.genre );
+                      $(".client_num_tel").html(" tel : "+client.numTel );
+                      $(".client_mail").html(" mail: "+client.mail );
+                      $(".client_adresse").html(+client.adressePostal );
+                      
+                      $(".Medium_Nom").html(medium.denomination+" , " +medium.type );
+                      $(".Medium_Genre").html("Genre :"+medium.genre );
+                      $(".Medium_presentation").html("Description : "+medium.presentation ); 
+                      
+                      
 
-                        var consult = response.consultations;
-                        var consDemande = consult.consDemandee[0];
-                        var client = consDemande.client;
-                        var medium = consDemande.medium;
-                        if (consDemande.length != 0) {
+                     } else {
+                         $('#notification').html("Pas de consultations en attente"); // Message pour le paragraphe de notification
+                     }
+                     
 
-                            $('#consultationOrNot').css("display", "block");
-                            $(".client_Nom").html(client.Prenom + " " + client.nom);
-                            $(".client_Genre").html(" Genre : " + client.genre);
-                            $(".client_num_tel").html(" tel : " + client.numTel);
-                            $(".Medium_Nom").html(medium.denomination + " , " + medium.type);
-                            $(".Medium_Genre").html("Genre :" + medium.genre);
-                            $(".Medium_presentation").html("Description : " + medium.presentation);
-                        } else {
-                            $('#notification').html("Pas de demande de consultations actuellement");
+                    
+                            }).fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                                console.log('Error', error); // LOG dans Console Javascript
+                                alert("Erreur lors de l'appel AJAX");
+                            })
+                            .always(function () { // Fonction toujours appelée
+
+                            });
                         }
-
-
-
-
-
-
-
-
-                    } else {
-                        $('#notification').html("Erreur de Connexion aux données"); // Message pour le paragraphe de notification
-                    }
-                })
-                        .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
-                            console.log('Error', error); // LOG dans Console Javascript
-                            alert("Erreur lors de l'appel AJAX");
-                        })
-                        .always(function () { // Fonction toujours appelée
-
-                        });
-            }
+     
+            
+            
+            
+            
+            
 
 
 
@@ -207,13 +211,43 @@ and open the template in the editor.
 
 
             $(document).ready(function () {
-                obetnirinfoemp();
+                
+                obtenirconsult();
                 $('#boutonDeconnexion').on('click', function () {
                     window.location = './login.html';
                 });
                 $('#boutonFinConsultation').on('click', function () {
-                    window.location = './TableauDeBordEmploye.html';
+
                     //et faire autre chose:utiliser le service de fin de consultation
+
+                    $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'finconsultation',
+                            commentaire: champs_com
+
+
+                        },
+                        dataType: 'json'
+                    }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                        console.log('Response', response);
+                        if (response.succes){
+                             window.location = './TableauDeBordEmploye.html';// LOG dans Console Javascript
+                        }
+
+
+                    })
+                            .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                                console.log('Error', error); // LOG dans Console Javascript
+                                alert("Erreur lors de l'appel AJAX");
+                            })
+                            .always(function () { // Fonction toujours appelée
+
+                            });
+
+
+
                 });
                 $('#GO').on('click', function () {
                     ///appele a la servlet ici
@@ -230,10 +264,20 @@ and open the template in the editor.
                         },
                         dataType: 'json'
                     }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
-                        console.log('Response', response); // LOG dans Console Javascript
+                        console.log('Response', response); 
+                         
+                        var listePredi=response.Predictions;
+                        console.log(listePredi.amour);
+                         $(".Note_Amour").html(listePredi.amour);
+                          $(".Note_Sante").html(listePredi.sante);
+                           $(".Note_Travail").html(listePredi.travail);
+                         
                         
-                    })
-                            .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+    
+    
+    
+
+                    }).fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
                                 console.log('Error', error); // LOG dans Console Javascript
                                 alert("Erreur lors de l'appel AJAX");
                             })

@@ -150,7 +150,7 @@ and open the template in the editor.
          
          
          <div class="BandeauStat">
-             
+             <h3>Suivez l’activité de PREDICT’IF</h3>
             </div>
              
         
@@ -182,41 +182,9 @@ and open the template in the editor.
                         console.log('Response',response); // LOG dans Console Javascript
                         if (response.connexion) {
                             $('h1').html("Bonjour "+response.user.infos.Prenom);
-                            
-                            
-                            var consult=response.consultations;
-                            var consDemande=consult.consDemandee[0];
-                            var client=consDemande.client;
-                            var medium=consDemande.medium;
-                            
-                           if (consDemande.length!=0){
-               
-                               $('#consultationOrNot').css("display","block");
-                               $(".client_Nom").html(client.Prenom+" "+client.nom );
-                               $(".client_Genre").html(" Genre : "+client.genre );
-                               $(".client_num_tel").html(" tel : "+client.numTel );
-                                $(".Medium_Nom").html(medium.denomination+" , " +medium.type );
-                                
-                                $(".Medium_Genre").html("Genre :"+medium.genre );
-                                 $(".Medium_presentation").html("Description : "+medium.presentation );
-                                
-                               
-                               
-                               
-                              
-                         }else{
-                              $('#notification').html("Pas de demande de consultations actuellement");
-                             
+                   
                          }
-                         
                       
-                         
-                            
-                            
-                           
-                            
-                            
-                        }
                         else {
                             $('#notification').html("Erreur de Connexion aux données"); // Message pour le paragraphe de notification
                         }
@@ -246,16 +214,31 @@ and open the template in the editor.
                         dataType: 'json'
                     }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
                         console.log('Response', response); // LOG dans Console Javascript
-                        if (response.connexion) {
-                            
+                        
+                  if (response.succes) {  
+                      
+                      $('#consultationOrNot').css("display","block"); 
+                      var medium=response.medium;
+                      var client=response.client
+                      $(".client_Nom").html(client.Prenom+" "+client.nom );
+                      $(".client_Genre").html(" Genre : "+client.genre );
+                      $(".client_num_tel").html(" tel : "+client.numTel );
+                      $(".client_mail").html(" mail: "+client.mail );
+                      $(".client_adresse").html(+client.adressePostal );
+                      
+                      $(".Medium_Nom").html(medium.denomination+" , " +medium.type );
+                      $(".Medium_Genre").html("Genre :"+medium.genre );
+                      $(".Medium_presentation").html("Description : "+medium.presentation ); 
+                      
+                      
 
-                          
+                     } else {
+                         $('#notification').html("Pas de consultations en attente"); // Message pour le paragraphe de notification
+                     }
+                     
 
-                        } else {
-                            $('#notification').html("Erreur de Connexion aux données"); // Message pour le paragraphe de notification
-                        }
-                    })
-                            .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                    
+                            }).fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
                                 console.log('Error', error); // LOG dans Console Javascript
                                 alert("Erreur lors de l'appel AJAX");
                             })

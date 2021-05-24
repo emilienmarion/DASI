@@ -19,7 +19,7 @@ public class RefreshDemandeconsultAction extends Action{
 
     @Override
     public void executer(HttpServletRequest request) {
-         System.out.println("Je suis dans RefreshDemandeconsultAction");
+        System.out.println("Je suis dans RefreshDemandeconsultAction");
         
         Service service = new Service();
         
@@ -28,18 +28,23 @@ public class RefreshDemandeconsultAction extends Action{
         
         System.out.println("id" + id);
         Employe emp=  (Employe) service.chercherParId(id);
-         boolean sucess=true;
-         if(emp==null){
+        boolean sucess=true;
+        
+        if(emp==null){
             sucess=false;
         }else{
-        Consultation consult=service.obtenirDemandeConsultation(emp);
-        request.setAttribute("Demandeconsultation", consult);
-        if(consult!=null){
-            long idConsult=consult.getId();
-        session.setAttribute("idConsult", idConsult);
+            Consultation consult=service.obtenirDemandeConsultation(emp);
+            request.setAttribute("Demandeconsultation", consult);
+            
+                if(consult!=null){
+                    long idConsult=consult.getId();
+                    session.setAttribute("idConsult", idConsult);
+                    System.out.println(consult);
+                }else{
+                    sucess = false;
+                }
         }
-         }
-         request.setAttribute("succes", sucess);
+        request.setAttribute("succes", sucess);
     }
     
 }

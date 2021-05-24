@@ -126,6 +126,14 @@ public class ActionServlet extends HttpServlet {
                  break;
              }
             
+            case "finconsultation":{
+                 System.out.println("Jesuis dans finconsultation");
+                action=new FinConsultationAction();
+                serialisation=new SuccesEchecSerialisation();
+                
+                 break;
+             }
+            
         }
         if (action != null && serialisation != null) {
             action.executer(request); // Exécuter l'Action

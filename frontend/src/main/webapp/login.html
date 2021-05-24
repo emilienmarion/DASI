@@ -79,10 +79,10 @@
                         console.log('Response',response); // LOG dans Console Javascript
                         
                         if (response.connexion) {
-                            $('#notification').html("Bienvenue "+response.UserO.type); 
-                            if(response.UserO.type=="client"){
+                            $('#notification').html("Bienvenue "+response.user.type); 
+                            if(response.user.type=="client"){
                                 window.location = './TableauDeBordClient.html';
-                            }else if (response.UserO.type=="employe"){
+                            }else if (response.user.type=="employe"){
                                 window.location = './TableauDeBordEmploye.html';
                             }
                             

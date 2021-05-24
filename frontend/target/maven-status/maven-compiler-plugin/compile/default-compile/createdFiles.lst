@@ -3,6 +3,7 @@ action/ObtenirPredictionAction.class
 serialisation/SerialisationMedium.class
 action/Action.class
 serialisation/RefreshDemandeconsultSerialisation.class
+action/FinConsultationAction.class
 serialisation/ObtenirListeMediumSerialisation.class
 serialisation/Serialisation.class
 action/ObtenirInfoUser.class

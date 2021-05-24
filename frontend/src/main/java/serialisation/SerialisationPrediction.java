@@ -7,6 +7,7 @@ package serialisation;
 
 import com.google.gson.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +40,11 @@ public class SerialisationPrediction extends Serialisation {
         System.out.println("[ Santé ] " + predictions.get(1));
         System.out.println("[Travail] " + predictions.get(2));
 
+        
+          PrintWriter out = this.getWriter(response);
+        Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
+        gson.toJson(container, out);
+        out.close();
 
         
         

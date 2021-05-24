@@ -10,6 +10,7 @@
 /Users/emilienmarion/DASI/Predict_IF/frontend/src/main/java/serialisation/SerialisationPrediction.java
 /Users/emilienmarion/DASI/Predict_IF/frontend/src/main/java/action/ObtenirConsultations.java
 /Users/emilienmarion/DASI/Predict_IF/frontend/src/main/java/serialisation/RefreshDemandeconsultSerialisation.java
+/Users/emilienmarion/DASI/Predict_IF/frontend/src/main/java/action/FinConsultationAction.java
 /Users/emilienmarion/DASI/Predict_IF/frontend/src/main/java/action/AfficherTop3MediumAction.java
 /Users/emilienmarion/DASI/Predict_IF/frontend/src/main/java/action/ReinitialiserMdpAction.java
 /Users/emilienmarion/DASI/Predict_IF/frontend/src/main/java/serialisation/SuccesEchecSerialisation.java
