@@ -31,7 +31,7 @@ public class SerialisationMedium extends Serialisation{
         Medium m = (Medium) request.getAttribute("medium");
         boolean succes = (boolean) request.getAttribute("connexion");
         
-        System.out.println("conex ="+ succes);
+        System.out.println("succes ="+ succes);
         System.out.println("medium"+  m);
         
         container.addProperty("succes", succes);

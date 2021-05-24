@@ -81,19 +81,15 @@ public class ActionServlet extends HttpServlet {
                 break;
             }
             
-             case "obtenirInfoUser" :{
-                 
+            case "obtenirInfoUser" :{
                 action=new ObtenirInfoUser();
                 serialisation = new ProfilUtilisateurSerialisation();
                 break;
-                
-                
             }
               case "obtenirPrediction" :{
-                   System.out.println("Je vais afficher les predictionss");
+                System.out.println("Je vais afficher les predictionss");
                 action= new ObtenirPredictionAction();
-               serialisation = new SerialisationPrediction();
-               
+                serialisation = new SerialisationPrediction();
                 break;
                 
             }
@@ -132,7 +128,21 @@ public class ActionServlet extends HttpServlet {
                 serialisation=new SuccesEchecSerialisation();
                 
                  break;
-             }
+            }
+            
+            case "chercherMediumDenomination":{
+                System.out.println("Jesuis dans finconsultation");
+                action=new ChercherMediumAction();
+                serialisation=new SerialisationMedium();
+                break;
+            }
+            
+            case "chercherClientNomPremom":{
+                System.out.println("Jesuis dans finconsultation");
+                action=new ChercherClientAction();
+                serialisation=new ProfilUtilisateurSerialisation();
+                break;
+            }
             
         }
         if (action != null && serialisation != null) {

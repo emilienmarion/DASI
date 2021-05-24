@@ -118,13 +118,13 @@ and open the template in the editor.
                         <p> Trouvez les informations concernant un médium </p>
 
                         <input type="text" id="champ-denomination" size="40" placeholder="Rentrez sa dénomination" />
-                        <button id="bouton-creation">Rechercher</button>
+                        <button id="boutoncherchermedium">Rechercher</button>
                     </th>
                     <th>
                         <p> Trouvez les informations concernant un client </p>
-                        <input type="text" id="champ-denomination" size="40" placeholder="Rentrez son Prenom" />
-                        <input type="text" id="champ-denomination" size="40" placeholder="Rentrez son nom" />
-                           <button id="bouton-creation">Rechercher</button>
+                        <input type="text" id="champ-prenomclient" size="40" placeholder="Rentrez son Prenom" />
+                        <input type="text" id="champ-nomclient" size="40" placeholder="Rentrez son nom" />
+                           <button id="boutonchercherclient">Rechercher</button>
                     </th>
                 </tr>
                 <tr>
@@ -201,7 +201,34 @@ and open the template in the editor.
     
     
     
-     $('#RefreshDemande').on( 'click', function () {
+    $('#boutoncherchermedium').on( 'click', function () {
+                   $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'chercherMediumDenomination',
+                            denomination: $('#champ-denomination').val()
+                        },
+                        dataType: 'json'
+                    }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                        console.log('Response', response); // LOG dans Console Javascript
+                        
+                        if (response.succes) {  
+                            $('#mediumTr').html(response.medium.infos.denomination);
+                        } else {
+                            $('#mediumTr').html("Le medium sasi n'existe pas, veuillez ressayer"); // Message pour le paragraphe de notification
+                        }
+                     
+
+                    }).fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                        console.log('Error', error); // LOG dans Console Javascript
+                        alert("Erreur lors de l'appel AJAX");
+                    }).always(function () { // Fonction toujours appelée
+
+                    });
+                });
+                  
+                  $('#RefreshDemande').on( 'click', function () {
                    $.ajax({
                         url: './ActionServlet',
                         method: 'POST',
@@ -219,7 +246,7 @@ and open the template in the editor.
                       
                       $('#consultationOrNot').css("display","block"); 
                       var medium=response.medium;
-                      var client=response.client
+                      var client=response.client;
                       $(".client_Nom").html(client.Prenom+" "+client.nom );
                       $(".client_Genre").html(" Genre : "+client.genre );
                       $(".client_num_tel").html(" tel : "+client.numTel );
