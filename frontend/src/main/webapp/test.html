@@ -4,6 +4,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Demonstrat'IF - Graphiques HighCharts</title>
+         <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+       
 
         <style type="text/css">
             h1 { text-align: center; }
@@ -17,43 +20,84 @@
     </head>
     <body>
         <h1>Démonstrat'IF &ndash; Graphiques HighCharts</h1>
-        
+        <p id="notification"></p>
         <div id="container-5" class="highcharts-container"></div>
 
-        <script src="https://code.highcharts.com/highcharts.js"></script>
-        <script type="text/javascript">
 
-           var name='Marcellllll';
-           
-           
-           function obtenirTop3() {
-    
+        <script>
+
+            var name = 'Marcellllll';
+
+            var proportionChartData;
+            function obtenirTop3() {
 
 
-            var proportionChartData = {
-                label: 'Temps de Parole (min)',
-                data: [
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'obtenirTop3'
+
+                    },
+                    dataType: 'json'
+                }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                    console.log('Response', response); // LOG dans Console Javascript
+                    if (response.succes) {
+
+                        $('#notification').html("je suis laaa");
+                        var Medium1 = response.top3[0];
+                        var medium1Nom = Medium1.denomination;
+                        var medium1Type = Medium1.type;
+                        var medium1NbConsult = Medium1.nbConsultations;
+
+
+                        var Medium2 = response.top3[1];
+                        var medium2Nom = Medium2.denomination;
+                        var medium2Type = Medium2.type;
+                        var medium2NbConsult = Medium2.nbConsultations;
+
+                        var Medium3 = response.top3[2];
+                        var medium3Nom = Medium3.denomination;
+                        var medium3Type = Medium3.type;
+                        var medium3NbConsult = Medium3.nbConsultations;
+
+
+                        proportionChartData = {
+                            label: 'Nombre de consultations',
+                            data: [
+
+                                {
+                                    name: medium1Nom+" ("+medium1Type+")",
+                                    y: medium1NbConsult
+                                },
+                                {
+                                    name: medium2Nom+" ("+medium2Type+")",
+                                    y: medium2NbConsult
+                                },
+                                {
+                                    name: medium3Nom+" ("+medium3Type+")",
+                                    y: medium3NbConsult
+                                }]
+                        };
+                         console.log('Respons222222',proportionChartData);
+                        buildPieChart('container-5', proportionChartData);
                    
-                    {
-                        name: name,
-                        y: 5
-                    },
-                    {
-                        name: 'Noémie',
-                        y: 7
-                    },
-                    {
-                        name: 'Oscar',
-                        y: 13
-                    }]
-            };
+        
+                    }
 
-          return proportionChartData; 
-           
-    }
 
-            
-var proportionChartData= obtenirTop3();
+                }).fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                    console.log('Error', error); // LOG dans Console Javascript
+                    alert("Erreur lors de l'appel AJAX");
+                })
+                        .always(function () { // Fonction toujours appelée
+
+                        });
+
+
+
+            }
+            obtenirTop3();
 
             function buildPieChart(container, graphData) {
 
@@ -74,15 +118,11 @@ var proportionChartData= obtenirTop3();
                     series: [{name: graphData.label, data: graphData.data}]
                 });
             }
+
+           
             
-            buildPieChart('container-5', proportionChartData);
-             $(document).ready(function () {
-                 
-                 buildPieChart('container-5', proportionChartData);
-                  
-               });
-            
-            
+
+
         </script>
     </body>
 </html>

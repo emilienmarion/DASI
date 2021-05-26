@@ -1,30 +1,149 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+<!DOCTYPE HTML>
 <html>
     <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css" type="text/css"/>
+        <title>Demonstrat'IF - Graphiques HighCharts</title>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+        <style type="text/css">
+            h1 { text-align: center; }
+            .highcharts-container {
+                max-width: 800px;
+                height: 400px;
+                margin: 1em auto;
+            }
+        </style>
+        <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
     </head>
     <body>
         
         
          <header > 
             <img  src="image/logo.png" alt="logo du site" id="logo" >
-            <h1>  </h1> 
-            </header>  
+            <h1> Statistique de Predict'IF</h1> 
+            </header>     
         
+       
+       
+       
+        <div id="container-3" class="highcharts-container"></div>
         
+
         
+        <script type="text/javascript">
+
+    var lineChartData;
+    function StatMedium(){
+      $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'obtenirStatMedium'
+
+                    },
+                    dataType: 'json'
+                }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                    console.log('Response', response); // LOG dans Console Javascript
+                    if (response.succes) {
+                        var mediums = response.top3;
+                        let labels = {};
+                        var data=new Array();
+                        
+                         $.each( mediums, function(i, medium) {
+                                    console.log(medium);
+                                    
+                                    var mediumNom = medium.denomination;
+                                    var mediumType = medium.type;
+                                    var mediumNbConsult = medium.nbConsultations;
+                                    labels[i]=mediumNom+" ("+mediumType+")";
+                                    data[i]=mediumNbConsult;
+                                    
+                                }) ;
+                        
+                        
+                       // var labels=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
+                       
+                      
+                      // data[0]=27;
+                     //  data[1]=8;
+                       console.log("et regarde c moiii le tableau",labels);
+                        console.log("nb consult",data);
+                          lineChartData = {
+                              
+                labels: labels,
+               // data:   [23, 19, 15, 12, 5, -2, ]
+                data: data
+            };
+                         buildBarChart('container-3', lineChartData);
+                    }
+    
+     }).fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                    console.log('Error', error); // LOG dans Console Javascript
+                    alert("Erreur lors de l'appel AJAX");
+                })
+                        .always(function () { // Fonction toujours appelée
+
+                        });
+
+
+
+            }
+            
+    
+    
+    
+    
+     StatMedium();
+    
+    
+           
+            
         
-         <footer>
-            <p>  </p>
-         </footer><!-- comment -->
+            
+
+
+           
+           
+
          
-        <div>TODO write content</div>
+            function buildBarChart(container, graphData) {
+
+                Highcharts.chart(container, {
+
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Nombre de consultation par Medium'
+                    },
+                    subtitle: {
+                        text: 'Source: Base de donnée Predictif'
+                    },
+                    xAxis: {
+                        categories: graphData.labels
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Nombre de consultations'
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: [{name: 'Données', data: graphData.data}]
+                });
+            }
+
+            
+
+           
+           
+        </script>
     </body>
 </html>

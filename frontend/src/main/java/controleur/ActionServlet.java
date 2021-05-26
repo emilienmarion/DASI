@@ -144,6 +144,25 @@ public class ActionServlet extends HttpServlet {
                 break;
             }
             
+             case "obtenirTop3":{
+               
+                action=new obtenirTop3Action();
+                serialisation=new ListMediumSerialisation();
+                break;
+            }
+             
+             
+             case "obtenirStatMedium":{
+               
+                action=new StatMediumAction();
+                serialisation=new ListMediumSerialisation();
+                break;
+            }
+            
+            
+            
+            
+            
         }
         if (action != null && serialisation != null) {
             action.executer(request); // Exécuter l'Action
