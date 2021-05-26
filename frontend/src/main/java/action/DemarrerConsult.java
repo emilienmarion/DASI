@@ -22,6 +22,7 @@ public class DemarrerConsult extends Action {
 
         HttpSession session = request.getSession();
         Long idConsult = (Long) session.getAttribute("idConsult");
+        System.out.println("idconsultation"+idConsult);
         Consultation consultation = ser.chercherConsultParID(idConsult);
         boolean sucess = ser.demarrerConsultation(consultation);
 

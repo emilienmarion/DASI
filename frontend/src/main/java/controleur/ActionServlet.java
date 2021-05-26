@@ -131,14 +131,14 @@ public class ActionServlet extends HttpServlet {
             }
             
             case "chercherMediumDenomination":{
-                System.out.println("Jesuis dans finconsultation");
+               
                 action=new ChercherMediumAction();
                 serialisation=new SerialisationMedium();
                 break;
             }
             
             case "chercherClientNomPremom":{
-                System.out.println("Jesuis dans finconsultation");
+               
                 action=new ChercherClientAction();
                 serialisation=new ProfilUtilisateurSerialisation();
                 break;

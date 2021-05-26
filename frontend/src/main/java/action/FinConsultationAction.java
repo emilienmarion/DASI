@@ -25,7 +25,9 @@ public class FinConsultationAction extends Action {
 
         HttpSession session = request.getSession();
         Long idConsult = (Long) session.getAttribute("idConsult");
+         System.out.println("idconsultation"+idConsult);
         Consultation consultation = ser.chercherConsultParID(idConsult);
+         System.out.println("LA CONSULTATION QUI BUG"+consultation);
         boolean sucess;
 
         if (consultation == null) {

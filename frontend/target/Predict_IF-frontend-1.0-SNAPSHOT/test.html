@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Demonstrat'IF - Graphiques HighCharts</title>
+
+        <style type="text/css">
+            h1 { text-align: center; }
+            .highcharts-container {
+                max-width: 800px;
+                height: 400px;
+                margin: 1em auto;
+            }
+        </style>
+        <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
+    </head>
+    <body>
+        <h1>Démonstrat'IF &ndash; Graphiques HighCharts</h1>
+        
+        <div id="container-5" class="highcharts-container"></div>
+
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script type="text/javascript">
+
+           var name='Marcellllll';
+           
+           
+           function obtenirTop3() {
+    
+
+
+            var proportionChartData = {
+                label: 'Temps de Parole (min)',
+                data: [
+                   
+                    {
+                        name: name,
+                        y: 5
+                    },
+                    {
+                        name: 'Noémie',
+                        y: 7
+                    },
+                    {
+                        name: 'Oscar',
+                        y: 13
+                    }]
+            };
+
+          return proportionChartData; 
+           
+    }
+
+            
+var proportionChartData= obtenirTop3();
+
+            function buildPieChart(container, graphData) {
+
+                Highcharts.chart(container, {
+
+                    chart: {
+                        type: 'pie'
+                    },
+                    title: {
+                        text: 'Top 3 des médiums'
+                    },
+                    subtitle: {
+                        text: '(en nombre de consultations)'
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: [{name: graphData.label, data: graphData.data}]
+                });
+            }
+            
+            buildPieChart('container-5', proportionChartData);
+             $(document).ready(function () {
+                 
+                 buildPieChart('container-5', proportionChartData);
+                  
+               });
+            
+            
+        </script>
+    </body>
+</html>

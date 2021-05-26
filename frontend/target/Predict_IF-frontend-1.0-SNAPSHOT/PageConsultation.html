@@ -113,13 +113,13 @@ and open the template in the editor.
             </tr>
             <<tr>
                 <th>
-                    <p class="Note_Amour"> aaaaaaaaaaaaaaaa</br>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</br>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa  </p> 
+                    <p class="Note_Amour">  </p> 
                 </th>
                 <th>
-                    <p class="Note_Sante"> aaaaaaaaaaaaaaaaaaa</br>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</br>aaaaaaaaaaaaaaaaaaaaaa </p> 
+                    <p class="Note_Sante">  </p> 
                 </th><!-- comment -->
                 <th>
-                    <p class="Note_Travail"> aaaaaaaaaaaaa</br>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</br>aaaaaaaaaaaaaaaaaaaaaaaaaaa </p> 
+                    <p class="Note_Travail"> </p> 
                 </th>         
 
             </tr>
@@ -216,39 +216,63 @@ and open the template in the editor.
                 $('#boutonDeconnexion').on('click', function () {
                     window.location = './login.html';
                 });
+                
+                
                 $('#boutonFinConsultation').on('click', function () {
 
-                    //et faire autre chose:utiliser le service de fin de consultation
-
-                    $.ajax({
+                     var champcommentaire = $('#champs_com').val();
+                     
+                     $.ajax({
                         url: './ActionServlet',
                         method: 'POST',
                         data: {
                             todo: 'finconsultation',
-                            commentaire: champs_com
+                           commentaire: champcommentaire
 
 
                         },
                         dataType: 'json'
                     }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
-                        console.log('Response', response);
-                        if (response.succes){
-                             window.location = './TableauDeBordEmploye.html';// LOG dans Console Javascript
-                        }
+                        console.log('Response', response); // LOG dans Console Javascript
+                        
+                  if (response.succes) {  
+                      
+                     
+                    
+                      window.location = './TableauDeBordEmploye.html';
+                      
 
+                     } else {
+                         $('#notification').html("Pas de consultations en attente"); // Message pour le paragraphe de notification
+                     }
+                     
 
-                    })
-                            .fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                    
+                            }).fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
                                 console.log('Error', error); // LOG dans Console Javascript
                                 alert("Erreur lors de l'appel AJAX");
                             })
                             .always(function () { // Fonction toujours appelée
 
                             });
-
-
-
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+  
                 });
+                
+                
                 $('#GO').on('click', function () {
                     ///appele a la servlet ici
                     $.ajax({
