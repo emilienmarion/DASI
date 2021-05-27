@@ -12,53 +12,67 @@ and open the template in the editor.
         <title>PREDICT'IF</title>
         <!-- Librairie Javascript: jQuery (v3.4.1) -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <!--<script> 
-            $(function(){
-              $("#inclusion").load("login.html"); 
-            });
-        </script> -->
         
         <!-- Bootstrap core CSS -->
         <link href="bootstrap.min.css" rel="stylesheet">
+        <link href="buttons.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rancho&effect=shadow-multiple">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <!--<div id='inclusion'></div>-->
         <div id="page">
             <header> 
                 <img  src="image/logo.png" alt="logo du site" id="logo" >
-                <!--<a href="CreerCompte.html"><button id="bouton-bandeau" type="button" class="btn btn-primary">Créer son compte</button></a>
-                <a href="login.html"><button id="bouton-bandeau" type="button" class="btn btn-primary">Se connecter</button></a>-->
+                <a href="CreerCompte.html"><button id="bouton-bandeau" type="button" class="btn btn-dark"><i class='material-icons'>assignment</i>Inscription</button></a>
+                <a href="login.html"><button id="bouton-bandeau" type="button" class="btn btn-dark"><i class='material-icons'>play_arrow</i>Connexion</button></a>
             </header>
 
-            <div id='imageAccueil'>
-                <div style="background-image: url('image/fondAccueil.png');">
-                    <br>
-                    <br>
-                    <br>
-                    <h1>Rencontrez nos meilleurs voyants et cartomanciens</h1>
-                    <br>
-                    <p>Dès aujourd'hui</p>
-                    <a href="login.html"><button id="bouton-promo">-50% sur le premier appel</button></a>
-                    <br><br>
-                </div>
-            </div>
 
-             <div id='main_image'>
+             <div id='main_image' >
                     <div >
-                        <br>
-                        <br>
-                        <br>
-                        <h1>Rencontrez nos meilleurs voyants et cartomanciens</h1>
-                        <br>
-                        <p>Dès aujourd'hui</p>
-                        <a href="login.html"><button id="bouton-promo">-50% sur le premier appel</button></a>
+                        <br><br><br><br>
+                        <h1 class="font-effect-shadow-multiple" style="text-align: center"><strong>N°1 des sites de médiums avec 96% de satisfactions !</strong></h1>
+                        <br><br><br><br>
+                        <h1 class="font-effect-shadow-multiple">Rencontrez nos meilleurs voyants et cartomanciens</h1>
+                        <h5 class="font-effect-shadow-multiple">Dès aujourd'hui</h5>
+                        <br><br><br><br>
+                        <a href="login.html" ><button type="button" style="margin-left: 500px; font-size: 20px;" class="btn btn-success btn-lg btn-radius"><i class='material-icons'>trending_down</i><strong>-50%</strong> sur le premier appel</button></a>
                         <br><br>
                     </div>
                 </div>
 
                 <div id='top3mediums'>
-                    <h2>Découvrez nos <strong>meilleurs</strong> collaborateurs</h2>
-                    <ul id='liste-mediums'></ul>
+                    <h2 id="textAccueil">Découvrez nos <strong>meilleurs</strong> collaborateurs</h2>
+                    <p id="line"></p>
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <!--<ol class="carousel-indicators">
+                          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                        </ol>-->
+                        <div class="carousel-inner">
+                          <div class="carousel-item active" id="carousel-item1">
+                            
+                          </div>
+                          <div class="carousel-item" id="carousel-item2">
+                            
+                          </div>
+                          <div class="carousel-item" id="carousel-item3">
+                            
+                          </div>
+                        </div><br>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    
                     <script>
                         $(document).ready( function () {
                             console.log("page d'accueil bien ouverte");
@@ -70,20 +84,29 @@ and open the template in the editor.
                             },
                             dataType: 'json'
                             })
-
                             .done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
                                 console.log('Response',response); // LOG dans Console Javascript
                                 var mediums = response.mediums ;
-                                var listeMediumsHtml = $("#liste-mediums");
                                 var avis = 98;
-                                listeMediumsHtml.empty(); // Vider la liste HTML
+                                var k=1;
+                                var carouselItem;
                                 $.each( mediums, function(i, medium) {
                                     console.log(medium);
-                                    listeMediumsHtml.append( // Ajouter a la liste HTML
-                                        "<li data-numero=’" + medium.numero + " ’>" +
-                                        medium.nom + ", " + medium.type + "</br>En ligne \n\
-                                        </br>Avis positifs :" +avis-- +"% </br>" + medium.description + 
-                                        "</br><a href='login.html'><button id='bouton-appeler'>Appeler</button></a> </li>"
+                                    carouselItem = $("#carousel-item"+k);
+                                    k++;
+                                    carouselItem.empty();
+                                    carouselItem.append( // Ajouter a la liste HTML
+                                        "<img style='height:200px; weight:150px;' src='image/"+medium.nom+".png' alt='imgMedium' id='imgMediumAccueil' >\n\
+                                        <div><table id='id"+ medium.numero + "' class='tableMediumAccueil' style='color: white; border: medium solid white;border-collapse: collapse; background-image: url(image/space.png);'>" +
+                                        "<tr>\n\
+                                        \n\
+                                        <td style='height:100px; border: thin solid white;'><strong>"+medium.nom+",</strong> "+medium.type +"</td>\n\
+                                        <td style='height:100px;border: thin solid white;'><strong>En ligne         </strong>Avis positifs :" +avis-- +"</td>\n\
+                                        </tr>\n\
+                                        <tr>\n\
+                                        <td style='height:100px;border: thin solid white;' colspan='2'>"+ medium.description + "<br><a href='login.html'><button type='button' style='font-size: 20px' class='btn btn-success'>Appeler  <i class='material-icons'>call</i></button></a></td>\n\
+                                        </tr>\n\
+                                        </table></div>"
                                     );
                                 }) ;
                             })
@@ -98,20 +121,37 @@ and open the template in the editor.
                     </script>
                 </div>
 
-                <div id='Avis'>
-                    <h2>Avis de nos Utilisateurs</h2>
-                </div>
-
                 <div id='astral'>
-                    <h2>Connectez-vous pour découvrir votre profil astral !</h2>
-                    <a href='login.html'><img  src="image/signeChinois.png" alt="logo d'un signe chinois pour le profil astral" id="astro_chinois" ></a>
-                    <p>Signe astrologique chinois</p>
+                    <h2 id="textAccueil">Connectez-vous pour découvrir votre profil astral !</h2>
+                    <p id="line"></p>                    
+                    <section>
+                        <div>
+                            <a href='login.html'><img  src="image/signeZodiaque.png" alt="logo d'un signe du zodiaque pour le profil astral" id="astro_image" ></a>
+                            <p>Signe du zodiaque</p>
+                        </div>
+                        <div>
+                            <a href='login.html'><img  src="image/signeChinois.png" alt="logo d'un signe chinois pour le profil astral" id="astro_image" ></a>
+                            <p>Signe astrologique chinois</p>
+                        </div>
+                        <div>
+                            <a href='login.html'><img  src="image/couleurBonheur.png" alt="couleur porte bonheur pour le profil astral" id="astro_image" ></a>
+                            <p>Couleur porte bonheur</p>
+                        </div>
+                        <div>
+                            <a href='login.html'><img  src="image/animalTotem.png" alt="logo d'un animal totem pour le profil astral" id="astro_image" ></a>
+                            <p>Animal-Totem</p>
+                        </div>
+                    </section>
                 </div>
-            
-            
-                <footer>
+                        
+                <div id='Avis'>
+                    <h2 id="textAccueil">Avis de nos Utilisateurs</h2><br>
+                    <p id="line"></p>                    
+                </div>
+                
+                <!--<footer>
                     <p>  </p>
-                </footer>
+                </footer>-->
             </div>
     </body>
 </html>

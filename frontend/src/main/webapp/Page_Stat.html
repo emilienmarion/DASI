@@ -29,46 +29,42 @@
        
        
        
-        <div id="container-3" class="highcharts-container"></div>
+        <div id="container-1" class="highcharts-container"></div>
         
 
         
         <script type="text/javascript">
 
     var lineChartData;
-    function StatMedium(){
+    function Statemp(){
       $.ajax({
                     url: './ActionServlet',
                     method: 'POST',
                     data: {
-                        todo: 'obtenirStatMedium'
+                        todo: 'obtenirStatEmp'
 
                     },
                     dataType: 'json'
                 }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
-                    console.log('Response', response); // LOG dans Console Javascript
+                    console.log('Response', response);
                     if (response.succes) {
-                        var mediums = response.top3;
+                        var emps = response.Employe;
                         let labels = {};
                         var data=new Array();
                         
-                         $.each( mediums, function(i, medium) {
-                                    console.log(medium);
+                         $.each( emps, function(i, emp) {
+                                    console.log(emps);
                                     
-                                    var mediumNom = medium.denomination;
-                                    var mediumType = medium.type;
-                                    var mediumNbConsult = medium.nbConsultations;
-                                    labels[i]=mediumNom+" ("+mediumType+")";
-                                    data[i]=mediumNbConsult;
+                                    var empPrenom = emp.prenom;
+                                    var empNom = emp.nom;
+                                    var empNbConsult = emp.nbConsultations;
+                                    labels[i]=empPrenom+" "+emp.nom+" ";
+                                    data[i]=empNbConsult;
                                     
                                 }) ;
                         
                         
-                       // var labels=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
-                       
                       
-                      // data[0]=27;
-                     //  data[1]=8;
                        console.log("et regarde c moiii le tableau",labels);
                         console.log("nb consult",data);
                           lineChartData = {
@@ -77,7 +73,7 @@
                // data:   [23, 19, 15, 12, 5, -2, ]
                 data: data
             };
-                         buildBarChart('container-3', lineChartData);
+                         buildBarChart2('container-1', lineChartData);
                     }
     
      }).fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
@@ -92,24 +88,12 @@
 
             }
             
+  
+     Statemp();
     
-    
-    
-    
-     StatMedium();
-    
-    
-           
-            
-        
-            
-
-
-           
-           
-
+   
          
-            function buildBarChart(container, graphData) {
+            function buildBarChart2(container, graphData) {
 
                 Highcharts.chart(container, {
 
@@ -117,7 +101,7 @@
                         type: 'column'
                     },
                     title: {
-                        text: 'Nombre de consultation par Medium'
+                        text: 'Nombre de consultation par Employé'
                     },
                     subtitle: {
                         text: 'Source: Base de donnée Predictif'

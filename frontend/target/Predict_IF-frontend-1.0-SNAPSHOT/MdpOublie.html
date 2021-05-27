@@ -9,44 +9,78 @@ and open the template in the editor.
         <link rel="stylesheet" href="style.css" type="text/css"/>
         <meta charset="UTF-8">
         <title>Réinitialiser Mot de Passe</title>
+         <link href="bootstrap.min.css" rel="stylesheet">
+        <link href="buttons.css" rel="stylesheet">
+        <!-- Librairie Javascript: jQuery (v3.4.1) --
         <!-- Librairie Javascript: jQuery (v3.4.1) -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     </head>
     <body>
         <div id="page">
         
-            <header> 
+              <header> 
                 <img  src="image/logo.png" alt="logo du site" id="logo">
-                <h1>Réinitialiser votre mot de passe</h1> 
-            </header>     
+                <h1 id="headerText">Réinitialiser votre mot de passe</h1> 
+            </header>      
        
             <!-- Paragraphe avec id="notification" pour les messages de notification -->
             <p id="notification"></p>
         
         
-            <div class="rectangle">
-            
-                nom : <input type="text" id="champ-nom" size="40" />
-                <br/>
-                prénom : <input type="text" id="champ-prenom" size="40" />
-                <br/>
-                adresse mail : <input type="text" id="champ-login" size="40" />
-                <br/>
-                date de naissance : <input type="text" id="champ-date" size ="40"/>
-                <br/>
-                numéro de télephone : <input type="text" id="champ-tel" size ="40"/>
-                <br/>
-                nouveau mot de passe : <input type="password" id="champ-newpassword" />
-                <br/>
-                confirmer nouveau mot de passe : <input type="password" id="champ-newpassword2" />
-                <br/>
-        
-                <div class="les_boutons">
-                    <button onclick="window.location.href = 'login.html';">Annuler</button>
-                    <button id="bouton-reinit">Réinitialiser</button>
-                </div>  
+           <div class="container rectangle" style="height: 560px;">
+                <div class="heading">
+                    <h2 style="text-align: center;">Veuillez entrer vos nouveaux identifiants pour changer de mot de passe</h2>
+                </div>
+                <div class="row" style="text-align: center; margin: 0 auto;">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">Nom</span>
+                        </div>
+                        <input type="text" class="form-control" id="champ-nom" placeholder="Last name" aria-label="Name" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">Prénom</span>
+                        </div>
+                        <input type="text" class="form-control" id="champ-prenom" placeholder="Firt name" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">Adresse mail</span>
+                        </div>
+                        <input type="text" class="form-control" id="champ-login" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">Date de naissance</span>
+                        </div>
+                        <input type="text" class="form-control" id="champ-date" placeholder="Birthday date (dd/mm/yyyy)" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">Numéro de téléphone</span>
+                        </div>
+                        <input type="text" class="form-control" id="champ-tel" placeholder="Phone number" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">Nouveau mot de passe</span>
+                        </div>
+                        <input type="password" class="form-control" id="champ-newpassword" placeholder="New password" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="basic-addon1">Nouveau mot de passe (confirmer)</span>
+                        </div>
+                        <input type="password" class="form-control" id="champ-newpassword2" placeholder="Confirm new password" aria-label="Username" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="les_boutons" >
+                        <button type="button" onclick="window.location.href = 'login.html';" class="btn btn-outline-dark btn-lg" style="margin-left: 20px;">Annuler</button>
+                        <button type="button" id="bouton-reinit" class="btn btn-outline-dark btn-lg">Réinitialiser</button>
+                    </div>  
+                </div>
             </div>
-        
+
         
             <footer>
                 <p>  </p>

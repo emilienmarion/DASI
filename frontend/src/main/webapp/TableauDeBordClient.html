@@ -6,21 +6,372 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>PREDICT'IF</title>
          <link rel="stylesheet" href="style.css" type="text/css"/>
+         <!-- Librairie Javascript: jQuery (v3.4.1) -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <!-- Bootstrap core CSS -->
+        <link href="bootstrap.min.css" rel="stylesheet">
+        <link href="buttons.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
     <body>
         
-         <header > 
+        <header > 
             <img  src="image/logo.png" alt="logo du site" id="logo" >
-            <h1>  c</h1> 
-            </header>     
+                <h1 id="BienvenueNom">  </h1> 
+                <img  src="image/logo.png" alt="logo du site" id="logo" >
+            <a href="login.html"><button id="bouton-bandeau" type="button" class="btn btn-dark"><i class='material-icons'>exit_to_app</i>Deconnexion</button></a>
+            <h1 id="BienvenueNom" style="margin-left: 210px">  </h1> 
+     
+        </header> 
         
-         <footer>
-            <p>  </p>
-        </footer>
+        
+         <div class="bandeau home_bandeau">
+            <ul>
+                <li>
+                    <div class="caption">
+                        <div>
+                            <h1><strong>PREDICT'IF</strong></h1>
+                            <a href="#DemandeConsultation" style="padding: 15px 36px; display: inline-block; font-family: 'Open Sans', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-size: 20px; font-weight: 600; text-align: center; color: #e62b1e; text-decoration: none; background-color: #fff; border: none; -webkit-border-radius: 4px; border-radius: 4px; -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);" id="widgetButton_event" >Consulter nos médiums</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="ProfilAstral">
+            <table>
+                <tr>
+                    <td><h1>Découvrez votre profil Astral</h1></td>
+                </tr>
+            </table>
+            <div class="container">
+                <div class="row>">
+                    <section>
+                        <div  id="signeZodiaque">
+                            <div id="overlay1" class="overlay">
+                                <div id="popup" class="popup">
+                                    <h2>
+                                        Votre signe du zodiaque est <p id="valueSZ"></p>
+                                        <span id="btnClose1" class="btnClose">&times;</span>
+                                    </h2>
+                                </div>
+                            </div>
+                            <a class="btnPopup" id="btnPopup1">
+                                <img  src="image/signeZodiaque.png" alt="logo d'un signe du zodiaque pour le profil astral" id="astro_image" >
+                            </a>
+                            <p>Signe du Zodiaque</p>
+                            <script id="ouvrir_pop-up">
+                                var btnPopup1 = document.getElementById('btnPopup1');
+                                var overlay1 = document.getElementById('overlay1');
+                                btnPopup1.addEventListener('click',openMoadl);
+                                function openMoadl() {
+                                overlay1.style.display='block';
+                                }
+                            </script>
+                            <script id="fermer_pop-up">
+                                var btnClose1 = document.getElementById('btnClose1');
+                                btnClose1.addEventListener('click',closeModal);
+                                function closeModal() {
+                                overlay1.style.display='none';
+                                }
+                            </script>
+                        </div>
+                        <div  id="signeChinois">
+                            <div id="overlay2" class="overlay">
+                                <div id="popup" class="popup">
+                                    <h2>
+                                        Votre signe astrologique chinois est <p id="valueSC"></p> 
+                                        <span id="btnClose2" class="btnClose">&times;</span>
+                                    </h2>
+                                </div>
+                            </div>
+                            <a class="btnPopup" id="btnPopup2">
+                                <img  src="image/signeChinois.png" alt="logo d'un signe chinois pour le profil astral" id="astro_image" >
+                            </a>
+                            <p>Signe astrologique chinois</p>
+                            <script id="ouvrir_pop-up">
+                                var btnPopup2 = document.getElementById('btnPopup2');
+                                var overlay2 = document.getElementById('overlay2');
+                                btnPopup2.addEventListener('click',openMoadl);
+                                function openMoadl() {
+                                overlay2.style.display='block';
+                                }
+                            </script>
+                            <script id="fermer_pop-up">
+                                var btnClose2 = document.getElementById('btnClose2');
+                                btnClose2.addEventListener('click',closeModal);
+                                function closeModal() {
+                                overlay2.style.display='none';
+                                }
+                            </script>
+                        </div>
+                        <div  id="couleurPorteBonheur">
+                            <div id="overlay3" class="overlay">
+                                <div id="popup" class="popup">
+                                    <h2>
+                                        Votre couleur porte bonheur est <p id="valueCPB"></p>
+                                        <span id="btnClose3" class="btnClose">&times;</span>
+                                    </h2>
+                                </div>
+                            </div>
+                            <a class="btnPopup" id="btnPopup3">
+                                <img  src="image/couleurBonheur.png" alt="logo d'une couleur porte bonheur pour le profil astral" id="astro_image" >
+                            </a>
+                            <p>Couleur porte bonheur</p>
+                            <script id="ouvrir_pop-up">
+                                var btnPopup3 = document.getElementById('btnPopup3');
+                                var overlay3 = document.getElementById('overlay3');
+                                btnPopup3.addEventListener('click',openMoadl);
+                                function openMoadl() {
+                                overlay3.style.display='block';
+                                }
+                            </script>
+                            <script id="fermer_pop-up">
+                                var btnClose2 = document.getElementById('btnClose3');
+                                btnClose3.addEventListener('click',closeModal);
+                                function closeModal() {
+                                overlay3.style.display='none';
+                                }
+                            </script>
+                        </div>
+                        <div  id="animalTotem">
+                            <div id="overlay4" class="overlay">
+                                <div id="popup" class="popup">
+                                    <h2>
+                                        Votre animal Totem est <p id="valueAT"></p>
+                                        <span id="btnClose4" class="btnClose">&times;</span>
+                                    </h2>
+                                </div>
+                            </div>
+                            <a class="btnPopup" id="btnPopup4">
+                                <img  src="image/animalTotem.png" alt="logo d'un animal totem pour le profil astral" id="astro_image" > 
+                            </a>
+                            <p>Animal-Totem</p>
+                            <script id="ouvrir_pop-up">
+                                var btnPopup4 = document.getElementById('btnPopup4');
+                                var overlay4 = document.getElementById('overlay4');
+                                btnPopup4.addEventListener('click',openMoadl);
+                                function openMoadl() {
+                                overlay4.style.display='block';
+                                }
+                            </script>
+                            <script id="fermer_pop-up">
+                                var btnClose4 = document.getElementById('btnClose4');
+                                btnClose4.addEventListener('click',closeModal);
+                                function closeModal() {
+                                overlay4.style.display='none';
+                                }
+                            </script>
+                        </div>
+                    </section>
+                </div>                    
+            </div>
+        </div>
+
+        
+        
+        
+        <div id="DemandeConsultation">
+        
+        <h1>Liste des Médiums</h1>
+        <h2>Spirites</h2>
+        <table id="liste-spirites" border="1">
+           
+        </table>
+        <h2>Cartomanciens</h2>
+        <table id="liste-cartomanciens" border="1">
+           
+        </table>
+        <h2>Astrologues</h2>
+        <table id="liste-astrologues" border="1">
+        </table>
+        </div>
+        
+          <div id="historiqueClient">
+            <p id="line2"></p>
+            <table>
+                <tr>
+                    <td><h1>L'historique de vos consultations</h1></td>
+                </tr>
+            </table>
+            <div id="histo">
+                
+            </div>
+        </div>
+
+        
+        
+        
+        
+        
+        <script>
+            function boutonRDV(){
+                $('body').on('click', 'button.prendreRDV', function() {
+                var idmedium = $(this).data("idmedium");
+                console.log(idmedium);
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'prendreRdv',
+                        id: idmedium
+                    },
+                    dataType: 'json'
+                })
+                 .done(function (response) {
+                    // $('#rdv').html("Votre rendez vous a bien été transmis");
+                     
+                     if(response.succes){
+                          $('#rdv').html("Votre rendez vous a bien été transmis");
+                          $('#accueil').html("Retour à la page d'accueil");
+                          alert("Votre rendez-vous est pris. Votre médium vous appelera dans quelques minutes.");
+                         
+                     }else{
+                          $('#rdv').html("Le medium n'est pas disponible");
+                          $('#accueil').html("Retour à la page d'accueil");
+                          alert("Veuillez nous excuser, ce médium n'est pas disponible pour le moment");
+                     }
+                })
+                .fail( function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                        console.log('Error',error); // LOG dans Console Javascript
+                        alert("Erreur lors de l'appel AJAX");
+                 });
+            });
+        }
+            function afficheMediums(){
+                $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'affichermediums'
+                    },
+                    dataType: 'json'
+                })
+                .done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                    console.log('Response',response); // LOG dans Console Javascript
+                    var cartos = response.cartos;
+                    $('#liste-cartomanciens').empty();
+                    $('#liste-cartomanciens').append('<th>Dénomination</th><th>Genre</th><th>Présentation</th><th>Prise de consultation</th>');
+                    $.each(cartos, function (index, carto) {
+                        $('#liste-cartomanciens').append('<tr><td>' + carto.nom + '</td>'+ '<td>' + carto.genre + '</td><td>' + carto.description + '</td><td> <button class = "prendreRDV" data-idMedium ="' + carto.numero + '">demander une consultation</button></td></tr>'); // Ajouter du contenu dans l'élément, ici la liste HTML '<li>' +
+                    });
+                    
+                    var astros = response.astros;
+                    $('#liste-astrologues').empty();
+                    $('#liste-astrologues').append('<th>Dénomination</th><th>Genre</th><th>Formation</th><th>Promotion</th><th>Présentation</th><th>Prise de consultation</th>');
+                    $.each(astros, function (index, astro) {
+                        $('#liste-astrologues').append('<tr><td>' + astro.nom + '</td>'+ '<td>' + astro.genre + '</td><td>'+ astro.formation + '</td><td>' + astro.promotion + '</td><td>' + astro.description + '</td><td> <button class = "prendreRDV" data-idMedium ="' + astro.numero + '">demander une consultation</button></td></tr>'); // Ajouter du contenu dans l'élément, ici la liste HTML '<li>' +
+                    });
+                    
+                    var spirits = response.spirits;
+                    $('#liste-spirites').empty();
+                    $('#liste-spirites').append('<th>Dénomination</th><th>Genre</th><th>Support</th><th>Présentation</th><th>Prise de consultation</th>');
+                    $.each(spirits, function (index, spirit) {
+                        $('#liste-spirites').append('<tr><td>' + spirit.nom + '</td>'+ '<td>' + spirit.genre + '</td><td>' + spirit.support + '</td><td>' + spirit.description + '</td><td> <button class = "prendreRDV" data-idMedium ="' + spirit.numero + '">demander une consultation</button></td></tr>'); // Ajouter du contenu dans l'élément, ici la liste HTML '<li>' +
+                    });
+                    
+                    var avis = 98;
+                })
+                .fail( function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                    console.log('Error',error); // LOG dans Console Javascript
+                    $("#liste-mediums").html("ERREUR");
+                })
+                .always( function () { // Fonction toujours appelée
+
+                });
+            }
+            
+             function ObtenirInfo(){
+                  $.ajax({
+                url: './ActionServlet',
+                method: 'POST',
+                data: {
+                    todo: 'obtenirInfoUser'
+                },
+                dataType: 'json'
+                })
+
+                .done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                    console.log('Response',response); // LOG dans Console Javascript
+                    var client = response.user ; 
+                    
+                    console.log(client);
+                    if(response.connexion){
+                           $('#BienvenueNom').html("<strong>Bienvenue "+client.infos.Prenom+"<strong>");
+                        console.log("réussi");
+                        $('#valueSZ').html(client.infos.profilAstral.signeZodiaque);
+                        $('#valueSC').html(client.infos.profilAstral.signeChinois);
+                        $('#valueCPB').html(client.infos.profilAstral.couleurBonheur);
+                        $('#valueAT').html(client.infos.profilAstral.animalTotem);
+
+                    }
+                })
+                .fail( function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                    console.log('Error',error); // LOG dans Console Javascript
+                    alert("Erreur lors de l'appel AJAX");
+                })
+                .always( function () { // Fonction toujours appelée
+
+                });
+             }
+            
+            
+            
+             function ObtenirHist(){
+                 
+                   $.ajax({
+                url: './ActionServlet',
+                method: 'POST',
+                data: {
+                    todo: 'obtenirHistoriqueClient'
+                },
+                dataType: 'json'
+                })
+                .done( function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                    console.log('Response',response); // LOG dans Console Javascript
+                    var listeCons = response.consultations;
+                    var histoHtml = $("#histo");
+                    histoHtml.empty();
+                    $.each( listeCons, function(i, cons){
+                        histoHtml.append(
+                            "<div style='margin: 35px auto;'><img style='height:160px; weight:120px;' src='image/"+cons.medium.denomination+".png' alt='imgMedium' id='imgMediumHistoClient' >\n\
+                            <table id='id"+ cons.id + "' style='margin: auto ; color: white; border: medium solid white;border-collapse: collapse; background-image: url(image/space.png);'>" +
+                            "<tr>\n\
+                            <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><strong>"+cons.medium.denomination+"</strong>, "+cons.medium.type+"</td>\n\
+                            <td rowspan='2' style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><i class='material-icons'>timer</i>"+cons.Duree+" min</td>\n\
+                            </tr>\n\
+                            <tr>\n\
+                            <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><i class='material-icons'>date_range</i><strong>"+cons.DateDebut+"</strong></td>\n\
+                            </tr>\n\
+                            </table></div>"
+                        );
+                    });
+                })
+                .fail( function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                    console.log('Error',error); // LOG dans Console Javascript
+                })
+                .always( function () { // Fonction toujours appelée
+                });
+                
+
+                 
+             }
+            
+            
+            $(document).ready( function () {
+                console.log("tableau de bord du client ouvert");
+               ObtenirInfo();
+                afficheMediums();
+                boutonRDV();
+                ObtenirHist();
+            });
+        </script>
+        
+        
         
     </body>
 </html>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
+import metier.modele.Consultation;
 import metier.modele.Employe;
 import metier.modele.Medium;
 import metier.modele.MediumAstro;
@@ -106,4 +107,15 @@ public class MediumDAO {
         return result;
     }
     
+
+
+
+
+  public Medium chercherMediumParId(Long mediumId) {
+        EntityManager em = JpaUtil.obtenirContextePersistance();
+        return em.find(Medium.class, mediumId);
+    }
+
+
+
 }

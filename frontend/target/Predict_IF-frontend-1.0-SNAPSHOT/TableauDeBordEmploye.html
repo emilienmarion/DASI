@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>tableau de bord Employe</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
          <link rel="stylesheet" href="style.css" type="text/css"/>
@@ -120,7 +120,7 @@ and open the template in the editor.
          
              
              
-             <div id="chercheMediumClient">
+              <div id="chercheMediumClient">
             <table style="width:100%">
                 <tr>
                     <th>
@@ -130,24 +130,24 @@ and open the template in the editor.
                         <button id="boutoncherchermedium">Rechercher</button>
                     </th>
                     <th>
-                        <p> Trouvez les informations concernant un client </p>
+                        <p> Trouvez l'historique de consultations d'un client </p>
                         <input type="text" id="champ-prenomclient" size="40" placeholder="Rentrez son Prenom" />
                         <input type="text" id="champ-nomclient" size="40" placeholder="Rentrez son nom" />
-                           <button id="boutonchercherclient">Rechercher</button>
+                           <button id="boutonconsultations">Rechercher</button>
                     </th>
                 </tr>
                 <tr>
                     <th>
-                        <p id = "mediumTr">Afficher ici le medium</p>
+                        <div id="afficherMed" class="historiquecons"></div>
                     </th>
                     <th>
-                        <p id = "clientTr">Afficher ici le client</p>
+                        <div id="historique" class="historiquecons"/></div>
                     </th>
                 </tr>
             </table>
         <br/> 
         </div>
-             
+  
              
              
              
@@ -163,7 +163,8 @@ and open the template in the editor.
             </div>
              
         <div id="container-5" class="highcharts-container"></div>
-         
+        <div id="container-3" class="highcharts-container"></div>
+         <div id="container-1" class="highcharts-container"></div>
         
         
         
@@ -208,7 +209,7 @@ and open the template in the editor.
     
     
     
-    $('#boutoncherchermedium').on( 'click', function () {
+     $('#boutoncherchermedium').on( 'click', function () {
                    $.ajax({
                         url: './ActionServlet',
                         method: 'POST',
@@ -220,10 +221,35 @@ and open the template in the editor.
                     }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
                         console.log('Response', response); // LOG dans Console Javascript
                         
-                        if (response.succes) {  
-                            $('#mediumTr').html(response.medium.infos.denomination);
+                        if (response.succes) {
+                            var afficherMed = $("#afficherMed");
+                            afficherMed.empty();
+                            var towrite = "<div style='margin: 35px auto;'><img style='height:160px; weight:120px;' alt='imgMedium' id='imgMediumHistoClient' >\n\
+                                <table id='id"+ response.medium.infos.id + "' style='margin: auto ; color: white; border: medium solid white;border-collapse: collapse; background-image: url(image/space.png);'>" +
+                                "<tr>\n\
+                                <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><strong>"+response.medium.infos.denomination+"</strong>, "+response.medium.type+"</td>\n\
+                                </tr>";
+                                if(response.medium.type === "Spirit"){
+                                    var spirit = "<tr>\n\
+                                                  <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'>Support: "+response.medium.infos.support+"</td>\n\
+                                                  </tr>";
+                                    towrite = towrite + spirit;
+                                }else if(response.medium.type === "Astrologue"){
+                                    var astro = "<tr>\n\
+                                                  <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><strong>Formation : </strong>"+response.medium.infos.formation+" </td>\n\
+                                                  <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><strong>Promotion : </strong>"+response.medium.infos.promotion+"</td>\n\
+                                                  </tr>";
+                                    towrite = towrite + astro;
+                                }
+                                var pres = "<tr>\n\
+                                            <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;' colspan='2'>"+response.medium.infos.presentation+"</td>\n\
+                                            </tr>";
+                                var fin = "</table></div>";
+                                towrite = towrite + pres + fin;
+                                afficherMed.append(towrite);
+
                         } else {
-                            $('#mediumTr').html("Le medium sasi n'existe pas, veuillez ressayer"); // Message pour le paragraphe de notification
+                            $('#afficherMed').html("Le medium sasi n'existe pas, veuillez ressayer"); // Message pour le paragraphe de notification
                         }
                      
 
@@ -234,6 +260,74 @@ and open the template in the editor.
 
                     });
                 });
+                
+                
+                $('#boutonconsultations').on( 'click', function () {
+                   $.ajax({
+                        url: './ActionServlet',
+                        method: 'POST',
+                        data: {
+                            todo: 'chercherClientNomPremom',
+                            nom: $('#champ-nomclient').val(),
+                            prenom: $("#champ-prenomclient").val()
+                        },
+                        dataType: 'json'
+                    }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                        console.log('Response', response); // LOG dans Console Javascript
+                        var historique = $("#historique");
+                        historique.empty();
+                        if (response.succes) {
+                            var listeCons = response.consultations;
+                            $.each( listeCons, function(i, cons){
+                                var towrite = "<div style='margin: 35px auto;'><img style='height:160px; weight:120px;' alt='imgMedium' id='imgMediumHistoClient' >\n\
+                                <table id='id"+ cons.id + "' style='margin: auto ; color: white; border: medium solid white;border-collapse: collapse; background-image: url(image/space.png);'>" +
+                                "<tr>\n\
+                                <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><strong>"+cons.medium.denomination+"</strong>, "+cons.medium.type+"</td>\n\
+                                <td rowspan='2' style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><i class='material-icons'>timer</i>"+cons.Duree+" min</td>\n\
+                                </tr>\n\
+                                <tr>\n\
+                                <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><i class='material-icons'>date_range</i><strong>"+cons.DateDebut+"</strong></td>\n\
+                                </tr>";
+                                if(cons.medium.type === "Spirit"){
+                                    var spirit = "<tr>\n\
+                                                  <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;' colspan='2'>Support: "+cons.medium.support+"</td>\n\
+                                                  </tr>";
+                                    towrite = towrite + spirit;
+                                }else if(cons.medium.type === "Astrologue"){
+                                    var astro = "<tr>\n\
+                                                  <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'>Formation "+cons.medium.formation + "</td>\n\
+                                                  <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'>Promotion "+cons.medium.promotion + "</td>\n\
+                                                  </tr>";
+                                    towrite = towrite + astro;
+                                }
+                                var comm = "<tr>\n\
+                                            <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;' colspan='2'>"+cons.commentaire+"</td>\n\
+                                            </tr>";
+                                var fin = "</table></div>";
+                                towrite = towrite + comm + fin;
+                                historique.append(towrite);
+                                
+                            });
+                        }else {
+                            $('#historique').html("Le Client n'a pas consultations"); // Message pour le paragraphe de notification
+                        }
+                     
+
+                    }).fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                        console.log('Error', error); // LOG dans Console Javascript
+                        alert("Erreur lors de l'appel AJAX");
+                    }).always(function () { // Fonction toujours appelée
+
+                    });
+                });
+
+
+
+
+
+
+
+
                   
                   $('#RefreshDemande').on( 'click', function () {
                    $.ajax({
@@ -361,7 +455,8 @@ and open the template in the editor.
                 Highcharts.chart(container, {
 
                     chart: {
-                        type: 'pie'
+                        type: 'pie',
+                        backgroundColor:'transparent'
                     },
                     title: {
                         text: 'Top 3 des médiums'
@@ -379,7 +474,196 @@ and open the template in the editor.
     
     
     
+      var lineChartData;
+    function StatMedium(){
+      $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'obtenirStatMedium'
+
+                    },
+                    dataType: 'json'
+                }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                    console.log('Response', response); // LOG dans Console Javascript
+                    if (response.succes) {
+                        var mediums = response.top3;
+                        let labels = {};
+                        var data=new Array();
+                        
+                         $.each( mediums, function(i, medium) {
+                                    console.log(medium);
+                                    
+                                    var mediumNom = medium.denomination;
+                                    var mediumType = medium.type;
+                                    var mediumNbConsult = medium.nbConsultations;
+                                    labels[i]=mediumNom+" ("+mediumType+")";
+                                    data[i]=mediumNbConsult;
+                                    
+                                }) ;
+                        
+                        
+                       // var labels=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
+                       
+                      
+                      // data[0]=27;
+                     //  data[1]=8;
+                       console.log("et regarde c moiii le tableau",labels);
+                        console.log("nb consult",data);
+                          lineChartData = {
+                              
+                labels: labels,
+                data: data
+               
+            };
+                         buildBarChart('container-3', lineChartData);
+                    }
     
+     }).fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                    console.log('Error', error); // LOG dans Console Javascript
+                    alert("Erreur lors de l'appel AJAX");
+                })
+                        .always(function () { // Fonction toujours appelée
+
+                        });
+
+
+
+            }
+            
+    
+    
+         
+            function buildBarChart(container, graphData) {
+
+                Highcharts.chart(container, {
+
+                    chart: {
+                        type: 'column',
+                        backgroundColor:'transparent'
+                    },
+                    title: {
+                        text: 'Nombre de consultation par Medium',
+                        style: {
+        color: 'black'
+      }
+                    },
+                    subtitle: {
+                        text: 'Source: Base de donnée Predictif'
+                    },
+                    xAxis: {
+                        categories: graphData.labels
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Nombre de consultations',
+                            style: {
+        color: 'black'
+      }
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: [{name: 'Données', data: graphData.data}]
+                });
+            }
+
+
+
+  var lineChartData;
+    function Statemp(){
+      $.ajax({
+                    url: './ActionServlet',
+                    method: 'POST',
+                    data: {
+                        todo: 'obtenirStatEmp'
+
+                    },
+                    dataType: 'json'
+                }).done(function (response) { // Fonction appelée en cas d'appel AJAX réussi
+                    console.log('Response', response);
+                    if (response.succes) {
+                        var emps = response.Employe;
+                        let labels = {};
+                        var data=new Array();
+                        
+                         $.each( emps, function(i, emp) {
+                                    console.log(emps);
+                                    
+                                    var empPrenom = emp.prenom;
+                                    var empNom = emp.nom;
+                                    var empNbConsult = emp.nbConsultations;
+                                    labels[i]=empPrenom+" "+emp.nom+" ";
+                                    data[i]=empNbConsult;
+                                    
+                                }) ;
+                        
+                        
+                      
+                       console.log("et regarde c moiii le tableau",labels);
+                        console.log("nb consult",data);
+                          lineChartData = {
+                              
+                labels: labels,
+               // data:   [23, 19, 15, 12, 5, -2, ]
+                data: data
+            };
+                         buildBarChart2('container-1', lineChartData);
+                    }
+    
+     }).fail(function (error) { // Fonction appelée en cas d'erreur lors de l'appel AJAX
+                    console.log('Error', error); // LOG dans Console Javascript
+                    alert("Erreur lors de l'appel AJAX");
+                })
+                        .always(function () { // Fonction toujours appelée
+
+                        });
+
+
+
+            }
+            
+  
+     
+    
+   
+         
+            function buildBarChart2(container, graphData) {
+
+                Highcharts.chart(container, {
+
+                    chart: {
+                        type: 'column',
+                       backgroundColor:'transparent'
+                    },
+                    title: {
+                        text: 'Nombre de consultation par Employé'
+                    },
+                    subtitle: {
+                        text: 'Source: Base de donnée Predictif'
+                    },
+                    xAxis: {
+                        categories: graphData.labels
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Nombre de consultations'
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: [{name: 'Données', data: graphData.data}]
+                });
+            }
+
     
     
     
@@ -390,6 +674,8 @@ and open the template in the editor.
           $(document).ready( function () {
               obetnirinfoemp();
               obtenirTop3();
+               StatMedium();
+               Statemp();
           
              $('#boutonDeconnexion').on( 'click', function () {
                    window.location = './login.html';

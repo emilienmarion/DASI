@@ -5,6 +5,9 @@
 
         <meta charset="UTF-8">
         <title>Connexion</title>
+         <!-- Librairie Javascript: jQuery (v3.4.1) -->
+        <link href="bootstrap.min.css" rel="stylesheet">
+        <link href="buttons.css" rel="stylesheet">
         <!-- Librairie Javascript: jQuery (v3.4.1) -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     </head>
@@ -12,10 +15,10 @@
 
     <div id="page">
         
-        <header > 
+          <header > 
             <img  src="image/logo.png" alt="logo du site" id="logo" >
-            <h1>Se connecter</h1> 
-            </header>     
+            <h1 id="headerText">Se connecter</h1> 
+            </header>         
        
  
 
@@ -23,17 +26,30 @@
         <p id="notification"></p>
         
         
-        <div class="rectangle">
-            
-        Adresse mail: <input type="text" id="champ-login" size="40" />
-        <br/>
-        Mot de passe: <input type="password" id="champ-password" />
-        <br/>
-        <div class="les_boutons">
-        <button id="bouton-connexion">Connexion</button>
-        <button id="bouton-mdpoublié">Mot de passe oublié</button>
-          </div>  
+         <div class="container rectangle">
+            <div class="heading">
+                <h2 style="text-align: center;">Veuillez entrer vos identifiants pour vous connecter</h2>
+            </div>
+            <div class="row" style="text-align: center; margin: 8% auto;">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">Adresse mail</span>
+                    </div>
+                    <input type="text" class="form-control" id="champ-login" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">Mot de passe</span>
+                    </div>
+                    <input type="password" class="form-control" id="champ-password" placeholder="Password" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+                <div class="les_boutons" style="margin-top: 3%;">
+                    <button type="button" id="bouton-mdpoublié" class="btn btn-outline-dark btn-lg" style="margin-left: 20px;">Mot de passe oublié</button>
+                    <button type="button" id="bouton-connexion" class="btn btn-outline-dark btn-lg">Se connecter</button>
+                </div>  
+            </div>
         </div>
+
         
         
         <footer>

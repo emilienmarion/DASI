@@ -11,7 +11,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import metier.modele.*;
@@ -30,6 +32,8 @@ public class HistoriqueConsultationSerialisation extends Serialisation{
         List<Consultation> listeCons =   (List<Consultation>) request.getAttribute("consultation");
         
         boolean succes = (boolean) request.getAttribute("connexion");
+         boolean client = (boolean) request.getAttribute("clientemp");
+         
         JsonObject container = new JsonObject();
         JsonObject containerCons = new JsonObject();
         
@@ -67,13 +71,21 @@ public class HistoriqueConsultationSerialisation extends Serialisation{
                         jsonConsMed.addProperty("type", "Spirit");
                         jsonConsMed.addProperty("support", ms.getSupport());
                     }
-
+                    DateFormat shortDateFormat = DateFormat.getDateTimeInstance(
+                        DateFormat.SHORT,
+                        DateFormat.SHORT);
+                    long diffInMillies = Math.abs(cons.getDateFin().getTime() - cons.getDateDeb().getTime());
+                    long diff = TimeUnit.MINUTES.convert(diffInMillies, TimeUnit.MILLISECONDS);
                     //On mets tout dans la consultation
                     jsonCons.addProperty("id", cons.getId() );
                     jsonCons.add("medium", jsonConsMed );
-                    jsonCons.addProperty("DateDemande", cons.getDemandeConsult().toString() );
-                    jsonCons.addProperty("DateDebut", cons.getDateDeb().toString());
-                    jsonCons.addProperty("DateFin", cons.getDateFin().toString());
+                    jsonCons.addProperty("DateDemande", shortDateFormat.format(cons.getDemandeConsult()).toString() );
+                    jsonCons.addProperty("DateDebut", shortDateFormat.format(cons.getDateDeb()).toString());
+                    jsonCons.addProperty("DateFin", shortDateFormat.format(cons.getDateFin()).toString());
+                    jsonCons.addProperty("Duree", diff);
+                     if(!client){
+                        jsonCons.addProperty("commentaire", cons.getCommentaire());
+                    }
                     jsonListeConsTerminee.add(jsonCons);
                 }
             }
@@ -87,28 +99,3 @@ public class HistoriqueConsultationSerialisation extends Serialisation{
     }
     
 }
-/**
- * Format de la reponse, faut remarquer que l'attrbut consultations est un tableau
- * {
- * "succes": true,
- * "consultations": [
- *   {
- *     "id": 1,
- *     "medium": {
- *       "id": 2,
- *       "denomination": "Serena",
- *       "genre": "H",
- *       "nbConsultation": 1,
- *       "photo": "URLphoto",
- *       "presentation": "Basée à Champigny-sur-Marne, Serena vous révèlera votre avenir pour éclairer votre\npassé",
- *      "type": "Astrologue",
- *       "promotion": "2006",
- *       "formation": "École Normale Supérieure d’Astrologie (ENS-Astro)"
- *     },
- *     "DateDemande": "Thu May 06 11:25:22 CEST 2021",
- *     "DateDebut": "Thu May 06 11:25:23 CEST 2021",
- *     "DateFin": "Thu May 06 11:25:23 CEST 2021"
- *   }
- * ]
- * }
- */

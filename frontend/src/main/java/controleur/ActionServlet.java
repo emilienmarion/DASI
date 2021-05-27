@@ -132,15 +132,15 @@ public class ActionServlet extends HttpServlet {
             
             case "chercherMediumDenomination":{
                
-                action=new ChercherMediumAction();
+                action = new HistoriqueClientAction();
                 serialisation=new SerialisationMedium();
                 break;
             }
             
             case "chercherClientNomPremom":{
                
-                action=new ChercherClientAction();
-                serialisation=new ProfilUtilisateurSerialisation();
+                action=new ChercherHistoriqueConsultationsClientAction();
+                serialisation=new HistoriqueConsultationSerialisation();
                 break;
             }
             
@@ -160,7 +160,33 @@ public class ActionServlet extends HttpServlet {
             }
             
             
-            
+                    
+             case "obtenirStatEmp":{
+               
+                action=new StatEmpAction();
+                serialisation=new ListeEmployeSerialisation();
+                break;
+            }
+             
+              case "prendreRdv":{
+               
+                action=new PrendreRdvAction();
+                serialisation=new SuccesEchecSerialisation();
+                break;
+            }
+              
+              case "affichermediums":{
+               
+                action=new AfficherListesMediums();
+                serialisation=new ObtenirListesMediumsSerialisation();
+                break;
+            }
+              
+            case "obtenirHistoriqueClient" :{
+                action = new HistoriqueClientAction();
+                serialisation = new HistoriqueConsultationSerialisation();
+                break;
+            }
             
             
         }

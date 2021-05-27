@@ -8,7 +8,7 @@ import metier.modele.Client;
 import metier.modele.Employe;
 import metier.modele.Medium;
 
-@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2021-05-25T17:13:48", comments="EclipseLink-2.7.7.v20200504-rNA")
+@Generated(value="org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor", date="2021-05-27T12:44:04", comments="EclipseLink-2.7.7.v20200504-rNA")
 @StaticMetamodel(Consultation.class)
 public class Consultation_ { 
 

@@ -679,5 +679,23 @@ return predictions;
      return c;   
     }
     
+     
+     public Medium chercherMediumtParID(Long mediumId) {
+        MediumDAO mediumDAO=new MediumDAO();
+         JpaUtil.creerContextePersistance();
+         Medium c=null;
+         try {
+        c=mediumDAO.chercherMediumParId(mediumId);
+         } catch(Exception ex){
+              Logger.getAnonymousLogger().log(Level.WARNING, "Exception lors de l'appel au Service chercher par ID Medium", ex);
+         }finally {
+            JpaUtil.fermerContextePersistance();
+        }
+     return c;   
+    }
+     
+     
+     
+     
     
 }

@@ -60,44 +60,45 @@ header{
       
 }
 
-header  h1{
+/*header  h1{
    font-size: 2em;  
    text-align: center;
    vertical-align:middle;
    line-height: 100px;
+}*/
+
+#headerText, #BienvenueNom{
+   font-size: 2em;  
+   text-align: center;
+   vertical-align:middle;
+   line-height: 100px;
+   text-transform: uppercase;
 }
+
+
 
 #bouton-bandeau{
    font-size: 2em;  
-   text-align: center;
-   vertical-align:right;
-   line-height: 100px;
+   float: right;
+   line-height: 60px;
+   margin: 10px 10px;
 }
 
-#logo{
+/*#logo{
    position: absolute;
 left:50;
 top:10;
     width: 276px;
     height: 100px; 
-}
-
-
-/*.rectangle{
-     
-
-    width: 50%; 
-    height: 350px;
-    background-color: white;
-     
-    margin: auto;  
-   border: 3px #365dd3 groove;
-    text-align: justify;
-    padding: 12px;
-    margin-bottom: 20px;
-
-    
 }*/
+
+
+#logo{
+    position: absolute;
+    margin-left:50px;
+    width: 276px;
+    height: 100px; 
+}
 
 footer{
     background-color: #3c78d8ff;  
@@ -158,6 +159,8 @@ top:10;
 
 
 
+
+
 input:invalid+span:after {
   content: '✖';
   padding-left: 5px;
@@ -185,15 +188,278 @@ input:valid+span:after {
 }
 
 
-.highcharts-background{
-    background-color: black
+.prediction{
+    text-align: center;
+    
+}
+
+
+/*Inscription*/
+.rectangle{
+    width: 40%; 
+    height: 450px;
+    background-color: white;
+    margin: auto;  
+    border: 3px #365dd3 groove;
+    text-align: justify;
+    justify-content: center;
+    padding: 12px;
+    border-radius: 10px;
+    border-width: 20px;
+}
+#InscriptionForm input{
+    margin: 0px auto;
+    display: block;
+}
+#InscriptionForm select{
+    margin: 0px auto;
+    display: block;
+}
+#bouton-creation, #bouton-connexion, #bouton-mdpoublié{
+    margin: 20px 0;
+    float: right;
 }
 
 
 
-#container-5{
-    background-color: black
-        fill: rgb(255, 255, 255);
+
+
+#astro_image{
+    height: 100px;
+    width: 100px;
 }
 
+/*page acceuil*/
+.carousel-item{
+    text-align: center;
+    vertical-align:middle;
+}
 
+section {
+    display: grid;
+    justify-content: center;
+    grid-gap: 10rem;
+    align-content: center;
+    grid-auto-flow: column;
+}
+
+section div{
+    width: 200px;
+    float: left;
+    padding-top: 10px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.tableMediumAccueil{
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 0px;
+}
+
+#imgMediumAccueil{
+    float: left;
+    margin-left: 25%;
+}
+
+#main_image {
+    height: 800px;
+    width: 100%;
+    background: url('image/fondAccueil.png') center;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% auto;
+    font-family: helvetica, Verdana, Geneva, sans-serif;;
+}
+#main_image div{
+    margin-left: 90px;
+    
+}
+
+#textAccueil{
+    color: #1E90FF;
+    text-align: center;
+    margin: 30px auto;
+    font-family: 'Tangerine';
+    font-size: 50px;
+    font-weight: bold;
+}
+#line{
+    margin: 0px 400px 30px 400px;
+    border-top: solid;
+    border-top-color: #1E90FF;
+}
+#astral section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*Bandeau tableau de bord client*/
+.bandeau {
+    height: 90vh; 
+    touch-action: pan-y; 
+    -webkit-user-drag: none; 
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    position: relative;
+    width: 100%;
+}
+
+.bandeau ul {
+    opacity: 1;
+    background-size: cover;
+    background-position: center;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: inherit;
+    overflow: hidden;
+}
+
+.bandeau ul li {
+    width: 100%;
+    height: inherit;
+}
+
+.bandeau.home_bandeau ul {
+    background-image: url('image/fondAccueil.png');
+}
+
+.bandeau ul li {
+    opacity: 1;
+    background-size: cover;
+    background-position: center;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: inherit;
+    overflow: hidden;
+}
+
+.bandeau .caption {
+    opacity: 1; 
+    transform: translateY(0px) translateX(0px);
+    color: #fff;
+    width: 70%;
+    text-align: center;
+}
+
+.bandeau.home_bandeau .caption {
+    position: absolute;
+    top: 40%;
+    left: 15%;
+}
+
+.bandeau .caption h1{
+    font-weight: 800;
+    letter-spacing: 10px;
+    font-size: 5rem;
+    line-height: 6.5rem;
+    color: #8B0000;
+}
+
+.bandeau .caption p{
+    font-weight: 600;
+    letter-spacing: 5px;
+    font-family: 'Open Sans', sans-serif;
+    color: #e0e0e0;
+}
+
+section {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+@media (max-width: 768px) {
+    .bandeau .caption h1 {
+        font-size: 2.2rem;
+    }
+}
+
+/*profil astral client*/
+.ProfilAstral table tr td h1{
+    color: black;
+    text-align: center;
+    margin: 10px auto;
+}
+.ProfilAstral table{
+    margin: 20px auto;
+    width: 500px;
+}
+td
+{
+    border: 1px solid black;
+}
+
+/*pop-up profil astral*/
+.btnPopup{
+cursor: pointer;
+}
+.overlay {
+position: fixed;
+left: 0px;
+top:0px;
+background-color: rgba(0,0,0,0.5);
+width: 100%;
+height: 100%;
+z-index:1;
+display:none;
+}
+.popup{
+margin: 10% 10%;
+width : 70%;
+background-color: rgb(243, 243, 243);
+padding: 1em;
+box-shadow: 0 15px 20px rgba(0, 0, 0, 0.3);
+border-radius: 5px;
+}
+.btnClose {
+float: right;
+font-size:16pt;
+cursor: pointer;
+color: rgb(26, 26, 26);
+}
+
+.ProfilAstral section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*page client historique*/
+#line2{
+    border-bottom: solid;
+    border-bottom-color: black;
+}
+
+#historiqueClient tr td h1{
+    color: black;
+    text-align: center;
+    margin: 10px auto;
+}
+#historiqueClient table{
+    margin: 20px auto;
+    width: 500px;
+}
+#imgMediumHistoClient{
+    float: right;
+    margin-right: 10px;
+}
+#histo{
+    margin: auto;
+    margin-bottom: 30px;
+    overflow: auto;
+    height: 400px;
+    width: 950px;
+    border: medium solid black;
+    align-content: center;
+}
+.material-icons{
+    margin-right: 10px;
+}

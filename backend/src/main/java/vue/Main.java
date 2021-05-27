@@ -271,6 +271,11 @@ public class Main {
             
           // testerRenimdp();
             */
+            
+            
+            afficherMediumParType();
+            
+            
              System.out.println("mainnn");
            
         } catch (Exception ex) {

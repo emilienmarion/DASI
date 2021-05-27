@@ -12,10 +12,10 @@
 
     <div id="page">
         
-        <header > 
-            <img  src="image/logo.png" alt="logo du site" id="logo" ">
-            <h1>Création de compte</h1> 
-            </header>     
+          <header > 
+            <img  src="image/logo.png" alt="logo du site" id="logo" >
+            <h1 id="headerText">Créer votre  compte</h1> 
+            </header>         
        
  
 
@@ -23,30 +23,61 @@
         <p id="notification"></p>
         
         
-        <div class="rectangle">
+         <div class="container rectangle">
             
-            <input type="text" id="champ-nom" size="40" placeholder="Nom" />
-        <br/>
-            <input type="text" id="champ-prenom" size="40" placeholder="Prénom" />
-        <br/>
-            <input type="text" id="champ-datenaissance" size="40" placeholder="Date de naissance au format dd/mm/yyyy"/>
-        <br/>
-            <input type="text" id="champ-genre" size="40" placeholder="Genre (H/F)"/>
-        <br/>
-            <input type="text" id="champ-addpostale" size="40" placeholder="Adresse postale"/>
-        <br/>
-            <input type="text" id="champ-numtel" size="40" placeholder="Numero de téléphone" />
-        <br/>
-            <input type="text" id="champ-email" size="40" placeholder="Adresse email"/>
-        <br/>
-            <input type="password" id="champ-password" size="40" placeholder="Mot de passe"/>
-        <br/>
+            <div class="heading">
+                <h2 style="text-align: center;">Veuillez renseigner vos informations pour vous inscrire</h2>
+            </div>
+                
+            <div class="row" style="text-align: center; margin: auto;">
 
-        <div class="les_boutons">
-        <button id="bouton-creation">Créer son compte</button>
-          </div>  
+                    <form id="InscriptionForm" method="post" action="" role="form">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="champ-nom">Nom : </label>
+                                <input type="text" id="champ-nom" size="40" placeholder="" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="champ-prenom">Prénom : </label>
+                                <input type="text" id="champ-prenom" size="40" placeholder="" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="champ-datenaissance">Date de naissance (dd/mm/yyyy) : </label>
+                                <input type="text" id="champ-datenaissance" size="40" placeholder=""/>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="champ-genre">Genre : </label>
+                                <select id="champ-genre" >
+                                    <option value="">--Veuillez choisir une option--</option>
+                                    <option value="F">Femme</option>
+                                    <option value="H">Homme</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="champ-addpostale">Adresse postale : </label>
+                                <input type="text" id="champ-addpostale" size="40" placeholder=""/>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="champ-numtel">Numéro de téléphone : </label>
+                                <input type="text" id="champ-numtel" size="40" placeholder="" />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="champ-email">Adresse email : </label>
+                                <input type="text" id="champ-email" size="40" placeholder=""/>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="champ-password">Mot de passe : </label>
+                                <input type="password" id="champ-password" size="40" placeholder=""/>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="les_boutons">
+                        <button type="button" id="bouton-creation" class="btn btn-outline-dark btn-lg">Creer son compte</button>
+                    </div>  
+               
+           </div>
         </div>
-        
+
         
         <footer>
             <p>  </p>
