@@ -31,7 +31,7 @@ public class HistoriqueConsultationSerialisation extends Serialisation{
         
         List<Consultation> listeCons =   (List<Consultation>) request.getAttribute("consultation");
         
-        boolean succes = (boolean) request.getAttribute("connexion");
+        boolean succes = (boolean) request.getAttribute("succes");
          boolean client = (boolean) request.getAttribute("clientemp");
          
         JsonObject container = new JsonObject();

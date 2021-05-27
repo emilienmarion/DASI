@@ -81,7 +81,10 @@ header{
    font-size: 2em;  
    float: right;
    line-height: 60px;
-   margin: 10px 10px;
+   
+    position: absolute;
+    margin-left:80%;
+   
 }
 
 /*#logo{
@@ -455,6 +458,7 @@ color: rgb(26, 26, 26);
     margin: auto;
     margin-bottom: 30px;
     overflow: auto;
+    
     height: 400px;
     width: 950px;
     border: medium solid black;
@@ -462,4 +466,13 @@ color: rgb(26, 26, 26);
 }
 .material-icons{
     margin-right: 10px;
+}
+
+
+.historiquecons{
+  width: auto;
+  height: 320px;
+  overflow: auto;
+  margin: 10px auto;
+  border-style: solid;
 }

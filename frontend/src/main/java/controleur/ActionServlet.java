@@ -131,8 +131,8 @@ public class ActionServlet extends HttpServlet {
             }
             
             case "chercherMediumDenomination":{
-               
-                action = new HistoriqueClientAction();
+                System.out.println("Jesuis dans medium denominatio,");
+                action = new ChercherMediumAction();
                 serialisation=new SerialisationMedium();
                 break;
             }

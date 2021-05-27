@@ -13,6 +13,7 @@ and open the template in the editor.
           <!-- Librairie Javascript: jQuery (v3.4.1) -->
            <script src="https://code.highcharts.com/highcharts.js"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
          <style type="text/css">
             h1 { text-align: center; }
             .highcharts-container {
@@ -224,10 +225,10 @@ and open the template in the editor.
                         if (response.succes) {
                             var afficherMed = $("#afficherMed");
                             afficherMed.empty();
-                            var towrite = "<div style='margin: 35px auto;'><img style='height:160px; weight:120px;' alt='imgMedium' id='imgMediumHistoClient' >\n\
+                            var towrite = "<div style='margin: 35px auto;'><img style='height:200px; weight:150px; float:left' src='image/"+response.medium.infos.denomination+".png' alt='imgMedium' id='imgMedium' >\n\
                                 <table id='id"+ response.medium.infos.id + "' style='margin: auto ; color: white; border: medium solid white;border-collapse: collapse; background-image: url(image/space.png);'>" +
                                 "<tr>\n\
-                                <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><strong>"+response.medium.infos.denomination+"</strong>, "+response.medium.type+"</td>\n\
+                                <td colspan='2' style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><strong>"+response.medium.infos.denomination+"</strong>, "+response.medium.type+"</td>\n\
                                 </tr>";
                                 if(response.medium.type === "Spirit"){
                                     var spirit = "<tr>\n\
@@ -279,9 +280,11 @@ and open the template in the editor.
                         if (response.succes) {
                             var listeCons = response.consultations;
                             $.each( listeCons, function(i, cons){
-                                var towrite = "<div style='margin: 35px auto;'><img style='height:160px; weight:120px;' alt='imgMedium' id='imgMediumHistoClient' >\n\
+                                var towrite = "<div style='margin: 35px auto;'>\n\
                                 <table id='id"+ cons.id + "' style='margin: auto ; color: white; border: medium solid white;border-collapse: collapse; background-image: url(image/space.png);'>" +
                                 "<tr>\n\
+                               <td  style='height:80px; text-align: center; font-size: 25px; border: thin solid white;' rowspan='3'> <img style='height:200px; weight:150px; float:left' src='image/"+cons.medium.denomination+".png' alt='imgMedium' id='imgMedium' ></td>\n\
+\n\
                                 <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><strong>"+cons.medium.denomination+"</strong>, "+cons.medium.type+"</td>\n\
                                 <td rowspan='2' style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><i class='material-icons'>timer</i>"+cons.Duree+" min</td>\n\
                                 </tr>\n\
