@@ -21,10 +21,9 @@ and open the template in the editor.
         
         <header > 
             <img  src="image/logo.png" alt="logo du site" id="logo" >
-                <h1 id="BienvenueNom">  </h1> 
-                <img  src="image/logo.png" alt="logo du site" id="logo" >
-            <a href="login.html"><button id="bouton-bandeau" type="button" class="btn btn-dark"><i class='material-icons'>exit_to_app</i>Deconnexion</button></a>
-            <h1 id="BienvenueNom" style="margin-left: 210px">  </h1> 
+            <a href="login.html"><button id="bouton-bandeau1" class="btn btn-dark"><i class='material-icons'>play_arrow</i>Deconnexion</button></a>
+               <h1 id="BienvenueNom" style="margin-left: 210px">  </h1> 
+ 
      
         </header> 
         
@@ -175,20 +174,33 @@ and open the template in the editor.
         
         
         
-        <div id="DemandeConsultation">
-        
-        <h1>Liste des Médiums</h1>
-        <h2>Spirites</h2>
-        <table id="liste-spirites" border="1">
-           
-        </table>
-        <h2>Cartomanciens</h2>
-        <table id="liste-cartomanciens" border="1">
-           
-        </table>
-        <h2>Astrologues</h2>
-        <table id="liste-astrologues" border="1">
-        </table>
+       <div id="DemandeConsultation">
+            
+            <table>
+                <tr>
+                    <td><h1>Trouvez le médium qui vous correspond !!</h1></td>
+                </tr>
+            </table>
+            
+            <div class="wrapper">
+                <div id="listeSpirit">
+                    <h2 style="text-align: center">Spirites</h2>
+                    <table id="liste-spirites" border="1">
+                        
+                    </table>
+                </div>
+                <div id="listeCarto">
+                    <h2 style="text-align: center">Cartomanciens</h2>
+                    <table id="liste-cartomanciens" border="1">
+
+                    </table>
+                </div>
+                <div id="listeAstro">
+                    <h2 style="text-align: center">Astrologues</h2>
+                    <table id="liste-astrologues" border="1">
+                    </table>
+                </div>
+            </div>
         </div>
         
           <div id="historiqueClient">

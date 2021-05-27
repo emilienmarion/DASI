@@ -77,15 +77,36 @@ header{
 
 
 
-#bouton-bandeau{
+
+#bouton-bandeau1{
    font-size: 2em;  
    float: right;
    line-height: 60px;
    
     position: absolute;
-    margin-left:80%;
+    margin-left:83%;
    
 }
+#bouton-bandeau2{
+    
+     font-size: 2em;  
+   float: right;
+   line-height: 60px;
+   
+    position: absolute;
+    margin-left:65%;
+    
+}
+#bouton-bandeau{
+     font-size: 2em;  
+   float: right;
+   line-height: 60px;
+   
+    position: absolute;
+    margin-left:83%;
+   
+}
+
 
 /*#logo{
    position: absolute;
@@ -255,14 +276,12 @@ section div{
 }
 
 .tableMediumAccueil{
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: 0px;
+    margin:auto;
 }
 
 #imgMediumAccueil{
     float: left;
-    margin-left: 25%;
+   
 }
 
 #main_image {
@@ -287,6 +306,11 @@ section div{
     font-size: 50px;
     font-weight: bold;
 }
+
+#astral div{
+    font-family: 'Comic Sans MS';
+}
+
 #line{
     margin: 0px 400px 30px 400px;
     border-top: solid;
@@ -388,6 +412,7 @@ section {
 /*profil astral client*/
 .ProfilAstral table tr td h1{
     color: black;
+    font-family: 'Comic Sans MS';
     text-align: center;
     margin: 10px auto;
 }
@@ -443,6 +468,7 @@ color: rgb(26, 26, 26);
 
 #historiqueClient tr td h1{
     color: black;
+    font-family: 'Comic Sans MS';
     text-align: center;
     margin: 10px auto;
 }
@@ -475,4 +501,40 @@ color: rgb(26, 26, 26);
   overflow: auto;
   margin: 10px auto;
   border-style: solid;
+}
+
+
+
+/*Page client demande de consultation*/
+#DemandeConsultation table:first-child{
+    margin: 20px auto;
+    width: 500px;
+    text-align: center;
+}
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.5fr;
+  grid-gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+}
+#DemandeConsultation section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#DemandeConsultation table h1{
+    font-family: 'Comic Sans MS';
+}
+#DemandeConsultation table{
+    margin: auto;
+}
+.wrapper div {
+  width: 100%;
+  height: 450px;
+  overflow: auto;
+  margin: auto;
+  border-style: solid;
+}
+.wrapper{
+    font-family: 'Open Sans';
 }

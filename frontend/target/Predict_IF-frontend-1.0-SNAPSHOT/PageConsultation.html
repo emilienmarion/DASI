@@ -11,69 +11,36 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+         <!-- Bootstrap core CSS -->
+        <link href="bootstrap.min.css" rel="stylesheet">
+        <link href="buttons.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     </head>
     <body>
 
+       
+        
+        
         <header > 
             <img  src="image/logo.png" alt="logo du site" id="logo" >
-            <h1> Consultation en cours </h1> 
-            <button id="boutonDeconnexion">Se déconnecter</button>
-        </header>     
+            <a href="login.html"><button id="bouton-bandeau1" class="btn btn-dark"><i class='material-icons'>play_arrow</i>Deconnexion</button></a>
+               <h1 id="BienvenueNom" style="margin-left: 210px">Consultation en cours  </h1> 
+ 
+     
+        </header> 
+       
 
-
-        <p> Vous êtes en consultation avec le client suivant: : </p>
-
-
-        <!-- tableau qui va afficher le client -->
-        <table style="width:100%">
-            <tr>
-                <th>
-                    <p class="client_Nom">  </p>
-                </th> 
-
-                <th>
-                    <p class="client_Genre">  </p>
-                </th>
-                <th>
-                    <p class="client_num_tel">  </p>
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    <p class="client_mail">  </p> 
-                </th> 
-                <th>
-                    <p class="client_adresse">  </p> 
-                </th>
-            </tr>
-
-        </table><!-- comment -->
-
-
-
-        <p> vous incarnez: </p>
-
-
-        <!-- tableau qui va afficher le medium -->
-        <table style="width:100%">
-            <tr>
-                <th>
-                    <p class="Medium_Nom">  </p>
-                </th> 
-
-                <th>
-                    <p class="Medium_Genre">  </p>
-                </th>
-
-            </tr>
-            <tr>
-                <th>
-                    <p class="Medium_presentation">  </p> 
-                </th> 
-
-            </tr>
-
-        </table><!-- comment -->
+  
+        
+        <div id="consultationOrNot">
+             <!-- Faudra afficher la consultation demander ici -->
+             <p align="center"><strong>Vous êtes en consultation avec</strong></p>
+             <div id="clientpourconsult"></div>
+             <p align="center"><strong>Vous incarnez</strong></p>
+             <div id="mediumpourconsult"></div>
+             
+            
+        </div>
 
 
         <h2 class="prediction">Obtenir de l'aide</h2>     
@@ -137,9 +104,7 @@ and open the template in the editor.
 
 
 
-        <footer>
-            <p>  </p>
-        </footer>
+        
 
 
 
@@ -166,21 +131,50 @@ and open the template in the editor.
                         
                   if (response.succes) {  
                       
-                     
-                      var medium=response.medium;
-                      var client=response.client
-                      $(".client_Nom").html(client.Prenom+" "+client.nom );
-                      $(".client_Genre").html(" Genre : "+client.genre );
-                      $(".client_num_tel").html(" tel : "+client.numTel );
-                      $(".client_mail").html(" mail: "+client.mail );
-                      $(".client_adresse").html(+client.adressePostal );
-                      
-                      $(".Medium_Nom").html(medium.denomination+" , " +medium.type );
-                      $(".Medium_Genre").html("Genre :"+medium.genre );
-                      $(".Medium_presentation").html("Description : "+medium.presentation ); 
-                      
-                      
-
+                        $('#consultationOrNot').css("display","block");
+                        var medium=response.medium;
+                        var client=response.client;
+                        var mediv = $("#mediumpourconsult");
+                        var clidiv = $("#clientpourconsult");
+                        mediv.empty();
+                        clidiv.empty();
+                        
+                        var towritecli = "<div style='margin: 35px auto;'>\n\
+                                <table id='id"+ client.id + "' style='margin: auto ; color: white; border: medium solid white;border-collapse: collapse; background-image: url(image/space.png);'>" +
+                                "<tr>\n\
+                                <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><strong>"+client.Prenom+" "+client.nom+"</strong></td>\n\
+                                <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'>Genre: "+client.genre+"</td>\n\
+                                </tr>\n\
+                                <tr>\n\
+                                <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'>Tel: "+client.numTel+"</strong></td>\n\
+                                <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'>Email: "+client.mail+"</td>\n\
+                                </tr>";
+                        clidiv.append(towritecli);
+        
+                        var towritemed = "<div style='margin: 35px auto;'>\n\
+                                <table id='id"+ medium.id + "' style='margin: auto ; color: white; border: medium solid white;border-collapse: collapse; background-image: url(image/space.png);'>" +
+                                "<tr>\n\
+                                <td  style='height:80px; text-align: center; font-size: 25px; border: thin solid white;' rowspan='3'> <img style='height:200px; weight:150px; float:left' src='image/"+medium.denomination+".png' alt='imgMedium' id='imgMedium' ></td>\n\
+                                <td colspan='2' style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><strong>"+medium.denomination+"</strong>, "+medium.type+"</td>\n\
+                                </tr>";
+                                if(medium.type === "Spirit"){
+                                    var spirit = "<tr>\n\
+                                                  <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'>Support: "+medium.support+"</td>\n\
+                                                  </tr>";
+                                    towritemed = towritemed + spirit;
+                                }else if(medium.type === "Astrologue"){
+                                    var astro = "<tr>\n\
+                                                  <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><strong>Formation : </strong>"+medium.formation+" </td>\n\
+                                                  <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;'><strong>Promotion : </strong>"+medium.promotion+"</td>\n\
+                                                  </tr>";
+                                    towritemed = towritemed + astro;
+                                }
+                                var pres = "<tr>\n\
+                                            <td style='height:80px; text-align: center; font-size: 25px; border: thin solid white;' colspan='2'>"+medium.presentation+"</td>\n\
+                                            </tr>";
+                                var fin = "</table></div>";
+                                towritemed = towritemed + pres + fin; 
+                                mediv.append(towritemed);
                      } else {
                          $('#notification').html("Pas de consultations en attente"); // Message pour le paragraphe de notification
                      }
@@ -194,8 +188,8 @@ and open the template in the editor.
                             .always(function () { // Fonction toujours appelée
 
                             });
-                        }
-     
+                  }
+
             
             
             

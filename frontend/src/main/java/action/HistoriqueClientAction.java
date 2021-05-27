@@ -35,7 +35,7 @@ public class HistoriqueClientAction extends Action {
             conex= true;
             request.setAttribute("client", u);
         }
-        request.setAttribute("connexion", conex);
+        request.setAttribute("succes", conex);
         request.setAttribute("clientemp", true);
         request.setAttribute("consultation", listeConsultation);
 
