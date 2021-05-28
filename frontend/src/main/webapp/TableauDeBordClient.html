@@ -20,7 +20,9 @@ and open the template in the editor.
     <body>
         
         <header > 
-            <img  src="image/logo.png" alt="logo du site" id="logo" >
+             <a href="Page_Accueil.html">
+            <img  src="image/logo.png" alt="logo du site" id="logo"  >
+              </a>
             <a href="login.html"><button id="bouton-bandeau1" class="btn btn-dark"><i class='material-icons'>play_arrow</i>Deconnexion</button></a>
                <h1 id="BienvenueNom" style="margin-left: 210px">  </h1> 
  
@@ -269,21 +271,21 @@ and open the template in the editor.
                     $('#liste-cartomanciens').empty();
                     $('#liste-cartomanciens').append('<th>Dénomination</th><th>Genre</th><th>Présentation</th><th>Prise de consultation</th>');
                     $.each(cartos, function (index, carto) {
-                        $('#liste-cartomanciens').append('<tr><td>' + carto.nom + '</td>'+ '<td>' + carto.genre + '</td><td>' + carto.description + '</td><td> <button class = "prendreRDV" data-idMedium ="' + carto.numero + '">demander une consultation</button></td></tr>'); // Ajouter du contenu dans l'élément, ici la liste HTML '<li>' +
+                        $('#liste-cartomanciens').append('<tr><td>' + carto.nom + '</td>'+ '<td>' + carto.genre + '</td><td>' + carto.description + '</td><td> <button type="button" class = "prendreRDV btn btn-success" data-idMedium ="' + carto.numero + '"><i class="material-icons">call</i></button></td></tr>'); // Ajouter du contenu dans l'élément, ici la liste HTML '<li>' +
                     });
                     
                     var astros = response.astros;
                     $('#liste-astrologues').empty();
                     $('#liste-astrologues').append('<th>Dénomination</th><th>Genre</th><th>Formation</th><th>Promotion</th><th>Présentation</th><th>Prise de consultation</th>');
                     $.each(astros, function (index, astro) {
-                        $('#liste-astrologues').append('<tr><td>' + astro.nom + '</td>'+ '<td>' + astro.genre + '</td><td>'+ astro.formation + '</td><td>' + astro.promotion + '</td><td>' + astro.description + '</td><td> <button class = "prendreRDV" data-idMedium ="' + astro.numero + '">demander une consultation</button></td></tr>'); // Ajouter du contenu dans l'élément, ici la liste HTML '<li>' +
+                        $('#liste-astrologues').append('<tr><td>' + astro.nom + '</td>'+ '<td>' + astro.genre + '</td><td>'+ astro.formation + '</td><td>' + astro.promotion + '</td><td>' + astro.description + '</td><td> <button type="button" class = "prendreRDV btn btn-success" data-idMedium ="' + astro.numero + '"><i class="material-icons">call</i></button></td></tr>'); // Ajouter du contenu dans l'élément, ici la liste HTML '<li>' +
                     });
                     
                     var spirits = response.spirits;
                     $('#liste-spirites').empty();
                     $('#liste-spirites').append('<th>Dénomination</th><th>Genre</th><th>Support</th><th>Présentation</th><th>Prise de consultation</th>');
                     $.each(spirits, function (index, spirit) {
-                        $('#liste-spirites').append('<tr><td>' + spirit.nom + '</td>'+ '<td>' + spirit.genre + '</td><td>' + spirit.support + '</td><td>' + spirit.description + '</td><td> <button class = "prendreRDV" data-idMedium ="' + spirit.numero + '">demander une consultation</button></td></tr>'); // Ajouter du contenu dans l'élément, ici la liste HTML '<li>' +
+                        $('#liste-spirites').append('<tr><td>' + spirit.nom + '</td>'+ '<td>' + spirit.genre + '</td><td>' + spirit.support + '</td><td>' + spirit.description + '</td><td> <button type="button" class = "prendreRDV btn btn-success" data-idMedium ="' + spirit.numero + '"><i class="material-icons">call</i></button></td></tr>'); // Ajouter du contenu dans l'élément, ici la liste HTML '<li>' +
                     });
                     
                     var avis = 98;
@@ -383,7 +385,9 @@ and open the template in the editor.
             });
         </script>
         
-        
+        <footer>
+            <div> Copyright © 2021 Ce site a été réalisé par Emilien MARION, Taha MDARHRI, Ithan VELARDE et Thomas FABREGUES </div>
+        </footer>
         
     </body>
 </html>

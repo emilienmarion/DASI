@@ -84,7 +84,7 @@ header{
    line-height: 60px;
    
     position: absolute;
-    margin-left:83%;
+    right:0;
    
 }
 #bouton-bandeau2{
@@ -94,7 +94,7 @@ header{
    line-height: 60px;
    
     position: absolute;
-    margin-left:65%;
+    right:30%;
     
 }
 #bouton-bandeau{
@@ -103,7 +103,7 @@ header{
    line-height: 60px;
    
     position: absolute;
-    margin-left:83%;
+    right:0;
    
 }
 
@@ -125,11 +125,18 @@ top:10;
 }
 
 footer{
-    background-color: #3c78d8ff;  
-    position: absolute;
+    background-color: #3c78d8;
     bottom:0;
     width: 100%;
-    height:8%;
+    height:60px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+}
+footer div{
+    text-align: center;
+    margin: auto;
 }
 
 #astral img{
